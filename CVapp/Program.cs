@@ -10,11 +10,11 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/    // To use Swagger uncomment the lines above and also the lines from Properties -> launchSettings.json
 
 app.UseHttpsRedirection();
 
