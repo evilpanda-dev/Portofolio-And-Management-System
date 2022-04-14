@@ -1,5 +1,7 @@
 using CVapp.Helpers;
 using CVapp.Repository;
+using CVapp.Repository.GenericRepository;
+using CVapp.Repository.UserRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 builder.Services.AddScoped<DbContext, Context>();
 builder.Services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
+builder.Services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
 builder.Services.AddScoped<JwtService>();
 var app = builder.Build();
 
