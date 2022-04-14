@@ -2,10 +2,10 @@
 {
     public interface IRepository<TEntity> where TEntity : IEntityBase
     {
-        void Create(TEntity entity);
+        public TEntity Create(TEntity entity);
         void Delete(TEntity entity);
         void Delete(int id);
-        void Update(TEntity entity);
+        public TEntity Update(TEntity entity);
 
         //read data
         TEntity GetById(int id);
