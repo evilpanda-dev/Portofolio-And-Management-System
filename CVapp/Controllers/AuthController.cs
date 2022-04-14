@@ -37,11 +37,11 @@ namespace CVapp.Controllers
             var user = _repository.GetByEmail(dto.Email);
             if (user == null)
             {
-                return BadRequest(new { message = "Invalid Credentials" });
+                return BadRequest(new { message = "User not found" });
             }
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
             {
-                return BadRequest(new { message = "Invalid Credentials" });
+                return BadRequest(new { message = "Wrong password" });
             }
             var jwt = _jwtService.Generate(user.Id);
 
