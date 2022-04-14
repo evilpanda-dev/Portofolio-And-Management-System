@@ -9,8 +9,8 @@ namespace CVapp.Models.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
-            builder.HasKey(u => u.UserId);
-            builder.Property(u => u.UserId).ValueGeneratedOnAdd()
+            builder.HasKey(u => u.Id);
+            builder.Property(u => u.Id).ValueGeneratedOnAdd()
                 .HasColumnName("UserId")
                 .HasColumnType("int");
             builder.Property(u => u.UserName)
