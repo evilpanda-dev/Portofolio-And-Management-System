@@ -2,13 +2,14 @@
 {
     public interface IRepository<TEntity> where TEntity : IEntityBase
     {
-        public TEntity Create(TEntity entity);
+        TEntity Create(TEntity entity);
         void Delete(TEntity entity);
         void Delete(int id);
-        public TEntity Update(TEntity entity);
+        TEntity Update(TEntity entity);
 
         //read data
         TEntity GetById(int id);
+        public TEntity GetByEmail(string email);
         IEnumerable<TEntity> Filter();
         IEnumerable<TEntity> Filter(Func<TEntity, bool> predicate);
 

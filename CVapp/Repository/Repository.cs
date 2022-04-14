@@ -51,7 +51,12 @@ namespace CVapp.Repository
 
         public IEnumerable<TEntity> Filter(Func<TEntity, bool> predicate) => _dbSet.Where(predicate);
 
-        public TEntity GetById(int id) => _dbSet.FirstOrDefault(e => e.Id == id);
+        public TEntity GetById(int id) 
+        {
+            return _dbSet.FirstOrDefault(e => e.Id == id);
+        }
+
+        public TEntity GetByEmail(string Email) => _dbSet.FirstOrDefault(e => e.Email == Email);
 
         public void SaveChanges() => _context.SaveChanges();
     }
