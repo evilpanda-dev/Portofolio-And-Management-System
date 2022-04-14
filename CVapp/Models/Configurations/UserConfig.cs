@@ -17,10 +17,14 @@ namespace CVapp.Models.Configurations
                 .IsRequired()
                 .HasMaxLength(40)
                 .HasColumnType("nvarchar");
+            builder.HasIndex(u => u.UserName)
+                .IsUnique();
             builder.Property(u => u.Email)
                 .IsRequired()
                 .HasMaxLength(40)
                 .HasColumnType("nvarchar");
+            builder.HasIndex(u => u.Email)
+                .IsUnique();
             builder.Property(u => u.Password)
                 .IsRequired()
                 .HasMaxLength(100)
