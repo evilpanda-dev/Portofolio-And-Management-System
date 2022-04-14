@@ -6,7 +6,7 @@ namespace CVapp.Repository
 {
     public class Context : DbContext
     {
-        private readonly string _connectionString;
+        private readonly string _connectionString = "Data Source=.;Initial Catalog=CVappDb;Integrated Security=True";
         public DbSet<User> Users { get; set; }
         
         public Context()
