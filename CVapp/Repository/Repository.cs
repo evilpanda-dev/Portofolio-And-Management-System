@@ -2,31 +2,50 @@
 
 namespace CVapp.Repository
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class,IEntityBase
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntityBase
     {
         private readonly DbContext _context;
         private DbSet<TEntity> _dbSet;
-        
+
         public Repository(DbContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
 
-        public void Create(TEntity entity) => _dbSet.Add(entity);
+        public TEntity Create(TEntity entity)
+        {
+            _dbSet.Add(entity);
+            _context.SaveChanges();
 
-        public void Delete(TEntity entity) => _dbSet.Remove(entity);
+            return entity;
+        }
 
-        public void Delete(int id)
+       public void Delete(TEntity entity)
+        {
+            _dbSet.Remove(entity);
+            _context.SaveChanges();
+
+        }
+
+       public void Delete(int id)
         {
             var entityToDelete = _dbSet.FirstOrDefault(e => e.Id == id);
             if (entityToDelete != null)
             {
                 _dbSet.Remove(entityToDelete);
+                _context.SaveChanges();
             }
         }
 
-        public void Update(TEntity entity) => _dbSet.Update(entity);
+        public TEntity Update(TEntity entity)
+        {
+            _dbSet.Update(entity);
+            _context.SaveChanges();
+
+            return entity;
+        }
+
 
         public IEnumerable<TEntity> Filter() => _dbSet;
 
