@@ -1,7 +1,8 @@
 ﻿using CVapp.DTOs;
 using CVapp.Helpers;
 using CVapp.Models.Authentification;
-using CVapp.Repository;
+using CVapp.Repository.GenericRepository;
+using CVapp.Repository.UserRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CVapp.Controllers
@@ -11,10 +12,12 @@ namespace CVapp.Controllers
     public class AuthController : Controller
     {
         private readonly IRepository<User> _repository;
+        private readonly IUserRepository<User> _userRepository;
         private readonly JwtService _jwtService;
-        public AuthController(IRepository<User> repository, JwtService jwtService)
+        public AuthController(IRepository<User> repository,IUserRepository<User> userRepository, JwtService jwtService)
         {
             _repository = repository;
+            _userRepository = userRepository;
             _jwtService = jwtService;
         }
 
@@ -34,7 +37,7 @@ namespace CVapp.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginDto dto)
         {
-            var user = _repository.GetByEmail(dto.Email);
+            var user = _userRepository.GetByEmail(dto.Email);
             if (user == null)
             {
                 return BadRequest(new { message = "User not found" });
