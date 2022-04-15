@@ -29,6 +29,10 @@ namespace CVapp.Models.Configurations
                 .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnType("nvarchar");
+            builder.Property(u => u.Role)
+                .HasMaxLength(20)
+                .HasColumnType("nvarchar")
+                .HasDefaultValue("User");
         }
     }
 }

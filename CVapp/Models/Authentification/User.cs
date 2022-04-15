@@ -11,5 +11,6 @@ namespace CVapp.Models.Authentification
         public string Email { get; set; }
         [JsonIgnore] 
         public string Password { get; set; }
+        public string? Role { get; set; }
     }
 }
