@@ -3,7 +3,9 @@ using CVapp.Helpers;
 using CVapp.Models.Authentification;
 using CVapp.Repository.GenericRepository;
 using CVapp.Repository.UserRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CVapp.Controllers
 {
@@ -14,6 +16,7 @@ namespace CVapp.Controllers
         private readonly IRepository<User> _repository;
         private readonly IUserRepository<User> _userRepository;
         private readonly JwtService _jwtService;
+        
         public AuthController(IRepository<User> repository,IUserRepository<User> userRepository, JwtService jwtService)
         {
             _repository = repository;
@@ -28,25 +31,50 @@ namespace CVapp.Controllers
             {
                 UserName = dto.UserName,
                 Email = dto.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                Role = dto.Role
             };
+
+            if (dto.Email == "artiom.suruc@outlook.com")
+            {
+                user.Role = "Admin";
+            }
+
+            if (_userRepository.GetByEmail(dto.Email) != null)
+            {
+                return BadRequest("User with this email already exists");
+            }
+            /*if (_userRepository.GetByUserName(dto.UserName) != null)
+            {
+                return BadRequest("User with this username already exists");
+            }*/
+            if (dto.Password.Length < 8)
+            {
+                return BadRequest("Password must be at least 8 characters long");
+            }
 
             return Created("succes", _repository.Create(user));
         }
 
+        
         [HttpPost("login")]
         public IActionResult Login(LoginDto dto)
         {
             var user = _userRepository.GetByEmail(dto.Email);
             if (user == null)
             {
-                return BadRequest(new { message = "User not found" });
+                return BadRequest(new { message = "The email is not matching" });
             }
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
             {
-                return BadRequest(new { message = "Wrong password" });
+                return BadRequest(new { message = "The password is not matching" });
             }
-            var jwt = _jwtService.Generate(user.Id);
+            if (dto.Email == "artiom.suruc@outlook.com")
+            {
+                dto.Role = "Admin";
+            }
+/*            else { dto.Role = "User"; }*/
+            var jwt = _jwtService.Generate(dto,user.Id);
 
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {
@@ -61,9 +89,9 @@ namespace CVapp.Controllers
         {
             try
             {
-                var jwt = Request.Cookies["jwt"];
+                var jwtCookie = Request.Cookies["jwt"];
 
-                var token = _jwtService.Verify(jwt);
+                var token = _jwtService.Verify(jwtCookie);
 
                 int userId = int.Parse(token.Issuer);
 
@@ -83,5 +111,6 @@ namespace CVapp.Controllers
             Response.Cookies.Delete("jwt");
             return Ok(new { message = "Succesfully logged out" });
         }
+        
     }
 }
