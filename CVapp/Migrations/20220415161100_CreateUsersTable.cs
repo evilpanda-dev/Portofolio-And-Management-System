@@ -16,7 +16,8 @@ namespace CVapp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, defaultValue: "User")
                 },
                 constraints: table =>
                 {
