@@ -1,4 +1,4 @@
-import './assets/styles/css/App.css';
+import './assets/styles/scss/App.css';
 import Home from './pages/Home/Home';
 import Inner from './pages/Inner/Inner';
 import { Provider } from 'react-redux';
