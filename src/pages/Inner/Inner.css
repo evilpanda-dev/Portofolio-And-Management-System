@@ -1,0 +1,31 @@
+@import url(../../components/Box/Box.scss);
+@import url(../../components/Expertise/Expertise.scss);
+@import url(../../components/Portofolio/Portofolio.scss);
+@import url(../../components/Address/Contacts.scss);
+@import url(../../components/Feedback/Feedback.scss);
+@import url(../../components/Info/Info.scss);
+@import url(../../components/BackToTopButton/BackToTopButton.scss);
+html {
+  scroll-behavior: smooth; }
+
+.Inner {
+  margin-left: 18.5rem;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  transition: 0.5s; }
+
+.sideBarMenu.active ~ .Inner {
+  margin-left: 7.5rem; }
+
+@media screen and (max-width: 600px) {
+  .sideBarMenu ~ .Inner {
+    margin-left: 7.5rem; }
+  .sideBarMenu.active {
+    width: 0rem; }
+    .sideBarMenu.active .sideBarAvatar {
+      display: none; }
+    .sideBarMenu.active li {
+      display: none; }
+    .sideBarMenu.active ~ .Inner {
+      margin-left: 2.5rem; } }

@@ -1,7 +1,7 @@
 import PhotoBox from "../../components/PhotoBox/PhotoBox"
 import Button from "../../components/Button/Button";
 
-import '../../assets/styles/css/Home.css'
+import '../Home/Home.css'
 
 const Home = () => {
     const homePhotoBox = {

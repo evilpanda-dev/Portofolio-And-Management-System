@@ -3,7 +3,7 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import Button from "../Button/Button";
 import PhotoBox from "../PhotoBox/PhotoBox";
 import Navigation from "../Navigation/Navigation";
-import '../../assets/styles/css/Panel.css'
+import '../Panel/Panel.css'
 import ToggleButton from '../ToggleButton/ToggleButton';
 import { useDispatch, useSelector } from 'react-redux'
 

@@ -5,8 +5,7 @@ import Panel from "../../components/Panel/Panel"
 import Portofolio from "../../components/Portofolio/Portofolio"
 import TimeLine from "../../components/TimeLine/TimeLine"
 import Feedback from "../../components/Feedback/Feedback"
-import ProjectData from '../../utils/data.js'
-import '../../assets/styles/css/Inner.css'
+import '../Inner/Inner.css'
 import BackToTopButton from "../../components/BackToTopButton/BackToTopButton"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
@@ -65,7 +64,7 @@ const Inner = () => {
           }
         ]} />
         <Skills />
-        <Portofolio data={ProjectData} />
+        {/* <Portofolio data={ProjectData} /> */}
         <Address />
         <Feedback data={[{ feedback: ' Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor', reporter: { photoUrl: 'https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg', name: 'John Doee', citeUrl: 'https://www.citeexample.com' } }, { feedback: ' Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor', reporter: { photoUrl: 'https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg', name: 'John Doe', citeUrl: 'https://www.citeexample.com' } }]} />
       </div>

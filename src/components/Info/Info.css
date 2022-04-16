@@ -1,0 +1,13 @@
+.feedbackParagraph {
+  display: flex;
+  flex-direction: column;
+  background: #eeeeee;
+  width: 95%;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 150%;
+  color: #222935;
+  padding: 15px;
+  height: 84px; }

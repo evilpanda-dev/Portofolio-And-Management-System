@@ -1,4 +1,4 @@
-import '../../assets/styles/css/TimeLine/base.css'
+import '../TimeLine/TimeLine_styles/base.css'
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'

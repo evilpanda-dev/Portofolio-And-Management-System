@@ -1,6 +1,6 @@
 import PortofolioInfo from "./PortofolioInfo"
 import FilterButton from "../Button/FilterButton"
-import '../../assets/styles/css/Portofolio.css'
+import '../Portofolio/Portofolio.css'
 import { useState } from "react"
 
 

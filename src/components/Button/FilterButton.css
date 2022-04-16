@@ -1,0 +1,18 @@
+.filter-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 50px;
+  height: 19px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 120%; }
+
+#filterButton:visited {
+  color: #222935; }
+
+#filterButton:focus {
+  color: #26c17e; }

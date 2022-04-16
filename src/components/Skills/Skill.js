@@ -6,7 +6,7 @@ import { addNewSkill, fetchSkills } from '../../features/skills/skillSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import scale from '../../assets/images/scale.png'
-import '../../assets/styles/css/Skill.css'
+import '../Skills/Skill.css'
 
 const Skills = (props) => {
   const dispatch = useDispatch();

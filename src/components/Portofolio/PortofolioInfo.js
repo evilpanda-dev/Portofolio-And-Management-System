@@ -1,4 +1,4 @@
-import '../../assets/styles/css/PortofolioInfo.css'
+import '../Portofolio/PortofolioInfo.css'
 
 const PortofolioInfo = (props) => {
     const {
