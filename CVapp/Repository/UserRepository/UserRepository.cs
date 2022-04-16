@@ -18,5 +18,9 @@ namespace CVapp.Repository.UserRepository
             return _dbSet.FirstOrDefault(e => e.Email == Email);
         }
         
+        public TEntity GetByUserName(string username)
+        {
+            return _dbSet.FirstOrDefault(e => e.UserName == username);
+        }
     }
 }
