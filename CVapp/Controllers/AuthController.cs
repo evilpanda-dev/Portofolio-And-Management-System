@@ -42,12 +42,12 @@ namespace CVapp.Controllers
 
             if (_userRepository.GetByEmail(dto.Email) != null)
             {
-                return BadRequest("User with this email already exists");
+                return BadRequest("An account with this email already exists");
             }
-            /*if (_userRepository.GetByUserName(dto.UserName) != null)
+            if (_userRepository.GetByUserName(dto.UserName) != null)
             {
-                return BadRequest("User with this username already exists");
-            }*/
+                return BadRequest("An account with this username already exists");
+            }
             if (dto.Password.Length < 8)
             {
                 return BadRequest("Password must be at least 8 characters long");
