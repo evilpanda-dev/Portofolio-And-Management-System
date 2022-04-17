@@ -73,12 +73,16 @@ namespace CVapp.Controllers
             {
                 dto.Role = "Admin";
             }
-/*            else { dto.Role = "User"; }*/
+
             var jwt = _jwtService.Generate(dto,user.Id);
 
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {
                 HttpOnly = true,
+                Expires = DateTime.Now.AddMinutes(300),
+                IsEssential = true,
+                SameSite = SameSiteMode.None,
+                Secure = true
             });
 
             return Ok(new { message = "Succesfully logged in" });
