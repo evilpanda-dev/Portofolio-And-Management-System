@@ -7,7 +7,11 @@ import { useSelector,useDispatch } from 'react-redux';
 import {useState,useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm = (props) => {
+  const {
+    setUserName
+  } = props
+
   const [Email,setEmail] = useState('')
   const [Password,setPassword] = useState('')
   const [redirect,setRedirect] = useState(false)
@@ -36,7 +40,8 @@ body: JSON.stringify({
     Password
 })
     });
-
+const content = await response.json()
+setUserName(content.userName)
     if(response.status === 200){
     setRedirect(true)
     }
