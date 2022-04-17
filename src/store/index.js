@@ -9,7 +9,6 @@ import skillReducer from '../features/skills/skillSlice'
 import { openEditreducer } from '../store/reducers/openEditReducer'
 import { loginButtonReducer } from './reducers/loginButtonReducer';
 import { registerButtonReducer } from './reducers/registerButtonReducer';
-import { skillEditReducer } from './reducers/skillEditReducer';
 
 const rootReducer = combineReducers({
     visibilityState: toggleButtonReducer,
@@ -17,8 +16,7 @@ const rootReducer = combineReducers({
     skills: skillReducer,
     editState: openEditreducer,
     popupState: loginButtonReducer,
-    registerPopupState : registerButtonReducer,
-    editState : skillEditReducer
+    registerPopupState : registerButtonReducer
 })
 
 const persistConfig = {
