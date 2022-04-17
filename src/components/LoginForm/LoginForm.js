@@ -4,12 +4,19 @@ import * as Yup from 'yup'
 import FormikControl from '../FormikControl/FormikControl.js'
 import './LoginForm.css'
 import { useSelector,useDispatch } from 'react-redux';
+import {useState,useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const [Email,setEmail] = useState('')
+  const [Password,setPassword] = useState('')
+  const [redirect,setRedirect] = useState(false)
+
     const initialValues = {
         email: '',
         password: ''
       }
+      
     
       const validationSchema = Yup.object({
         email: Yup.string()
@@ -19,9 +26,21 @@ const LoginForm = () => {
         .min(6,'Password must be at least 8 characters')
       })
     
-      const onSubmit = values => {
-        console.log('Form data', values)
-      }
+      const onSubmit = async() => {
+       const response = await fetch('https://localhost:5000/api/login',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials:'include',
+body: JSON.stringify({
+    Email,
+    Password
+})
+    });
+
+    if(response.status === 200){
+    setRedirect(true)
+    }
+  }
     
     const isVisible = useSelector(state => state.popupState.popup)
     const dispatch = useDispatch()
@@ -37,6 +56,16 @@ const LoginForm = () => {
     const changeButtonState = () => {
         isVisible ? deactivateSectionVisibility() : activateSectionVisibility()
     }
+
+    let navigate = useNavigate();
+
+    useEffect(()=>{
+      if(redirect){
+          deactivateSectionVisibility();
+        return  navigate("/Inner")
+      }
+          },[redirect])
+
       return (
         <Formik
           initialValues={initialValues}
@@ -60,6 +89,8 @@ const LoginForm = () => {
                   label='Email'
                   name='email'
                   placeholder='Enter your email'
+                  value={Email}
+                onChange={(e) => {setEmail(e.target.value); formik.handleChange(e)}}
                 />
                           </div>
                           <div className='formElement'>
@@ -69,6 +100,8 @@ const LoginForm = () => {
                   label='Password'
                   name='password'
                   placeholder='Enter your password'
+                  value={Password}
+                  onChange={(e) => {setPassword(e.target.value);formik.handleChange(e)}}
                 />
                           </div>
                           <div className='formElement'>
