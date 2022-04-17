@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { fetchEducations } from "../../features/education/educationSlice"
 import Skills from "../../components/Skills/Skill"
+import Header from "../../components/Header/Header"
 
 
 const Inner = () => {
@@ -30,6 +31,7 @@ const Inner = () => {
     <>
       <BackToTopButton address="#aboutMe" />
       <Panel />
+      <Header/>
       <div className="Inner">
         <Box
           title="About me"
