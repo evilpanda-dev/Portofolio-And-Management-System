@@ -12,9 +12,10 @@ import { useEffect } from "react"
 import { fetchEducations } from "../../features/education/educationSlice"
 import Skills from "../../components/Skills/Skill"
 import Header from "../../components/Header/Header"
-
+import { useState } from "react"
 
 const Inner = () => {
+const [userName,setUserName] = useState('')
 
   const boxStyle = {
     titleClass: 'aboutMeTitle',
@@ -30,10 +31,16 @@ const Inner = () => {
 useEffect(()=>{
 (
   async () => {
-    await fetch('https://localhost:5000/api/user',{
+    const response = await fetch('https://localhost:5000/api/user',{
       headers: {'Content-Type': 'application/json'},
       credentials:'include',
   });
+  const content = await response.json();
+  if(response.status === 200 && content.title !== "Unauthorized"){
+    setUserName(content.userName)
+    } else{
+      setUserName('')
+    }
   }
 )();
 })
@@ -41,7 +48,7 @@ useEffect(()=>{
     <>
       <BackToTopButton address="#aboutMe" />
       <Panel />
-      <Header/>
+      <Header userName={userName} setUserName={setUserName}/>
       <div className="Inner">
         <Box
           title="About me"
