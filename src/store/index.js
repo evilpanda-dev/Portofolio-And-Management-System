@@ -7,12 +7,16 @@ import thunk from 'redux-thunk'
 import educationReducer from '../features/education/educationSlice';
 import skillReducer from '../features/skills/skillSlice'
 import { openEditreducer } from '../store/reducers/openEditReducer'
+import { loginButtonReducer } from './reducers/loginButtonReducer';
+import { registerButtonReducer } from './reducers/registerButtonReducer';
 
 const rootReducer = combineReducers({
     visibilityState: toggleButtonReducer,
     educationState: educationReducer,
     skills: skillReducer,
-    editState: openEditreducer
+    editState: openEditreducer,
+    popupState: loginButtonReducer,
+    registerPopupState : registerButtonReducer
 })
 
 const persistConfig = {
