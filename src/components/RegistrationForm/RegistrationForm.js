@@ -4,8 +4,19 @@ import * as Yup from 'yup'
 import FormikControl from '../FormikControl/FormikControl.js'
 import "./RegistrationForm.css"
 import { useSelector,useDispatch } from 'react-redux'
+import { useState,useEffect } from 'react'
+import {Navigate} from 'react-router-dom'
+import LoginForm from '../LoginForm/LoginForm.js'
 
 const RegistrationForm = () => {
+const [UserName,setUserName] = useState('')
+const [Email,setEmail] = useState('')
+const [Password,setPassword] = useState('')
+const [redirect,setRedirect] = useState(false)
+
+const isVisible = useSelector(state => state.registerPopupState.popup)
+const dispatch = useDispatch()
+
   const initialValues = {
       userName : '',
     email: '',
@@ -23,28 +34,48 @@ const RegistrationForm = () => {
     .min(8,"Password must be at least 8 characters long"),
   })
 
-  const onSubmit = values => {
-    console.log('Form data', values)
+  const onSubmit = async() => {
+
+  const response =  await fetch('https://localhost:5000/api/register',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+body: JSON.stringify({
+    UserName,
+    Email,
+    Password
+})
+    });
+if(response.status === 201){
+    setRedirect(true)
+}
   }
 
-  const isVisible = useSelector(state => state.registerPopupState.popup)
-  const dispatch = useDispatch()
+  const activateLogin = () => {
+    dispatch({ type: 'LOGIN_CLICKED', payload: true })
+}
 
-  const activateSectionVisibility = () => {
-      dispatch({ type: 'REGISTER_CLICKED', payload: true })
-  }
+const activateSectionVisibility = () => {
+    dispatch({ type: 'REGISTER_CLICKED', payload: true })
+}
 
-  const deactivateSectionVisibility = () => {
-      dispatch({ type: 'REGISTER_CLOSED', payload: false })
-  }
+const deactivateSectionVisibility = () => {
+    dispatch({ type: 'REGISTER_CLOSED', payload: false })
+}
 
-  const changeButtonState = () => {
-      isVisible ? deactivateSectionVisibility() : activateSectionVisibility()
-  }
+const changeButtonState = () => {
+    isVisible ? deactivateSectionVisibility() : activateSectionVisibility()
+}
+
+    useEffect(()=>{
+if(redirect){
+    deactivateSectionVisibility()
+    activateLogin()
+}
+    },[redirect])
 
   return (
     <Formik
-      initialValues={initialValues}
+     initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
@@ -64,6 +95,9 @@ const RegistrationForm = () => {
               type='text'
               label='UserName'
               name='userName'
+              placeholder='Enter your username'
+              value={UserName}
+              onChange={(e) => {setUserName(e.target.value);formik.handleChange(e)}}
               />
               </div>
                           <div className='formElement'>
@@ -72,6 +106,9 @@ const RegistrationForm = () => {
               type='email'
               label='Email'
               name='email'
+                placeholder='Enter your email'
+                value={Email}
+                onChange={(e) => {setEmail(e.target.value); formik.handleChange(e)}}
             />
              </div>
              <div className='formElement'>
@@ -80,6 +117,9 @@ const RegistrationForm = () => {
               type='password'
               label='Password'
               name='password'
+              placeholder='Enter your password'
+              value={Password}
+              onChange={(e) => {setPassword(e.target.value);formik.handleChange(e)}}
             />
             </div>
             <div className='formElement'>
