@@ -58,14 +58,14 @@ const Skills = (props) => {
 
 
   const skillList = useSelector((state) => state.skills.skills)
-  const isEditing = useSelector(state => state.visibilityState.visibility)
+  const isEditing = useSelector(state => state.editState.edit)
 
   const activateEdit = () => {
-    dispatch({ type: 'VISIBILITY_ACTIVATED', payload: true })
+    dispatch({ type: 'EDIT_ACTIVATED', payload: true })
   }
 
   const deactivateEdit = () => {
-    dispatch({ type: 'VISIBILITY_DEACTIVATED', payload: false })
+    dispatch({ type: 'EDIT_DEACTIVATED', payload: false })
   }
 
   const changeButtonState = () => {
