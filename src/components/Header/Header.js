@@ -24,9 +24,9 @@ if (userName==="") {
 }
 
     return (
-        <div class="header">
-        <div class="header-right">
-          <a class="active" href="/">Home</a>
+        <div className="header">
+        <div className="header-right">
+          <a className="active" href="/">Home</a>
          {menu}
         </div>
       </div>
