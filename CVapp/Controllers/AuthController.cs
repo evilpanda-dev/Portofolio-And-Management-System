@@ -112,7 +112,13 @@ namespace CVapp.Controllers
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("jwt");
+            Response.Cookies.Delete("jwt",new CookieOptions(){
+                Expires = DateTime.Now.AddDays(-1),
+                HttpOnly = true,
+                SameSite = SameSiteMode.None,
+                Secure = true,
+                IsEssential = true
+            });
             return Ok(new { message = "Succesfully logged out" });
         }
         
