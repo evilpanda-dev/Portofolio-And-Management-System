@@ -27,6 +27,16 @@ const Inner = () => {
     dispatch(fetchEducations());
   }, [dispatch])
 
+useEffect(()=>{
+(
+  async () => {
+    await fetch('https://localhost:5000/api/user',{
+      headers: {'Content-Type': 'application/json'},
+      credentials:'include',
+  });
+  }
+)();
+})
   return (
     <>
       <BackToTopButton address="#aboutMe" />
