@@ -1,6 +1,7 @@
 import './assets/styles/scss/App.css';
 import Home from './pages/Home/Home';
 import Inner from './pages/Inner/Inner';
+import UserProfile from './pages/UserProfile/UserProfile';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store';
 import { PersistGate } from 'redux-persist/integration/react'
@@ -35,6 +36,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Inner" element={<Inner />} />
+          <Route path="/profile" element ={<UserProfile/>} />
         </Routes>
       </PersistGate>
     </Provider>
