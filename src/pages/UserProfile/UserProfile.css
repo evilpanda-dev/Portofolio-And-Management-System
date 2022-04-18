@@ -1,0 +1,30 @@
+.profileLink {
+  color: #222935;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: -10px; }
+
+.profileAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: block; }
+
+.profilePage {
+  margin-left: 18.5rem;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  transition: 0.5s; }
+
+.sideBarMenu.active ~ .profilePage {
+  margin-left: 7.5rem; }
+
+@media screen and (max-width: 600px) {
+  .sideBarMenu ~ .profilePage {
+    margin-left: 7.5rem; }
+  ~ .profilePage {
+    margin-left: 2.5rem; } }
