@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CVapp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220415161100_CreateUsersTable")]
+    [Migration("20220418222627_CreateUsersTable")]
     partial class CreateUsersTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
