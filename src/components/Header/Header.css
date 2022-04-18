@@ -32,7 +32,8 @@
 /* Style the active/current link*/
 .header a.active {
   background-color: #ddd;
-  color: #222935; }
+  color: #222935;
+  margin-right: 50px; }
 
 /* Float the link section to the right */
 .header-right {
@@ -53,5 +54,5 @@
     margin-left: 5rem; }
   .sideBarMenu.active {
     width: 0rem; }
-    .sideBarMenu.active ~ .header {
-      margin-left: 0rem; } }
+  .sideBarMenu.active ~ .header {
+    margin-left: 0rem; } }
