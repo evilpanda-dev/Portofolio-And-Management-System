@@ -1,6 +1,7 @@
 using CVapp.Helpers;
 using CVapp.Repository;
 using CVapp.Repository.GenericRepository;
+using CVapp.Repository.UserProfileRepository;
 using CVapp.Repository.UserRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ builder.Services.AddCors();
 builder.Services.AddScoped<DbContext, Context>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
+builder.Services.AddScoped(typeof(IUserProfileRepository<>), typeof(UserProfileRepository<>));
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
