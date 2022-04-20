@@ -2,7 +2,8 @@ import '../Logout/Logout.css'
 
 const Logout = (props) =>{
    const {
-        setUserName
+        setUserName,
+        setRole
     } = props
 
     const logout = async() =>{
@@ -12,6 +13,7 @@ const Logout = (props) =>{
             credentials:'include'
         });
         setUserName('')
+        setRole('')
     }
 
     return (
