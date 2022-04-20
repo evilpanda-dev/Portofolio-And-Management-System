@@ -1,11 +1,14 @@
+using CVapp.Extensions;
 using CVapp.Helpers;
 using CVapp.Repository;
 using CVapp.Repository.GenericRepository;
 using CVapp.Repository.UserProfileRepository;
 using CVapp.Repository.UserRepository;
+using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +27,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
 builder.Services.AddScoped(typeof(IUserProfileRepository<>), typeof(UserProfileRepository<>));
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
     {
@@ -39,6 +43,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Token"]))
         };
     });
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
 
 var app = builder.Build();
 
@@ -48,6 +54,7 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 }*/    // To use Swagger uncomment the lines above and also the lines from Properties -> launchSettings.json
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 app.UseCors(options => options
