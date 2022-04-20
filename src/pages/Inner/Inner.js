@@ -14,8 +14,15 @@ import Skills from "../../components/Skills/Skill"
 import Header from "../../components/Header/Header"
 import { useState } from "react"
 
-const Inner = () => {
+const Inner = (props) => {
+  const {    
+    imageSrc,
+    setImage,
+   } = props
+
 const [userName,setUserName] = useState('')
+const [role,setRole] = useState('')
+// const [image,setImage] = useState('')
 
   const boxStyle = {
     titleClass: 'aboutMeTitle',
@@ -38,17 +45,33 @@ useEffect(()=>{
   const content = await response.json();
   if(response.status === 200 && content.title !== "Unauthorized"){
     setUserName(content.userName)
+    setRole(content.role)
     } else{
       setUserName('')
+      setRole('')
     }
   }
 )();
+// (
+//   async () => {
+//      await fetch('https://localhost:5000/api/userProfile',{
+//       headers: {'Content-Type': 'application/json'},
+//       credentials:'include',
+//   })
+//   .then(response => response.json())
+//   .then(data=>{
+//       //console.log(data)
+//         setImage(data.imgByte)
+//   })
+//   }
+// )();
 })
+
   return (
     <>
       <BackToTopButton address="#aboutMe" />
       <Panel />
-      <Header userName={userName} setUserName={setUserName}/>
+      <Header userName={userName} setUserName={setUserName} role={role} setRole={setRole} setImage={setImage} imageSrc={imageSrc}/>
       <div className="Inner">
         <Box
           title="About me"
