@@ -9,7 +9,8 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginForm = (props) => {
   const {
-    setUserName
+    setUserName,
+    setRole
   } = props
 
   const [Email,setEmail] = useState('')
@@ -42,6 +43,7 @@ body: JSON.stringify({
     });
 const content = await response.json()
 setUserName(content.userName)
+setRole(content.role)
     if(response.status === 200){
     setRedirect(true)
     }
