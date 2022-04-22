@@ -1,10 +1,10 @@
-﻿using CVapp.Exceptions;
-using CVapp.Middlewares;
+﻿using CVapp.API.Middlewares;
+using CVapp.Infrastructure.Exceptions;
 using LoggerService;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
-namespace CVapp.Extensions
+namespace CVapp.API.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {
@@ -35,6 +35,6 @@ namespace CVapp.Extensions
         {
             app.UseMiddleware<ExceptionMiddleware>();
         }
-        
+
     }
 }
