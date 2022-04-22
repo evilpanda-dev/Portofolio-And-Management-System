@@ -1,16 +1,15 @@
 ﻿using CVapp.Models.Authentificated;
 using CVapp.Repository.GenericRepository;
-using CVapp.Repository.UserProfileRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CVapp.Repository.UserRepository
+namespace CVapp.Repository.UserProfileRepository
 {
     public class UserProfileRepository<TEntity> : IUserProfileRepository<TEntity> where TEntity : class, IUserProfile
     {
         private readonly DbContext _context;
         private DbSet<TEntity> _dbSet;
-        
+
         public UserProfileRepository(DbContext context)
         {
             _context = context;
