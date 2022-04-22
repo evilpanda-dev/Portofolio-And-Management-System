@@ -1,6 +1,6 @@
-﻿using CVapp.Models.Authentificated;
-using CVapp.Models.Authentification;
-using CVapp.Repository;
+﻿using CVapp.Domain.Models.Authentificated;
+using CVapp.Domain.Models.Authentification;
+using CVapp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

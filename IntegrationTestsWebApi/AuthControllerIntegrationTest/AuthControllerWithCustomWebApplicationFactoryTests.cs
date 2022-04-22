@@ -1,6 +1,4 @@
-﻿using CVapp.Controllers;
-using CVapp.DTOs;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+﻿using CVapp.Infrastructure.DTOs;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -38,7 +36,7 @@ namespace IntegrationTestsWebApi.AuthControllerIntegrationTest
         }
 
         [Fact]
-        public async Task TryToRegisterAnExistingAccount_ReturnInternalServerError()
+        public async Task TryToRegisterAnExistingAccount_ReturnBadRequest()
         {
             //Arrange
             var user = new RegisterDto
@@ -54,7 +52,7 @@ namespace IntegrationTestsWebApi.AuthControllerIntegrationTest
             var response = await client.PostAsJsonAsync(url, user);
 
             //Assert
-            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]

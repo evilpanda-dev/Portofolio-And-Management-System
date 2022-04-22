@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CVapp\CVapp.csproj" />
+    <ProjectReference Include="..\CVapp\CVapp.API.csproj" />
   </ItemGroup>
 
 </Project>
