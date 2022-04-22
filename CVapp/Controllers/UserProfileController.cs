@@ -1,29 +1,34 @@
-﻿using CVapp.Helpers;
-using CVapp.Models.Authentificated;
-using CVapp.Repository;
-using CVapp.Repository.GenericRepository;
-using CVapp.Repository.UserProfileRepository;
+﻿using CVapp.Domain.Models.Authentificated;
+using CVapp.Infrastructure.Abstractions;
+using CVapp.Infrastructure.Repository.UserProfileRepository;
+using CVapp.Infrastructure.Services;
+using LoggerService;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace CVapp.Controllers
+namespace CVapp.API.Controllers
 {
     [Route("api")]
     [ApiController]
     public class UserProfileController : ControllerBase
     {
-        private readonly IUserProfileRepository<UserProfile> _userProfileRepository;
+        /*private readonly IUserProfileRepository<UserProfile> _userProfileRepository;
         private readonly IRepository<UserProfile> _genericUserProfileRepo;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly JwtService _jwtService;*/
+        private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly ILoggerManager _logger;
         private readonly JwtService _jwtService;
+       // private readonly IUserProfileService _userProfileService;
+        private readonly IUserProfileRepository<UserProfile> _userProfileRepository;
 
-        public UserProfileController(IUserProfileRepository<UserProfile> userProfileRepo, IWebHostEnvironment hostEnvironment, IRepository<UserProfile> genericUserProfileRepo, JwtService jwtService)
+        public UserProfileController(IWebHostEnvironment hostEnvironment,ILoggerManager logger,JwtService jwtService,IUserProfileRepository<UserProfile> userProfileRepository)
         {
-            _userProfileRepository = userProfileRepo;
             _hostEnvironment = hostEnvironment;
-            _genericUserProfileRepo = genericUserProfileRepo;
+            _logger = logger;
             _jwtService = jwtService;
+          //  _userProfileService = userProfileService;
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpPost("avatar")]
@@ -34,16 +39,16 @@ namespace CVapp.Controllers
                 var jwtCookie = Request.Cookies["jwt"];
                 var token = _jwtService.Verify(jwtCookie);
                 int userId = int.Parse(token.Issuer);
-                var user = _genericUserProfileRepo.GetById(userId);
+                var user = _userProfileRepository.GetById(userId);
                 var getId = userId;
-                
+
                 string message = "";
                 var files = userProfile.Files;
                 userProfile.Files = null;
                 userProfile.UserId = getId;
-                userProfile =  _genericUserProfileRepo.Create(userProfile);
-                
-                if (userProfile.Id > 0 && files!= null && files.Length > 0)
+                userProfile = _userProfileRepository.Create(userProfile);
+
+                if (userProfile.Id > 0 && files != null && files.Length > 0)
                 {
                     string path = _hostEnvironment.WebRootPath + "\\usersAvatar\\";
                     if (!Directory.Exists(path))
@@ -62,7 +67,7 @@ namespace CVapp.Controllers
                         message = "Success";
                     }
                 }
-                else if(userProfile.Id == 0)
+                else if (userProfile.Id == 0)
                 {
                     message = "Failed";
                 }
@@ -70,14 +75,16 @@ namespace CVapp.Controllers
                 {
                     message = "Success";
                 }
-                if(message == "Success")
+                if (message == "Success")
                 {
                     return Ok(userProfile);
-                } else
+                }
+                else
                 {
                     return StatusCode((int)HttpStatusCode.InternalServerError, message);
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
@@ -85,19 +92,19 @@ namespace CVapp.Controllers
 
 
         [HttpGet("userProfile")]
-        public  IActionResult GetUserProfile()
+        public IActionResult GetUserProfile()
         {
             var jwtCookie = Request.Cookies["jwt"];
             var token = _jwtService.Verify(jwtCookie);
             int userId = int.Parse(token.Issuer);
             var user = _userProfileRepository.GetByUserId(userId);
             var id = user.Id;
-            
+
             if (id == 0)
             {
                 return Ok(new UserProfile());
             }
-            var userProfile = _genericUserProfileRepo.GetById(id);
+            var userProfile = _userProfileRepository.GetById(id);
             string fileName = "avatarPic_" + userProfile.UserId + ".jpg";
             var path = Path.Combine(_hostEnvironment.WebRootPath, "usersAvatar", fileName);
             userProfile.ImgByte = System.IO.File.ReadAllBytes(path);
