@@ -10,6 +10,9 @@ namespace CVapp.Helpers
     {
         //private string secureKey = "this is my super secure key";
         private readonly IConfiguration _config;
+        public JwtService()
+        {
+        }
         public JwtService(IConfiguration config)
         {
             _config = config;
