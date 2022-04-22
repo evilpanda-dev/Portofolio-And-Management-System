@@ -1,8 +1,8 @@
-﻿using CVapp.Exceptions;
+﻿using CVapp.Infrastructure.Exceptions;
 using LoggerService;
 using System.Net;
 
-namespace CVapp.Middlewares
+namespace CVapp.API.Middlewares
 {
     public class ExceptionMiddleware
     {
@@ -20,22 +20,31 @@ namespace CVapp.Middlewares
             {
                 await _next(httpContext);
             }
+            catch (BadRequestException ex)
+            {
+                await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest);
+                // _logger.LogError($"User {user.UserName} is already registered");
+            }
+            catch (UnauthorizedException ex)
+            {
+                await HandleExceptionAsync(httpContext,ex, HttpStatusCode.Unauthorized);
+            }
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong: {ex}");
-                await HandleExceptionAsync(httpContext);
+                await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError);
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context)
+        private Task HandleExceptionAsync(HttpContext context, Exception ex, HttpStatusCode statusCode)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.StatusCode = (int)statusCode;
 
             return context.Response.WriteAsync(new ErrorDetails()
             {
                 StatusCode = context.Response.StatusCode,
-                Message = "Internal Server Error from the custom middleware."
+                Message = ex.Message
             }.ToString());
         }
     }
