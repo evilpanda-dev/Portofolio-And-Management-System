@@ -1,9 +1,10 @@
-using CVapp.Controllers;
-using CVapp.DTOs;
-using CVapp.Helpers;
-using CVapp.Models.Authentification;
-using CVapp.Repository.GenericRepository;
-using CVapp.Repository.UserRepository;
+using CVapp.API.Controllers;
+using CVapp.Domain.Models.Authentification;
+using CVapp.Infrastructure.Abstractions;
+using CVapp.Infrastructure.DTOs;
+using CVapp.Infrastructure.Repository.GenericRepository;
+using CVapp.Infrastructure.Repository.UserRepository;
+using CVapp.Infrastructure.Services;
 using LoggerService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,12 +21,12 @@ namespace UnitTests
         public AuthControllerTests()
         {
             AuthController controller;
-            var repository = new Mock<IRepository<User>>();
-            var userRepository = new Mock<IUserRepository<User>>();
+            var userService = new Mock<IUserService>();
             var jwtService = new Mock<JwtService>();
             var logger = new Mock<ILoggerManager>();
-
-            _controller = new AuthController(repository.Object, userRepository.Object, jwtService.Object, logger.Object);
+            var repository = new Mock<IRepository<User>>();
+            var userRepository = new Mock<UserRepository<User>>();
+            _controller = new AuthController(jwtService.Object, logger.Object,userService.Object,userRepository.Object);
 
             var user = new User()
             {
