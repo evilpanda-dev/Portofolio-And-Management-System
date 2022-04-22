@@ -70,3 +70,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Create Program class to be able to reffer to it in IntegrationTestsWebApi project
+public partial class Program { }
