@@ -1,9 +1,10 @@
-using CVapp.Extensions;
-using CVapp.Helpers;
-using CVapp.Repository;
-using CVapp.Repository.GenericRepository;
-using CVapp.Repository.UserProfileRepository;
-using CVapp.Repository.UserRepository;
+using CVapp.API.Extensions;
+using CVapp.Infrastructure.Abstractions;
+using CVapp.Infrastructure.Data;
+using CVapp.Infrastructure.Repository.GenericRepository;
+using CVapp.Infrastructure.Repository.UserProfileRepository;
+using CVapp.Infrastructure.Repository.UserRepository;
+using CVapp.Infrastructure.Services;
 using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ builder.Services.AddScoped(typeof(IUserRepository<>), typeof(UserRepository<>));
 builder.Services.AddScoped(typeof(IUserProfileRepository<>), typeof(UserProfileRepository<>));
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
     {
