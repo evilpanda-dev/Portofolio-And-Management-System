@@ -3,65 +3,70 @@ import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import Logout from "../Logout/Logout";
 import UserProfile from "../../pages/UserProfile/UserProfile";
 import "./Header.css";
+import Button from "../Button/Button";
 
-const Header = (props) => {
-  const { userName, setUserName, role, setRole, setImage, imageSrc } = props;
+const Header = (props) =>{
+  const {
+    userName,
+    setUserName,
+    role,
+    setRole,
+    setImage,
+    imageSrc
+  } = props
 
-  let menu;
-  let adminPage;
-  let src;
-  if (imageSrc == "") {
-    src = "http://avatars0.githubusercontent.com/u/246180?v=4";
-  } else {
-    src = `data:image/jpeg;base64,${imageSrc}`;
-  }
+let menu ;
+let adminPage;
+let src ;
 
-  if (role == "Admin") {
-    adminPage = (
-      <>
-        <a href="/dashboard" className="dashboard">
-          Dashboard
-        </a>
-      </>
-    );
-  }
-
-  if (userName === "") {
-    menu = (
-      <>
-        <a>
-          <LoginForm setUserName={setUserName} setRole={setRole} />
-        </a>
-        <a>
-          <RegistrationForm />
-        </a>
-      </>
-    );
-  } else {
-    menu = (
-      <>
-        <a href="/profile" className="profileLink">
-          {" "}
-          <img src={src} className="profileAvatar" />
-        </a>
-        {adminPage}
-        <a>
-          <Logout setUserName={setUserName} setRole={setRole} />
-        </a>
-      </>
-    );
-  }
-
-  return (
-    <div className="header">
-      <div className="header-right">
-        <a className="active" href="/Inner">
-          Home
-        </a>
-        {menu}
-      </div>
-    </div>
-  );
+const homeButton = {
+  buttonClass: "headerElement",
+  buttonText: "profileLink"
 };
+
+if (imageSrc===undefined){
+  src="http://avatars0.githubusercontent.com/u/246180?v=4"
+} else {
+src=`data:image/jpeg;base64,${imageSrc}`
+}
+
+if(role =="Admin"){
+  adminPage = (
+    <Button className="dashboard" address="/dashboard" text="Dashboard" theme={homeButton}/>
+  )
+}
+
+if (userName==="") {
+  menu = (
+    <>
+    <div className="headerElement">
+    <LoginForm setUserName={setUserName} setRole={setRole}/>
+    </div>
+    <div className="headerElement">
+    <RegistrationForm/>
+    </div>
+    </>
+  )
+} else {
+  menu = (
+    <>
+  <Button theme={homeButton} address="/profile" text={<img src={src} className="profileAvatar"/>} />
+  {adminPage}
+  <div className="headerElement">
+    <Logout setUserName={setUserName} setRole={setRole}/>
+    </div>
+    </>
+  )
+}
+
+    return (
+        <div className="header">
+        <div className="header-right">
+          <Button address="/Inner" text="Home" className="active" theme={homeButton}/>
+         {menu}
+        </div>
+      </div>
+    )
+}
 
 export default Header;
