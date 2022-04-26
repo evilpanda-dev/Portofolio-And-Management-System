@@ -2,6 +2,7 @@ import "./assets/styles/scss/App.css";
 import Home from "./pages/Home/Home";
 import Inner from "./pages/Inner/Inner";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
@@ -46,22 +47,19 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Routes>
+          {/* public routes */}
           <Route path="/" element={<Home />} />
           <Route
             path="/Inner"
             element={<Inner setImage={setImage} imageSrc={image} />}
           />
-          <Route
-            path="/profile"
-            element={
-              <UserProfile
-                setImage={setImage}
-                imageSrc={image}
-                setUserName={setUserName}
-                setRole={setRole}
-              />
-            }
-          />
+          {/* protected routes */}
+         <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<UserProfile setImage={setImage} imageSrc={image} />} />
+
+          {/* catch all */}
+          {/* <Route path='/noPermission' element={<NoPermission/>}/> */}
+          {/* <Route path="*" element={<NotFound/>} /> */}
         </Routes>
       </PersistGate>
     </Provider>
