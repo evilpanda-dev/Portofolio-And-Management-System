@@ -4,19 +4,7 @@ import FormikControl from "../FormikControl/FormikControl";
 import Textarea from "../TextArea/TextArea";
 import * as Yup from "yup";
 
-const ProfileForm = () => {
-  const [FirstName, setFirstName] = useState("");
-  const [LastName, setLastName] = useState("");
-  const [BirthDate, setBirthDate] = useState("");
-  const [Address, setAddress] = useState("");
-  const [City, setCity] = useState("");
-  const [Country, setCountry] = useState("");
-  const [PhoneNumber, setPhoneNumber] = useState("");
-  const [AboutMe, setAboutMe] = useState("");
-  const [Avatar, setAvatar] = useState("");
-  const [AvatarPreview, setAvatarPreview] = useState("");
-
-  const initialValues = {
+const initialValues = {
     FirstName: "",
     LastName: "",
     BirthDate: "",
@@ -52,6 +40,20 @@ const ProfileForm = () => {
       .min(6, "About Me must be at least 6 characters")
       .max(100, "About Me must be less than 50 characters"),
   });
+
+const ProfileForm = () => {
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [BirthDate, setBirthDate] = useState("");
+  const [Address, setAddress] = useState("");
+  const [City, setCity] = useState("");
+  const [Country, setCountry] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
+  const [AboutMe, setAboutMe] = useState("");
+  const [Avatar, setAvatar] = useState("");
+  const [AvatarPreview, setAvatarPreview] = useState("");
+
+  
 
   const onSubmit = () => {
     let data = new FormData();
@@ -121,7 +123,6 @@ const ProfileForm = () => {
                 type="date"
                 label="Choose your birth date:"
                 name="BirthDate"
-                //placeholder='Enter your email'
                 value={BirthDate}
                 onChange={(e) => {
                   setBirthDate(e.target.value);
