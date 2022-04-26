@@ -30,6 +30,8 @@ builder.Services.AddScoped(typeof(IUserProfileRepository<>), typeof(UserProfileR
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
     {
