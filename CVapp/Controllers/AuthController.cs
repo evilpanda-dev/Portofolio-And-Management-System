@@ -67,7 +67,7 @@ namespace CVapp.API.Controllers
 
                 var user = _repository.GetById(userId);
 
-                var returnUser = new User
+                var returnUser = new UserDto
                 {
                     Id = userId,
                     UserName = user.UserName,
