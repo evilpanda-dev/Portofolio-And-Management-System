@@ -1,18 +1,18 @@
-.logoutButton .showLogoutButton{
-    //padding: 10px 20px;
-   // font-size: 15px;
-    //font-weight: 600;
-    color: #222935;
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
+.logoutButton .showLogoutButton {
+  //padding: 10px 20px;
+  // font-size: 15px;
+  //font-weight: 600;
+  color: #222935;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
   //  border-radius: 5px;
-    text-decoration: none;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 500px) {
   .logoutButton {
-  margin-left: -6px;
+    margin-left: -6px;
   }
 }

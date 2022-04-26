@@ -1,77 +1,79 @@
-import Address from "../../components/Address/Address"
-import Box from "../../components/Box/Box"
-import Expertise from "../../components/Expertise/Expertise"
-import Panel from "../../components/Panel/Panel"
-import Portofolio from "../../components/Portofolio/Portofolio"
-import TimeLine from "../../components/TimeLine/TimeLine"
-import Feedback from "../../components/Feedback/Feedback"
-import '../Inner/Inner.css'
-import BackToTopButton from "../../components/BackToTopButton/BackToTopButton"
-import { useDispatch } from "react-redux"
-import { useEffect } from "react"
-import { fetchEducations } from "../../features/education/educationSlice"
-import Skills from "../../components/Skills/Skill"
-import Header from "../../components/Header/Header"
-import { useState } from "react"
+import Address from "../../components/Address/Address";
+import Box from "../../components/Box/Box";
+import Expertise from "../../components/Expertise/Expertise";
+import Panel from "../../components/Panel/Panel";
+import Portofolio from "../../components/Portofolio/Portofolio";
+import TimeLine from "../../components/TimeLine/TimeLine";
+import Feedback from "../../components/Feedback/Feedback";
+import "../Inner/Inner.css";
+import BackToTopButton from "../../components/BackToTopButton/BackToTopButton";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchEducations } from "../../features/education/educationSlice";
+import Skills from "../../components/Skills/Skill";
+import Header from "../../components/Header/Header";
+import { useState } from "react";
 
 const Inner = (props) => {
-  const {    
-    imageSrc,
-    setImage,
-   } = props
+  const { imageSrc, setImage } = props;
 
-const [userName,setUserName] = useState('')
-const [role,setRole] = useState('')
-// const [image,setImage] = useState('')
+  const [userName, setUserName] = useState("");
+  const [role, setRole] = useState("");
+  // const [image,setImage] = useState('')
 
   const boxStyle = {
-    titleClass: 'aboutMeTitle',
-    contentClass: 'aboutMeDescription'
-  }
+    titleClass: "aboutMeTitle",
+    contentClass: "aboutMeDescription",
+  };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchEducations());
-  }, [dispatch])
+  }, [dispatch]);
 
-useEffect(()=>{
-(
-  async () => {
-    const response = await fetch('https://localhost:5000/api/user',{
-      headers: {'Content-Type': 'application/json'},
-      credentials:'include',
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("https://localhost:5000/api/user", {
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      const content = await response.json();
+      if (response.status === 200 && content.title !== "Unauthorized") {
+        setUserName(content.userName);
+        setRole(content.role);
+      } else {
+        setUserName("");
+        setRole("");
+      }
+    })();
+    // (
+    //   async () => {
+    //      await fetch('https://localhost:5000/api/userProfile',{
+    //       headers: {'Content-Type': 'application/json'},
+    //       credentials:'include',
+    //   })
+    //   .then(response => response.json())
+    //   .then(data=>{
+    //       //console.log(data)
+    //         setImage(data.imgByte)
+    //   })
+    //   }
+    // )();
   });
-  const content = await response.json();
-  if(response.status === 200 && content.title !== "Unauthorized"){
-    setUserName(content.userName)
-    setRole(content.role)
-    } else{
-      setUserName('')
-      setRole('')
-    }
-  }
-)();
-// (
-//   async () => {
-//      await fetch('https://localhost:5000/api/userProfile',{
-//       headers: {'Content-Type': 'application/json'},
-//       credentials:'include',
-//   })
-//   .then(response => response.json())
-//   .then(data=>{
-//       //console.log(data)
-//         setImage(data.imgByte)
-//   })
-//   }
-// )();
-})
 
   return (
     <>
       <BackToTopButton address="#aboutMe" />
       <Panel />
-      <Header userName={userName} setUserName={setUserName} role={role} setRole={setRole} setImage={setImage} imageSrc={imageSrc}/>
+      <Header
+        userName={userName}
+        setUserName={setUserName}
+        role={role}
+        setRole={setRole}
+        setImage={setImage}
+        imageSrc={imageSrc}
+      />
       <div className="Inner">
         <Box
           title="About me"
@@ -85,33 +87,61 @@ useEffect(()=>{
         Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. 
         Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, 
         sem quam semper libero, sit amet adipiscing sem neque"
-          theme={boxStyle} />
+          theme={boxStyle}
+        />
         <TimeLine />
-        <Expertise data={[
-          {
-            date: '2013-2014',
-            info: {
-              company: 'Google',
-              job: 'Front-end developer / php programmer',
-              description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor'
-            }
-          },
-          {
-            date: '2012',
-            info: {
-              company: 'Twitter',
-              job: 'Web developer',
-              description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor'
-            }
-          }
-        ]} />
+        <Expertise
+          data={[
+            {
+              date: "2013-2014",
+              info: {
+                company: "Google",
+                job: "Front-end developer / php programmer",
+                description:
+                  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor",
+              },
+            },
+            {
+              date: "2012",
+              info: {
+                company: "Twitter",
+                job: "Web developer",
+                description:
+                  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor",
+              },
+            },
+          ]}
+        />
         <Skills />
         {/* <Portofolio data={ProjectData} /> */}
         <Address />
-        <Feedback data={[{ feedback: ' Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor', reporter: { photoUrl: 'https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg', name: 'John Doee', citeUrl: 'https://www.citeexample.com' } }, { feedback: ' Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor', reporter: { photoUrl: 'https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg', name: 'John Doe', citeUrl: 'https://www.citeexample.com' } }]} />
+        <Feedback
+          data={[
+            {
+              feedback:
+                " Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor",
+              reporter: {
+                photoUrl:
+                  "https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg",
+                name: "John Doee",
+                citeUrl: "https://www.citeexample.com",
+              },
+            },
+            {
+              feedback:
+                " Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor",
+              reporter: {
+                photoUrl:
+                  "https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg",
+                name: "John Doe",
+                citeUrl: "https://www.citeexample.com",
+              },
+            },
+          ]}
+        />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Inner
+export default Inner;

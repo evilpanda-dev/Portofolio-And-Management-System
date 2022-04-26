@@ -4,12 +4,14 @@
   font-weight: bold;
   font-size: 25px;
   line-height: 120%;
-  color: #26c17e; }
+  color: #26c17e;
+}
 
 .workCompany {
   display: flex;
   flex-direction: column;
-  width: 80px; }
+  width: 80px;
+}
 
 .companyName {
   font-family: Open Sans;
@@ -18,7 +20,8 @@
   font-size: 16px;
   line-height: 120%;
   color: #222935;
-  margin-top: 10px; }
+  margin-top: 10px;
+}
 
 .workingYear {
   font-family: Open Sans;
@@ -27,13 +30,15 @@
   font-size: 16px;
   line-height: 120%;
   color: #667081;
-  margin-top: -10px; }
+  margin-top: -10px;
+}
 
 .workJob {
   display: flex;
   flex-direction: column;
   margin-left: 5%;
-  width: 700px; }
+  width: 700px;
+}
 
 .jobTitle {
   font-family: Open Sans;
@@ -42,7 +47,8 @@
   font-size: 16px;
   line-height: 120%;
   color: #222935;
-  margin-top: 10px; }
+  margin-top: 10px;
+}
 
 .jobDescription {
   font-family: Open Sans;
@@ -51,8 +57,10 @@
   font-size: 14px;
   line-height: 150%;
   color: #222935;
-  margin-top: -10px; }
+  margin-top: -10px;
+}
 
 .jobWrapper {
   display: flex;
-  justify-content: flex-start; }
+  justify-content: flex-start;
+}

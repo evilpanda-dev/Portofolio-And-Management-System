@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const TextError = (props) => {
-  return <div className='formError'>{props.children}</div>
-}
+  return <div className="formError">{props.children}</div>;
+};
 
-export default TextError
+export default TextError;

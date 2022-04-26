@@ -9,10 +9,13 @@
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-  line-height: 120%; }
+  line-height: 120%;
+}
 
 #filterButton:visited {
-  color: #222935; }
+  color: #222935;
+}
 
 #filterButton:focus {
-  color: #26c17e; }
+  color: #26c17e;
+}
