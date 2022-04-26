@@ -22,9 +22,11 @@ const initialValues = {
 const LoginForm = (props) => {
   const { setUserName, setRole } = props;
 
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+let navigate = useNavigate();
+const dispatch = useDispatch();
 
   const onSubmit = async () => {
     const response = await fetch("https://localhost:5000/api/login", {
@@ -32,20 +34,23 @@ const LoginForm = (props) => {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({
-        Email,
-        Password,
+        email,
+        password,
       }),
     });
     const content = await response.json();
-    setUserName(content.userName);
-    setRole(content.role);
+    const userName = content.userName;
+    const role = content.role;
+
+    setUserName(userName);
+    setRole(role);
+
     if (response.status === 200) {
       setRedirect(true);
     }
   };
 
   const isVisible = useSelector((state) => state.popupState.popup);
-  const dispatch = useDispatch();
 
   const activateSectionVisibility = () => {
     dispatch({ type: "LOGIN_CLICKED", payload: true });
@@ -59,7 +64,6 @@ const LoginForm = (props) => {
     isVisible ? deactivateSectionVisibility() : activateSectionVisibility();
   };
 
-  let navigate = useNavigate();
 
   useEffect(() => {
     if (redirect) {
@@ -99,7 +103,7 @@ const LoginForm = (props) => {
                     label="Email"
                     name="email"
                     placeholder="Enter your email"
-                    value={Email}
+                    value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
                       formik.handleChange(e);
@@ -113,7 +117,7 @@ const LoginForm = (props) => {
                     label="Password"
                     name="password"
                     placeholder="Enter your password"
-                    value={Password}
+                    value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
                       formik.handleChange(e);
