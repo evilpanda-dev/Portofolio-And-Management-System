@@ -7,7 +7,10 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
+import RequireAuth from "./components/RequireAuth/RequireAuth";
+import Layout from "./components/Layout/Layout";
+
 
 const App = () => {
   const { pathname, hash, key } = useLocation();
@@ -43,23 +46,33 @@ const App = () => {
     })();
   }, [pathname, hash, key]); // do this on route change
 
+
+
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        {/* <UserProvider> */}
         <Routes>
           {/* public routes */}
+          <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route
             path="/Inner"
             element={<Inner setImage={setImage} imageSrc={image} />}
           />
           {/* protected routes */}
+      <Route element={<RequireAuth allowedRoles={["Admin"]}/>}>
          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<UserProfile setImage={setImage} imageSrc={image} />} />
+         </Route>
+         <Route element={<RequireAuth allowedRoles={["Admin","User"]}/>}>
+          <Route path="/profile" element={<UserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>} />
+          </Route>
 
           {/* catch all */}
           {/* <Route path='/noPermission' element={<NoPermission/>}/> */}
           {/* <Route path="*" element={<NotFound/>} /> */}
+          </Route>
         </Routes>
       </PersistGate>
     </Provider>
