@@ -23,6 +23,5 @@ namespace CVapp.Infrastructure.DTOs
         public byte[]? ImgByte { get; set; }
         public string? Message { get; set; }
         public int UserId { get; set; }
-        public DateTime ModifiedDate { get; set; } = DateTime.Now;
     }
 }
