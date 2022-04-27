@@ -36,19 +36,21 @@ namespace CVapp.API.Controllers
             _userProfileRepository = userProfileRepository;
         }
         
-        [HttpPost("avatar")]
-        public IActionResult SaveAvatar([FromForm] UserProfileDto userProfileDto)
+        [HttpPost("sendProfileData")]
+        public IActionResult SendProfileData([FromForm] UserProfileDto userProfileDto)
         {
                 string path = _hostEnvironment.WebRootPath + "\\usersAvatar\\";
-                var userProfile = _userProfileService.SaveAvatar(path, userProfileDto);
+                var userProfile = _userProfileService.SaveUserProfileData(path, userProfileDto);
                 return Ok(userProfile);
         }
 
 
         [HttpGet("userProfile")]
-        public IActionResult GetUserProfile()
+        public IActionResult GetUserProfileData()
         {
-            var jwtCookie = Request.Cookies["jwt"];
+            var userProfile = _userProfileService.GetUserProfileData(_hostEnvironment.WebRootPath);
+            return Ok(userProfile);
+            /*var jwtCookie = Request.Cookies["jwt"];
             var token = _jwtService.Verify(jwtCookie);
             int userId = int.Parse(token.Issuer);
             var user = _userProfileRepository.GetByUserId(userId);
@@ -76,7 +78,7 @@ namespace CVapp.API.Controllers
             string fileName = "avatarPic_" + userProfile.UserId + ".jpg";
             var path = Path.Combine(_hostEnvironment.WebRootPath, "usersAvatar", fileName);
             userProfileDto.ImgByte = System.IO.File.ReadAllBytes(path);
-            return Ok(userProfileDto);
+            return Ok(userProfileDto);*/
         }
 
     }
