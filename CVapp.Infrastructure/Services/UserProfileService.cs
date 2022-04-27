@@ -25,12 +25,41 @@ namespace CVapp.Infrastructure.Services
             _httpContext = httpContextAccessor.HttpContext; 
             }
 
-        public UserProfile GetUserProfile()
+        public UserProfileDto GetUserProfileData(string environment)
         {
-            throw new NotImplementedException();
+            var jwtCookie = _httpContext.Request.Cookies["jwt"];
+            var token = _jwtService.Verify(jwtCookie);
+            int userId = int.Parse(token.Issuer);
+            var user = _userProfileRepository.GetByUserId(userId);
+            var id = user.Id;
+
+            if (id == 0)
+            {
+                return new UserProfileDto();
+            }
+            var userProfile = _userProfileRepository.GetById(id);
+            var userProfileDto = new UserProfileDto
+            {
+                AboutMe = userProfile.AboutMe,
+                Address = userProfile.Address,
+                BirthDate = userProfile.BirthDate,
+                City = userProfile.City,
+                Country = userProfile.Country,
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName,
+                Id = userProfile.Id,
+                PhoneNumber = userProfile.PhoneNumber,
+                UserId = userId
+            };
+            string fileName = "avatarPic_" + userProfile.UserId + ".jpg";
+            var path = Path.Combine(environment, "usersAvatar", fileName);
+            userProfileDto.ImgByte = System.IO.File.ReadAllBytes(path);
+
+            return userProfileDto;
+            // return Ok(userProfileDto);
         }
 
-        public UserProfileDto SaveAvatar( string path,UserProfileDto userProfileDto)
+        public UserProfileDto SaveUserProfileData( string path,UserProfileDto userProfileDto)
         {
           var jwtCookie = _httpContext.Request.Cookies["jwt"];
             var token = _jwtService.Verify(jwtCookie);
@@ -49,7 +78,6 @@ namespace CVapp.Infrastructure.Services
                 FirstName = userProfileDto.FirstName,
                 LastName = userProfileDto.LastName,
                 Id = userProfileDto.Id,
-                ModifiedDate = userProfileDto.ModifiedDate,
                 PhoneNumber = userProfileDto.PhoneNumber,
                 UserId = userId
             };
@@ -75,7 +103,8 @@ namespace CVapp.Infrastructure.Services
                 }
                 return userProfileDto;
             }
-            throw new BadRequestException("File is missing!");  
+            return userProfileDto;
+            // throw new BadRequestException("File is missing!");  
         }
     }
 }
