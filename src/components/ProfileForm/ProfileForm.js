@@ -18,24 +18,22 @@ const initialValues = {
 
   const validationSchema = Yup.object({
     FirstName: Yup.string("First Name must be a text")
-      .min(6, "First Name must be at least 6 characters")
+      .min(3, "First Name must be at least 6 characters")
       .max(50, "First Name must be less than 50 characters"),
     LastName: Yup.string("Last Name must be a text")
-      .min(6, "Last Name must be at least 6 characters")
+      .min(3, "Last Name must be at least 6 characters")
       .max(50, "Last Name must be less than 50 characters"),
     BirthDate: Yup.date("Birth Date must be a date"),
     Address: Yup.string("Address must be a text")
       .min(6, "Address must be at least 6 characters")
       .max(50, "Address must be less than 50 characters"),
     City: Yup.string("City must be a text")
-      .min(6, "City must be at least 6 characters")
+      .min(3, "City must be at least 6 characters")
       .max(50, "City must be less than 50 characters"),
     Country: Yup.string("Country must be a text")
       .min(6, "Country must be at least 6 characters")
       .max(50, "Country must be less than 50 characters"),
-    PhoneNumber: Yup.number("Phone Number must be a number")
-      .min(6, "Phone Number must be at least 6 characters")
-      .max(50, "Phone Number must be less than 50 characters"),
+    PhoneNumber: Yup.number("Phone Number must be a number"),
     AboutMe: Yup.string("About Me must be a text")
       .min(6, "About Me must be at least 6 characters")
       .max(100, "About Me must be less than 50 characters"),
@@ -57,17 +55,17 @@ const ProfileForm = () => {
 
   const onSubmit = () => {
     let data = new FormData();
-    // data.append("FirstName",FirstName);
-    // data.append("LastName",LastName);
-    // data.append("BirthDate",BirthDate);
-    // data.append("Address",Address);
-    // data.append("City",City);
-    // data.append("Country",Country);
-    // data.append("PhoneNumber",PhoneNumber);
-    // data.append("AboutMe",AboutMe);
+    data.append("FirstName",FirstName);
+    data.append("LastName",LastName);
+    data.append("BirthDate",BirthDate);
+    data.append("Address",Address);
+    data.append("City",City);
+    data.append("Country",Country);
+    data.append("PhoneNumber",PhoneNumber);
+    data.append("AboutMe",AboutMe);
     data.append("Files", Avatar);
 
-    return fetch("https://localhost:5000/api/avatar", {
+    return fetch("https://localhost:5000/api/sendProfileData", {
       method: "POST",
       body: data,
       headers: new Headers({
