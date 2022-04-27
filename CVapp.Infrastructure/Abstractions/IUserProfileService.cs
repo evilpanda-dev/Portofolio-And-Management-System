@@ -10,7 +10,7 @@ namespace CVapp.Infrastructure.Abstractions
 {
     public interface IUserProfileService
     {
-        public UserProfileDto SaveAvatar(string path, UserProfileDto userProfileDto);
-        public UserProfile GetUserProfile();
+        public UserProfileDto SaveUserProfileData(string path, UserProfileDto userProfileDto);
+        public UserProfileDto GetUserProfileData(string environment);
     }
 }
