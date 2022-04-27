@@ -8,11 +8,12 @@ import Feedback from "../../components/Feedback/Feedback";
 import "../Inner/Inner.css";
 import BackToTopButton from "../../components/BackToTopButton/BackToTopButton";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect,useContext } from "react";
 import { fetchEducations } from "../../features/education/educationSlice";
 import Skills from "../../components/Skills/Skill";
 import Header from "../../components/Header/Header";
 import { useState } from "react";
+import { UserContext } from "../../providers/UserProvider";
 
 const Inner = (props) => {
   const { imageSrc, setImage } = props;
@@ -20,6 +21,7 @@ const Inner = (props) => {
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("");
   // const [image,setImage] = useState('')
+  const {user,setUser} = useContext(UserContext)
 
   const boxStyle = {
     titleClass: "aboutMeTitle",
@@ -42,9 +44,11 @@ const Inner = (props) => {
       if (response.status === 200 && content.title !== "Unauthorized") {
         setUserName(content.userName);
         setRole(content.role);
+        setUser({userName: userName, role: role})
       } else {
         setUserName("");
         setRole("");
+        setUser({userName: "", role: ""})
       }
     })();
     // (
@@ -60,7 +64,7 @@ const Inner = (props) => {
     //   })
     //   }
     // )();
-  });
+  },[userName,role]);
 
   return (
     <>
