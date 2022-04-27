@@ -1,7 +1,9 @@
 import "../Logout/Logout.css";
+import { useNavigate } from "react-router-dom";
 
 const Logout = (props) => {
   const { setUserName, setRole } = props;
+  let navigate = useNavigate();
 
   const logout = async () => {
     await fetch("https://localhost:5000/api/logout", {
@@ -11,6 +13,7 @@ const Logout = (props) => {
     });
     setUserName("");
     setRole("");
+    navigate("/Inner")
   };
 
   return (
