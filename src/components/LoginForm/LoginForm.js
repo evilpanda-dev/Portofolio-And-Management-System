@@ -6,6 +6,8 @@ import "./LoginForm.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../providers/UserProvider.js";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email format").required("Required"),
@@ -27,6 +29,7 @@ const LoginForm = (props) => {
   const [redirect, setRedirect] = useState(false);
 let navigate = useNavigate();
 const dispatch = useDispatch();
+const {setUser} = useContext(UserContext)
 
   const onSubmit = async () => {
     const response = await fetch("https://localhost:5000/api/login", {
@@ -38,12 +41,13 @@ const dispatch = useDispatch();
         password,
       }),
     });
-    const content = await response.json();
+    const content = await response.json();   //to check if there is data in the response
     const userName = content.userName;
     const role = content.role;
 
     setUserName(userName);
     setRole(role);
+setUser({userName: userName, role: role})
 
     if (response.status === 200) {
       setRedirect(true);
