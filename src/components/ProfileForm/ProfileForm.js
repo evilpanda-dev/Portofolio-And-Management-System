@@ -1,8 +1,9 @@
 import { Formik } from "formik";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import FormikControl from "../FormikControl/FormikControl";
 import Textarea from "../TextArea/TextArea";
 import * as Yup from "yup";
+import { UserContext } from "../../providers/UserProvider";
 
 const initialValues = {
     FirstName: "",
@@ -50,11 +51,10 @@ const ProfileForm = () => {
   const [AboutMe, setAboutMe] = useState("");
   const [Avatar, setAvatar] = useState("");
   const [AvatarPreview, setAvatarPreview] = useState("");
-
+  const { user } = useContext(UserContext)
+  //To UseFormik
   
-
-  const onSubmit = () => {
-    let data = new FormData();
+  let data = new FormData();
     data.append("FirstName",FirstName);
     data.append("LastName",LastName);
     data.append("BirthDate",BirthDate);
@@ -65,6 +65,20 @@ const ProfileForm = () => {
     data.append("AboutMe",AboutMe);
     data.append("Files", Avatar);
 
+    const userId = user?.userId;
+
+  const onSubmit = () => {
+    // let data = new FormData();
+    // data.append("FirstName",FirstName);
+    // data.append("LastName",LastName);
+    // data.append("BirthDate",BirthDate);
+    // data.append("Address",Address);
+    // data.append("City",City);
+    // data.append("Country",Country);
+    // data.append("PhoneNumber",PhoneNumber);
+    // data.append("AboutMe",AboutMe);
+    // data.append("Files", Avatar);
+
     return fetch("https://localhost:5000/api/sendProfileData", {
       method: "POST",
       body: data,
@@ -74,10 +88,29 @@ const ProfileForm = () => {
       credentials: "include",
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
+      // .then((data) => console.log(data))
+      // .catch((error) => console.log(error));
   };
+const updateValues = () => {
+  return fetch(`https://localhost:5000/api/updateProfile/${userId}`, {
+method:"PATCH",
+body:JSON.stringify({
+firstName : FirstName,
+lastName : LastName,
+birthDate : BirthDate,
+address : Address,
+city : City,
+country : Country,
+phoneNumber : PhoneNumber,
+aboutMe : AboutMe}),
 
+headers: new Headers({
+  "Content-Type": "application/json",
+}),
+
+  })
+  .then((response) => response.json())
+}
   return (
     <Formik
       initialValues={initialValues}
@@ -216,6 +249,15 @@ const ProfileForm = () => {
                 type="submit"
                 disabled={!formik.isValid}
                 onClick={onSubmit}
+              >
+                Save
+              </button>
+            </div>
+            <div>
+              <button
+                type="submit"
+                disabled={!formik.isValid}
+                onClick={updateValues}
               >
                 Update
               </button>
