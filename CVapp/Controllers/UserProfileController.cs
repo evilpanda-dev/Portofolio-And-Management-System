@@ -4,6 +4,7 @@ using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Services;
 using LoggerService;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -81,10 +82,10 @@ namespace CVapp.API.Controllers
             return Ok(userProfileDto);*/
         }
 
-        [HttpPut("updateProfile/{id}")]
-        public IActionResult UpdateUserProfile(int id,[FromForm] UserProfileDto userProfileDto)
+        [HttpPatch("updateProfile/{id}")]
+        public IActionResult UpdateUserProfile(int id,UserProfileDto userProfileDto)
         {
-           var userProfile =  _userProfileService.UpdateUserProfileData(userProfileDto,id);
+           var userProfile =  _userProfileService.UpdateUserProfileData(id,userProfileDto);
             return StatusCode((int)HttpStatusCode.OK);
         }
 
