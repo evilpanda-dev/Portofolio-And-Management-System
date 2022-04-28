@@ -1,5 +1,6 @@
 ﻿using CVapp.Domain.Models.Authentificated;
 using CVapp.Infrastructure.DTOs;
+using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace CVapp.Infrastructure.Abstractions
     {
         public UserProfileDto SaveUserProfileData(string path, UserProfileDto userProfileDto);
         public UserProfileDto GetUserProfileData(string environment);
-        public UserProfileDto UpdateUserProfileData(UserProfileDto userProfileDto,int id);
+        public UserProfileDto UpdateUserProfileData(int id,UserProfileDto userProfileDto);
     }
 }
