@@ -35,9 +35,17 @@ namespace CVapp.Infrastructure.Services
         public UserProfileDto GetUserProfileData(string environment)
         {
             var jwtCookie = _httpContext.Request.Cookies["jwt"];
+            if (jwtCookie == null)
+            {
+                throw new JwtNotFoundException("Jwt token not found,please login again");
+            }
             var token = _jwtService.Verify(jwtCookie);
             int userId = int.Parse(token.Issuer);
             var user = _userProfileRepository.GetByUserId(userId);
+            if (user == null)
+            {
+                throw new UserProfileNotFoundException("User profile not found,provide details in profile page");
+            }
             var id = user.Id;
 
             if (id == 0)
@@ -58,9 +66,20 @@ namespace CVapp.Infrastructure.Services
                 PhoneNumber = userProfile.PhoneNumber,
                 UserId = userId
             };
-            string fileName = "avatarPic_" + userProfile.UserId + ".jpg";
+            try
+            {
+                string fileName = "avatarPic_" + userProfile.UserId + ".jpg";
             var path = Path.Combine(environment, "usersAvatar", fileName);
-            userProfileDto.ImgByte = System.IO.File.ReadAllBytes(path);
+                if (path == null)
+                {
+                    throw new AvatarNotFoundException("Avatar not found,upload avatar in profile page");
+                }
+                userProfileDto.ImgByte = System.IO.File.ReadAllBytes(path);
+            }
+            catch (Exception e)
+            {
+                userProfileDto.ImgByte = null;
+            }
 
             return userProfileDto;
             // return Ok(userProfileDto);
