@@ -44,7 +44,7 @@ const Inner = (props) => {
       if (response.status === 200 && content.title !== "Unauthorized") {
         setUserName(content.userName);
         setRole(content.role);
-        setUser({userName: userName, role: role})
+        setUser({userName: userName, role: role, userId: content.id})
       } else {
         setUserName("");
         setRole("");
