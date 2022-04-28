@@ -1,4 +1,5 @@
-﻿using CVapp.Domain.Models.Authentificated;
+﻿using AutoMapper;
+using CVapp.Domain.Models.Authentificated;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
@@ -17,13 +18,14 @@ namespace CVapp.Infrastructure.Services
         private readonly IUserProfileRepository<UserProfile> _userProfileRepository;
         private readonly JwtService _jwtService;
         private readonly HttpContext _httpContext;
-
-        public UserProfileService(IUserProfileRepository<UserProfile> userProfileRepository,JwtService jwtService,IHttpContextAccessor httpContextAccessor)
+        private readonly IMapper _mapper;
+        public UserProfileService(IUserProfileRepository<UserProfile> userProfileRepository,JwtService jwtService,IHttpContextAccessor httpContextAccessor,IMapper mapper)
             {
             _userProfileRepository = userProfileRepository;
             _jwtService = jwtService;
-            _httpContext = httpContextAccessor.HttpContext; 
-            }
+            _httpContext = httpContextAccessor.HttpContext;
+            _mapper = mapper;
+    }
 
         public UserProfileDto GetUserProfileData(string environment)
         {
@@ -105,6 +107,16 @@ namespace CVapp.Infrastructure.Services
             }
             return userProfileDto;
             // throw new BadRequestException("File is missing!");  
+        }
+
+        public UserProfileDto UpdateUserProfileData(UserProfileDto userProfileDto,int id)
+        {
+
+                var userProfileFromDb = _userProfileRepository.GetById(id);
+               var mappedUserProfile = _mapper.Map<UserProfileDto,UserProfile>(userProfileDto,userProfileFromDb);
+                _userProfileRepository.SaveChanges();
+            
+            return userProfileDto;
         }
     }
 }
