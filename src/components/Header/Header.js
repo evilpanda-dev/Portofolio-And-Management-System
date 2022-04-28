@@ -24,7 +24,7 @@ const homeButton = {
   buttonText: "profileLink"
 };
 
-if (imageSrc===undefined){
+if (imageSrc==null){
   src="http://avatars0.githubusercontent.com/u/246180?v=4"
 } else {
 src=`data:image/jpeg;base64,${imageSrc}`
