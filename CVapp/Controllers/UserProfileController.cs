@@ -81,5 +81,12 @@ namespace CVapp.API.Controllers
             return Ok(userProfileDto);*/
         }
 
+        [HttpPut("updateProfile/{id}")]
+        public IActionResult UpdateUserProfile(int id,[FromForm] UserProfileDto userProfileDto)
+        {
+           var userProfile =  _userProfileService.UpdateUserProfileData(userProfileDto,id);
+            return StatusCode((int)HttpStatusCode.OK);
+        }
+
     }
 }
