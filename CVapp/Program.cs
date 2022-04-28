@@ -1,6 +1,8 @@
 using CVapp.API.Extensions;
+using CVapp.Domain.Models.Authentificated;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.Data;
+using CVapp.Infrastructure.Mappings;
 using CVapp.Infrastructure.Repository.GenericRepository;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Repository.UserRepository;
@@ -12,13 +14,14 @@ using Microsoft.IdentityModel.Tokens;
 using NLog;
 using System.Text;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 //var secureKey = "this is my super secure key";
 //var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -32,6 +35,7 @@ builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddAutoMapper(typeof(UserProfileMap));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
     {
