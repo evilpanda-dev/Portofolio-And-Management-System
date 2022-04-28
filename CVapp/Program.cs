@@ -2,6 +2,7 @@ using CVapp.API.Extensions;
 using CVapp.Domain.Models.Authentificated;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.Data;
+using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Mappings;
 using CVapp.Infrastructure.Repository.GenericRepository;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
