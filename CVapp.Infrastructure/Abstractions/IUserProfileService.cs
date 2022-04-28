@@ -12,5 +12,6 @@ namespace CVapp.Infrastructure.Abstractions
     {
         public UserProfileDto SaveUserProfileData(string path, UserProfileDto userProfileDto);
         public UserProfileDto GetUserProfileData(string environment);
+        public UserProfileDto UpdateUserProfileData(UserProfileDto userProfileDto,int id);
     }
 }
