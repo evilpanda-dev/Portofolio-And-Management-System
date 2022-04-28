@@ -3,11 +3,15 @@ using CVapp.Domain.Models.Authentificated;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
+using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,13 +23,14 @@ namespace CVapp.Infrastructure.Services
         private readonly JwtService _jwtService;
         private readonly HttpContext _httpContext;
         private readonly IMapper _mapper;
-        public UserProfileService(IUserProfileRepository<UserProfile> userProfileRepository,JwtService jwtService,IHttpContextAccessor httpContextAccessor,IMapper mapper)
-            {
+        //private readonly IPropertyMapper<UserProfileDto,UserProfile> _propertyMapper;
+        public UserProfileService(IUserProfileRepository<UserProfile> userProfileRepository, JwtService jwtService, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        {
             _userProfileRepository = userProfileRepository;
             _jwtService = jwtService;
             _httpContext = httpContextAccessor.HttpContext;
             _mapper = mapper;
-    }
+        }
 
         public UserProfileDto GetUserProfileData(string environment)
         {
@@ -61,12 +66,12 @@ namespace CVapp.Infrastructure.Services
             // return Ok(userProfileDto);
         }
 
-        public UserProfileDto SaveUserProfileData( string path,UserProfileDto userProfileDto)
+        public UserProfileDto SaveUserProfileData(string path, UserProfileDto userProfileDto)
         {
-          var jwtCookie = _httpContext.Request.Cookies["jwt"];
+            var jwtCookie = _httpContext.Request.Cookies["jwt"];
             var token = _jwtService.Verify(jwtCookie);
             int userId = int.Parse(token.Issuer);
-            var user = _userProfileRepository.GetById(userId); 
+            var user = _userProfileRepository.GetById(userId);
 
             string message = "";
             var files = userProfileDto.Files;
@@ -109,14 +114,35 @@ namespace CVapp.Infrastructure.Services
             // throw new BadRequestException("File is missing!");  
         }
 
-        public UserProfileDto UpdateUserProfileData(UserProfileDto userProfileDto,int id)
+        public UserProfileDto UpdateUserProfileData(int id,UserProfileDto userProfileDto)
         {
+            try
+            {
+            var userProfileFromDb = _userProfileRepository.GetByUserId(id);
+            var propertyMapper = new PropertyMapper<UserProfileDto, UserProfile>(userProfileDto,userProfileFromDb);
+            propertyMapper.Map(userProfileDto, userProfileFromDb)
+                .ForMember(x => x.FirstName)
+                .ForMember(x => x.LastName)
+                .ForMember(x => x.BirthDate)
+                .ForMember(x => x.Address)
+                .ForMember(x => x.City)
+                .ForMember(x => x.Country)
+                .ForMember(x => x.PhoneNumber)
+                .ForMember(x => x.AboutMe);
+             userProfileFromDb.ModifiedDate = DateTime.Now;
+            _userProfileRepository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new BadRequestException("User profile not found!");
+            }
+            //  var mappedUserProfile = _mapper.Map<UserProfileDto,UserProfile>(userProfileDto,userProfileFromDb);
+            // profileToPatch.ApplyTo(userProfileFromDb);
 
-                var userProfileFromDb = _userProfileRepository.GetById(id);
-               var mappedUserProfile = _mapper.Map<UserProfileDto,UserProfile>(userProfileDto,userProfileFromDb);
-                _userProfileRepository.SaveChanges();
-            
+            // var mappedUserProfile = _mapper.Map(userProfileFromDb, userProfileDto);
+
             return userProfileDto;
         }
+
     }
 }
