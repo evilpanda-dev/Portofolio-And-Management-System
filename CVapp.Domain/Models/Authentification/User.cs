@@ -2,7 +2,7 @@
 
 namespace CVapp.Domain.Models.Authentification
 {
-    public class User : IEntityBase, IUser
+    public class User : IEntityBase
     {
         public int Id { get; set; }
         public string UserName { get; set; }
