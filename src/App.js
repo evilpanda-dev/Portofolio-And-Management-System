@@ -10,13 +10,15 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect, useState,useContext } from "react";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import Layout from "./components/Layout/Layout";
-
+import { UserContext } from "./providers/UserProvider";
+import { UserProfileContext } from "./providers/UserProfileProvider";
 
 const App = () => {
   const { pathname, hash, key } = useLocation();
   const [image, setImage] = useState("");
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("");
+const {setUserProfile} = useContext(UserProfileContext)
 
   useEffect(() => {
     // if not a hash link, scroll to top
@@ -42,6 +44,14 @@ const App = () => {
         .then((data) => {
           //console.log(data)
           setImage(data.imgByte);
+          setUserProfile({firstName: data.firstName,
+            lastName: data.lastName,
+          birthDate: data.birthDate,
+        address: data.address,
+      city: data.city,
+    country: data.country,
+  phoneNumber: data.phoneNumber,
+  aboutMe: data.aboutMe,})
         });
     })();
   }, [pathname, hash, key]); // do this on route change
