@@ -37,12 +37,12 @@ namespace CVapp.API.Controllers
             _userProfileRepository = userProfileRepository;
         }
         
-        [HttpPost("sendProfileData")]
+        [HttpPost("saveAvatar")]
         public IActionResult SendProfileData([FromForm] UserProfileDto userProfileDto)
         {
                 string path = _hostEnvironment.WebRootPath + "\\usersAvatar\\";
-                var userProfile = _userProfileService.SaveUserProfileData(path, userProfileDto);
-                return Ok(userProfile);
+                var userProfile = _userProfileService.SaveAvatar(path, userProfileDto);
+                return Ok(userProfile.Files);
         }
 
 
