@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CVapp.Infrastructure.Repository.UserRepository
 {
-    public class UserRepository<TEntity> : IUserRepository<TEntity> where TEntity : class, IUser
+    public class UserRepository : IUserRepository
     {
         private readonly DbContext _context;
         private DbSet<User> _dbSet;

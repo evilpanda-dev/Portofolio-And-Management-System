@@ -22,12 +22,12 @@ namespace CVapp.API.Controllers
         private readonly ILoggerManager _logger;
         private readonly JwtService _jwtService;
         private readonly IUserProfileService _userProfileService;
-        private readonly IUserProfileRepository<UserProfile> _userProfileRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
         public UserProfileController(IWebHostEnvironment hostEnvironment,
                                      ILoggerManager logger,
                                      JwtService jwtService,
-                                     IUserProfileRepository<UserProfile> userProfileRepository,
+                                     IUserProfileRepository userProfileRepository,
                                      IUserProfileService userProfileService)
         {
             _hostEnvironment = hostEnvironment;

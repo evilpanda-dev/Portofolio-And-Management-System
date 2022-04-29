@@ -25,7 +25,7 @@ namespace UnitTests
             var jwtService = new Mock<JwtService>();
             var logger = new Mock<ILoggerManager>();
             var repository = new Mock<IRepository<User>>();
-            var userRepository = new Mock<UserRepository<User>>();
+            var userRepository = new Mock<UserRepository>();
             _controller = new AuthController(jwtService.Object, logger.Object,userService.Object,userRepository.Object);
 
             var user = new User()
