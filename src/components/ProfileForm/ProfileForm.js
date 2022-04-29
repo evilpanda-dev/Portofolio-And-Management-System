@@ -4,8 +4,7 @@ import FormikControl from "../FormikControl/FormikControl";
 import Textarea from "../TextArea/TextArea";
 import * as Yup from "yup";
 import { UserContext } from "../../providers/UserProvider";
-import { UserProfileContext } from "../../providers/UserProfileProvider";
-
+import '../ProfileForm/ProfileForm.css';
 const initialValues = {
     FirstName: "",
     LastName: "",
@@ -53,7 +52,7 @@ const ProfileForm = () => {
   const [Avatar, setAvatar] = useState("");
   const [AvatarPreview, setAvatarPreview] = useState("");
   const { user } = useContext(UserContext)
-  const {userProfile} = useContext(UserProfileContext)
+let uploadButton;
   let data = new FormData();
     // data.append("FirstName",FirstName);
     // data.append("LastName",LastName);
@@ -66,6 +65,8 @@ const ProfileForm = () => {
     data.append("files", Avatar);
 
     const userId = user?.userId;
+
+
   const onSubmit = () => {
     // let data = new FormData();
     // data.append("FirstName",FirstName);
@@ -94,8 +95,17 @@ const ProfileForm = () => {
       }),
       
         })
-        .then((response) => response.json())
+        //.then((response) => response.json())
+        .then(setFirstName(""),
+        setLastName(""),
+        setBirthDate(""),
+        setAddress(""),
+        setCity(""),
+        setCountry(""),
+        setPhoneNumber(""),
+        setAboutMe(""))
   };
+
 const uploadAvatar = () => {
   return fetch("https://localhost:5000/api/saveAvatar", {
       method: "POST",
@@ -105,10 +115,25 @@ const uploadAvatar = () => {
       }),
       credentials: "include",
     })
-      .then((response) => response.json())
+      //.then((response) => response.json())
+      .then(setAvatarPreview(""))
       // .then((data) => console.log(data))
       // .catch((error) => console.log(error));
 }
+
+if(AvatarPreview != ""){
+  uploadButton = (<div className="profileFormField">
+              <button
+                type="submit"
+               // disabled={!formik.isValid}
+                onClick={uploadAvatar}
+                className="uploadButton"
+              >
+                Upload
+              </button>
+            </div>)
+}
+
   return (
     <Formik
       initialValues={initialValues}
@@ -117,13 +142,17 @@ const uploadAvatar = () => {
     >
       {(formik) => {
         return (
-          <div>
-            <div>
+          <div className="profileForm">
+            <div className="profileFormContent">
+            <div className="profileFormField">
               <FormikControl
                 control="input"
                 type="text"
                 label="First Name:"
                 name="FirstName"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 placeholder="Enter your first name"
                 value={FirstName}
                 onChange={(e) => {
@@ -132,12 +161,15 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="profileFormField">
               <FormikControl
                 control="input"
                 type="text"
                 label="Last Name:"
                 name="LastName"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 placeholder="Enter your last name"
                 value={LastName}
                 onChange={(e) => {
@@ -146,12 +178,15 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="profileFormField">
               <FormikControl
                 control="input"
                 type="date"
                 label="Choose your birth date:"
                 name="BirthDate"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 value={BirthDate}
                 onChange={(e) => {
                   setBirthDate(e.target.value);
@@ -159,12 +194,15 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="profileFormField">
               <FormikControl
                 control="input"
                 type="text"
                 label="Address:"
                 name="Address"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 placeholder="Enter your address"
                 value={Address}
                 onChange={(e) => {
@@ -173,12 +211,15 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="profileFormField">
               <FormikControl
                 control="input"
                 type="text"
                 label="City:"
                 name="City"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 placeholder="Enter your city"
                 value={City}
                 onChange={(e) => {
@@ -187,12 +228,15 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="profileFormField">
               <FormikControl
                 control="input"
                 type="text"
                 label="Country:"
                 name="Country"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 placeholder="Enter your country"
                 value={Country}
                 onChange={(e) => {
@@ -201,12 +245,15 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="profileFormField">
               <FormikControl
                 control="input"
                 type="number"
-                label="PhoneNumber:"
+                label="Phone Number:"
                 name="PhoneNumber"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 placeholder="Enter your phone number"
                 value={PhoneNumber}
                 onChange={(e) => {
@@ -215,10 +262,13 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="profileFormField">
               <Textarea
-                label="AboutMe:"
+                label="About Me:"
                 name="AboutMe"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 placeholder="Write few sentences about yourself"
                 value={AboutMe}
                 onChange={(e) => {
@@ -227,10 +277,13 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <div>
+            <div className="profileFormField">
               <FormikControl
                 control="input"
                 type="file"
+                labelClass="profileFormLabel"
+                inputClass="profileFormInput"
+                inputError="profileFormError"
                 label="Choose your avatar:"
                 name="Avatar"
                 onChange={(e) => {
@@ -240,25 +293,20 @@ const uploadAvatar = () => {
                 }}
               />
             </div>
-            <img width={"250px"} src={AvatarPreview} />
-
-            <div>
-              <button
-                type="submit"
-                disabled={!formik.isValid}
-                onClick={uploadAvatar}
-              >
-                Upload
-              </button>
-            </div>
-            <div>
+            <div className="profileFormField">
+            <img className="avatarPreview" src={AvatarPreview} />
+</div>
+            {uploadButton}
+            <div className="profileFormField">
               <button
                 type="submit"
                 disabled={!formik.isValid}
                 onClick={onSubmit}
+                className="saveButton"
               >
                 Save
               </button>
+            </div>
             </div>
           </div>
         );
