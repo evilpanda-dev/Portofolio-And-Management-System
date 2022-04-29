@@ -1,8 +1,10 @@
-﻿using CVapp.Domain.Models.Authentification;
+﻿using CVapp.Domain.Models.Authentificated;
+using CVapp.Domain.Models.Authentification;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Repository.GenericRepository;
+using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Repository.UserRepository;
 using LoggerService;
 
@@ -14,14 +16,16 @@ namespace CVapp.Infrastructure.Services
         private readonly ILoggerManager _logger;
        // private readonly IRepository<User> _repository;
         private readonly IUserRepository<User> _userRepository;
+        private readonly IUserProfileRepository<UserProfile> _userProfileRepository;
 
-        public UserService(ILoggerManager logger, IUserRepository<User> userRepository)
+        public UserService(ILoggerManager logger, IUserRepository<User> userRepository, IUserProfileRepository<UserProfile> userProfileRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
-        public UserDto Register(RegisterDto dto)
+        public UserDto Register(RegisterDto dto,UserProfileDto userProfileDto)
         {
             var user = new User
             {
@@ -55,6 +59,30 @@ namespace CVapp.Infrastructure.Services
             _userRepository.Create(user);
             
             _logger.LogInfo($"User {user.UserName} is successeful registered");
+
+            var userProfile = new UserProfile
+            {
+                FirstName = userProfileDto.FirstName,
+                LastName = userProfileDto.LastName,
+                BirthDate = userProfileDto.BirthDate,
+                Address = userProfileDto.Address,
+                City = userProfileDto.City,
+                Country = userProfileDto.Country,
+                PhoneNumber = userProfileDto.PhoneNumber,
+                AboutMe = userProfileDto.AboutMe,
+                UserId = user.Id
+            };
+            try
+            {
+                _userProfileRepository.Create(userProfile);
+                _logger.LogInfo($"Profile for {user.UserName} is successeful created");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Profile for {user.UserName} is not created");
+                throw new BadRequestException($"Profile for {user.UserName} is not created");
+            }
+
             return new UserDto
             {
                 Id = user.Id,
