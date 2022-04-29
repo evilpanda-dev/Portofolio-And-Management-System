@@ -85,7 +85,7 @@ namespace CVapp.Infrastructure.Services
             // return Ok(userProfileDto);
         }
 
-        public UserProfileDto SaveUserProfileData(string path, UserProfileDto userProfileDto)
+        public UserProfileDto SaveAvatar(string path, UserProfileDto userProfileDto)
         {
             var jwtCookie = _httpContext.Request.Cookies["jwt"];
             var token = _jwtService.Verify(jwtCookie);
@@ -94,21 +94,9 @@ namespace CVapp.Infrastructure.Services
 
             string message = "";
             var files = userProfileDto.Files;
-            var userProfile = new UserProfile
-            {
-                AboutMe = userProfileDto.AboutMe,
-                Address = userProfileDto.Address,
-                BirthDate = userProfileDto.BirthDate,
-                City = userProfileDto.City,
-                Country = userProfileDto.Country,
-                FirstName = userProfileDto.FirstName,
-                LastName = userProfileDto.LastName,
-                Id = userProfileDto.Id,
-                PhoneNumber = userProfileDto.PhoneNumber,
-                UserId = userId
-            };
-            userProfile = _userProfileRepository.Create(userProfile);
 
+            var userProfile = _userProfileRepository.GetByUserId(userId);
+            
             if (userProfile.Id > 0 && files != null && files.Length > 0)
             {
 
