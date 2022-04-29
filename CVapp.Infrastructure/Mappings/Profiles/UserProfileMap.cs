@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CVapp.Infrastructure.Mappings
+namespace CVapp.Infrastructure.Mappings.Profiles
 {
     public class UserProfileMap : Profile
     {
