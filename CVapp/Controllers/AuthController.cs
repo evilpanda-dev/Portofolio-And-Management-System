@@ -31,7 +31,8 @@ namespace CVapp.API.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterDto dto)
         {
-            var userDto = _userService.Register(dto);
+            var userProfileDto = new UserProfileDto();
+            var userDto = _userService.Register(dto,userProfileDto);
             return CreatedAtAction(nameof(Register), userDto);
 
         }
