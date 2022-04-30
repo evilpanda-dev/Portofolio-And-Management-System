@@ -4,6 +4,7 @@ using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.Data;
 using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Mappings.Profiles;
+using CVapp.Infrastructure.Repository.EducationSectionRepository;
 using CVapp.Infrastructure.Repository.GenericRepository;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Repository.UserRepository;
@@ -31,12 +32,14 @@ builder.Services.AddScoped<DbContext, Context>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 builder.Services.AddScoped(typeof(IUserProfileRepository), typeof(UserProfileRepository));
+builder.Services.AddScoped(typeof(IEducationRepository),typeof(EducationRepository));
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddAutoMapper(typeof(UserProfileMap));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
     {
