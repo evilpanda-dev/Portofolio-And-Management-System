@@ -21,5 +21,20 @@ namespace CVapp.API.Controllers
             var data = _contentService.GetEducationContent();
             return Ok(data);
         }
+
+        [HttpGet("skills")]
+        public IActionResult GetSkillsContent()
+        {
+            var data = _contentService.GetSkillContent();
+            return Ok(data);
+        }
+
+        [HttpPost("skills")]
+        public IActionResult PostSkillContent(SkillDto skillDto)
+        {
+            var data = _contentService.AddNewSkill(skillDto);
+            return Ok(data);
+        }
+        
     }
 }
