@@ -4,7 +4,7 @@ export const fetchSkills = createAsyncThunk(
   "skills/fetchSkills",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("/api/skills", {
+      const response = await fetch("https://localhost:5000/api/skills", {
         method: "GET",
       });
       if (!response.ok) {
@@ -33,10 +33,10 @@ export const addNewSkill = createAsyncThunk(
         name: skillName,
         range: skillRange,
       };
-      const response = await fetch("/api/skills", {
+      const response = await fetch("https://localhost:5000/api/skills", {
         method: "POST",
         headers: {
-          "Content-name": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(skill),
       });

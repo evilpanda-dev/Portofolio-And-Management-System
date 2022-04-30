@@ -4,7 +4,7 @@ export const fetchEducations = createAsyncThunk(
   "educations/fetchEducations",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("/api/educations", {
+      const response = await fetch("https://localhost:5000/api/educations", {
         method: "GET",
       });
       if (!response.ok) {
