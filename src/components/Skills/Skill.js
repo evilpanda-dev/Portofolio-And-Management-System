@@ -152,11 +152,11 @@ const Skills = (props) => {
               <ul className="skills">
                 {skillList.map((skill) => (
                   <li
-                    key={skill.skills.name}
-                    style={{ width: `${skill.skills.range}%` }}
+                    key={skill.name}
+                    style={{ width: `${skill.range}%` }}
                   >
                     <p>
-                      {skill.skills.name}
+                      {skill.name}
                       <span></span>
                     </p>
                   </li>
