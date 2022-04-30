@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CVapp.Domain.Models.Authentificated;
+using CVapp.Domain.Models.Content;
 using CVapp.Infrastructure.DTOs;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Mappings.Profiles
 {
-    public class UserProfileMap : Profile
+    public class MappingProfile : Profile
     {
-        public UserProfileMap()
+        public MappingProfile()
         {
             CreateMap<UserProfile, UserProfileDto>().ReverseMap()
                 .ForMember(u => u.Id, opt => opt.Ignore())
@@ -25,6 +26,8 @@ namespace CVapp.Infrastructure.Mappings.Profiles
                 .ForMember(u => u.AboutMe, opt => opt.MapFrom(u => u.AboutMe))
                 .ForMember(u => u.ModifiedDate, opt => opt.MapFrom(u => DateTime.Now))
                 .ForMember(u => u.UserId, opt => opt.Ignore());
+
+            CreateMap<Education, EducationDto>();
         }
     }
 }
