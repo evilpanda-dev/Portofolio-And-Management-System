@@ -5,7 +5,7 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 const TimeLine = () => {
   const educations = useSelector(
-    (state) => state.educationState.educationList.educations
+    (state) => state.educationState.educationList
   );
 
   const { status, error } = useSelector((state) => state.educationState);
