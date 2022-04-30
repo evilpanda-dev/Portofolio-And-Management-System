@@ -61,5 +61,10 @@ namespace CVapp.Infrastructure.Repository.SkillRepository
 
             return entity;
         }
+        public IEnumerable<Skill> GetAllSkills()
+        {
+            return Filter()
+                .ToList();
+        }
     }
 }

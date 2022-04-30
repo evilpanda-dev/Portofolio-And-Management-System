@@ -10,6 +10,6 @@ namespace CVapp.Infrastructure.Repository.SkillRepository
 {
     public interface ISkillRepository: IRepository<Skill>
     {
-        
+        public IEnumerable<Skill> GetAllSkills();
     }
 }
