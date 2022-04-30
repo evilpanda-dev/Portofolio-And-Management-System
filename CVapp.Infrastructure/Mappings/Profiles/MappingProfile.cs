@@ -28,6 +28,8 @@ namespace CVapp.Infrastructure.Mappings.Profiles
                 .ForMember(u => u.UserId, opt => opt.Ignore());
 
             CreateMap<Education, EducationDto>();
+            CreateMap<Skill, SkillDto>();
+           // CreateMap<Skill, SkillDto>().ReverseMap();
         }
     }
 }
