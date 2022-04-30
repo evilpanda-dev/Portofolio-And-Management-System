@@ -1,5 +1,6 @@
 ﻿using CVapp.Domain.Models.Authentificated;
 using CVapp.Domain.Models.Authentification;
+using CVapp.Domain.Models.Content;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -10,7 +11,9 @@ namespace CVapp.Infrastructure.Data
         private readonly string _connectionString = "Data Source=.;Initial Catalog=CVappDb;Integrated Security=True";
         public DbSet<User> Users { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
-
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+        
         public Context()
         {
         }
