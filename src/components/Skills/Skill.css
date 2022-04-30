@@ -4,8 +4,7 @@
   font-weight: bold;
   font-size: 25px;
   line-height: 120%;
-  color: #26c17e;
-}
+  color: #26c17e; }
 
 .skillLabel {
   font-family: Open Sans;
@@ -14,9 +13,7 @@
   font-size: 14px;
   line-height: 120%;
   color: #000000;
-  margin-left: 40px;
-  padding-right: 10px;
-}
+  margin-left: 40px; }
 
 .skillInput {
   width: 270px;
@@ -31,19 +28,17 @@
   line-height: 120%;
   color: #667081;
   display: inline-block;
-  margin-top: 20px;
-  padding-left: 10px;
-}
+  margin-top: 10px;
+  margin-left: 20px; }
 
 .skillDataWrapper {
   width: 90%;
-  height: 220px;
+  height: 300px;
   left: 34px;
   border: 1px solid #26c17e;
   box-sizing: border-box;
   border-radius: 5px;
-  border-color: #26c17e;
-}
+  border-color: #26c17e; }
 
 .submitButton {
   width: 103px;
@@ -57,24 +52,21 @@
   line-height: 120%;
   color: #ffffff;
   margin-left: 40px;
-}
+  margin-top: 20px; }
 
 .submitButton:hover {
   background-color: #26c17e;
   border: none;
-  transition: 200ms ease;
-}
+  transition: 200ms ease; }
 
 .submitButton:disabled,
 .submitButton[disabled] {
   border: 1px solid #999999;
   background-color: #cccccc;
-  color: #666666;
-}
+  color: #666666; }
 
 .rangeWrapper {
-  margin-bottom: 20px;
-}
+  margin-bottom: 20px; }
 
 .errorMessage {
   font-family: Open Sans;
@@ -88,32 +80,32 @@
   margin-left: 40px;
   color: red;
   height: 20%;
-}
+  margin-top: 5px; }
 
 .skills {
   margin-top: 50px;
   padding: 0;
-  width: calc(93% - 50px);
-}
+  width: calc(93% - 50px); }
+
 .skills li {
   display: block;
   position: relative;
   background-color: #26c17e;
   color: #fff;
   margin: 10px 0;
-  transition: width 300ms ease-in-out;
-}
+  transition: width 300ms ease-in-out; }
+
 .collapsed .skills li {
-  width: 0 !important;
-}
+  width: 0 !important; }
+
 .skills li p {
   padding: 10px;
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-  line-height: 120%;
-}
+  line-height: 120%; }
+
 .skills li span {
   position: absolute;
   right: 10px;
@@ -123,19 +115,16 @@
   text-align: right;
   font-weight: normal;
   color: #fff;
-  font-size: 11px;
-}
+  font-size: 11px; }
 
 .scale {
-  width: 90%;
-}
+  width: 90%; }
 
 .openEditButton {
   float: right;
   justify-content: flex-end;
   margin-right: 250px;
-  margin-top: -55px;
-}
+  margin-top: -55px; }
 
 .openEdit {
   background: #222935;
@@ -151,50 +140,43 @@
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-  line-height: 120%;
-}
+  line-height: 120%; }
+
 .openEdit:hover {
   background-color: #26c17e;
-  transition: 200ms ease;
-}
+  transition: 200ms ease; }
 
 .openEditIcon {
-  padding-right: 10px;
-}
+  padding-right: 10px; }
+
+.nameWrapper {
+  margin-top: 10px; }
+
+.rangeWrapper {
+  margin-top: 30px; }
 
 @media screen and (max-width: 600px) {
   .skillInput {
-    width: 100%;
-  }
+    width: 100%; }
   .rangeWrapper {
     height: 100%;
-    padding-bottom: 40px;
-  }
+    padding-bottom: 40px; }
   .skillDataWrapper {
     width: 100%;
-    height: 100%;
-  }
+    height: 100%; }
   .errorMessage {
     margin-top: 20px;
-    margin-left: 4px;
-  }
+    margin-left: 4px; }
   .skillLabel {
-    margin-top: 10px;
-  }
+    margin-top: 10px; }
   .submitButton {
-    margin-bottom: 20px;
-  }
-}
+    margin-bottom: 20px; } }
 
 @media screen and (max-width: 1200px) {
   .openEditButton {
     margin-right: 100px;
-    transition: 0.5s ease;
-  }
-}
+    transition: 0.5s ease; } }
 
 @media screen and (max-width: 600px) {
   .openEditButton {
-    margin-right: 0px;
-  }
-}
+    margin-right: 0px; } }
