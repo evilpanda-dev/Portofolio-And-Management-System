@@ -11,5 +11,7 @@ namespace CVapp.Infrastructure.Abstractions
     public interface IContentService
     {
         public IEnumerable<EducationDto> GetEducationContent();
+        public IEnumerable<SkillDto> GetSkillContent();
+        public SkillDto AddNewSkill(SkillDto skillDto);
     }
 }
