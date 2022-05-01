@@ -5,6 +5,7 @@ import Textarea from "../TextArea/TextArea";
 import * as Yup from "yup";
 import { UserContext } from "../../providers/UserProvider";
 import '../ProfileForm/ProfileForm.css';
+import Button from "../Button/Button";
 const initialValues = {
     FirstName: "",
     LastName: "",
@@ -132,6 +133,10 @@ if(AvatarPreview != ""){
                 Upload
               </button>
             </div>)
+}
+
+const buttonDesign = {
+  buttonClass: "profileFormData"
 }
 
   return (
@@ -306,6 +311,9 @@ if(AvatarPreview != ""){
               >
                 Save
               </button>
+            </div>
+            <div className="profileFormField">
+            <Button  address="/profileData" text="View profile Data" theme={buttonDesign}/>
             </div>
             </div>
           </div>
