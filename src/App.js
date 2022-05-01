@@ -12,6 +12,7 @@ import RequireAuth from "./components/RequireAuth/RequireAuth";
 import Layout from "./components/Layout/Layout";
 import { UserContext } from "./providers/UserProvider";
 import { UserProfileContext } from "./providers/UserProfileProvider";
+import UserProfileData from "./pages/UserProfileData/UserProfileData";
 
 const App = () => {
   const { pathname, hash, key } = useLocation();
@@ -77,6 +78,7 @@ const {setUserProfile} = useContext(UserProfileContext)
          </Route>
          <Route element={<RequireAuth allowedRoles={["Admin","User"]}/>}>
           <Route path="/profile" element={<UserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>} />
+          <Route path="/profileData" element={<UserProfileData setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>} />
           </Route>
 
           {/* catch all */}
