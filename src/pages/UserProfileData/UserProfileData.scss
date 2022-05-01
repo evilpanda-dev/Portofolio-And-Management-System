@@ -1,5 +1,5 @@
 .userProfileData {
-    margin-left: 18.5rem;
+    margin-left: 16rem;
     background-position: center;
     background-size: cover;
     height: 100vh;
@@ -7,17 +7,15 @@
   }
   
   .sideBarMenu.active ~ .userProfileData {
-    margin-left: 7.5rem;
+    margin-left: 5rem;
   }
-
-
 
 
   @media screen and (max-width: 600px) {
     .sideBarMenu ~ .userProfileData {
-      margin-left: 7.5rem;
+      margin-left: 5rem;
     }
       & ~ .userProfileData {
-        margin-left: 2.5rem;
+        margin-left: 5rem;
       }
     }
