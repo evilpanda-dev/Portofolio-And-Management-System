@@ -52,7 +52,8 @@ const {setUserProfile} = useContext(UserProfileContext)
       city: data.city,
     country: data.country,
   phoneNumber: data.phoneNumber,
-  aboutMe: data.aboutMe,})
+  aboutMe: data.aboutMe,
+id: data.id})
         });
     })();
   }, [pathname, hash, key]); // do this on route change
