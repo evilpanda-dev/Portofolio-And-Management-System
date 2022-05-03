@@ -3,6 +3,7 @@ using CVapp.Domain.Models.Content;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
+using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Repository.EducationSectionRepository;
 using CVapp.Infrastructure.Repository.SkillRepository;
 using Newtonsoft.Json;
@@ -85,6 +86,27 @@ namespace CVapp.Infrastructure.Services
                 Name = skill.Name,
                 Range = skill.Range
             };
+        }
+
+        public SkillDto UpdateSkillRange(string name, SkillDto skillDto)
+        {
+            try
+            {
+                var skill = _skillRepository.GetSkillByName(name);
+                if (skill == null)
+                {
+                    throw new SkillNotFoundException("Skill not found");
+                }
+                var propertyMapper = new PropertyMapper<SkillDto, Skill>(skillDto, skill);
+                propertyMapper.Map(skillDto, skill)
+                   .ForMember(x => x.Range);
+                _skillRepository.SaveChanges();
+            }
+            catch
+            {
+                throw new Exception("Error in updating skill");
+            }
+            return skillDto;
         }
 
         public void DeleteSkill(string name)
