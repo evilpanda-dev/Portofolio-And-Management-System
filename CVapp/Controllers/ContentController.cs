@@ -35,6 +35,13 @@ namespace CVapp.API.Controllers
             var data = _contentService.AddNewSkill(skillDto);
             return Ok(data);
         }
-        
+
+        [HttpDelete("deleteSkill/{name}")]
+        public IActionResult DeleteSkill(string name)
+        {
+             _contentService.DeleteSkill(name);
+            return Ok();
+        }
+
     }
 }
