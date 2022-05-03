@@ -36,13 +36,13 @@ namespace CVapp.API.Controllers
             _userProfileService = userProfileService;
             _userProfileRepository = userProfileRepository;
         }
-        
+
         [HttpPost("saveAvatar")]
         public IActionResult SendProfileData([FromForm] UserProfileDto userProfileDto)
         {
-                string path = _hostEnvironment.WebRootPath + "\\usersAvatar\\";
-                var userProfile = _userProfileService.SaveAvatar(path, userProfileDto);
-                return Ok(userProfile.Files);
+            string path = _hostEnvironment.WebRootPath + "\\usersAvatar\\";
+            var userProfile = _userProfileService.SaveAvatar(path, userProfileDto);
+            return Ok(userProfile.Files);
         }
 
 
@@ -85,9 +85,9 @@ namespace CVapp.API.Controllers
         [HttpPatch("updateProfile/{id}")]
         public IActionResult UpdateUserProfile(int id,UserProfileDto userProfileDto)
         {
-           var userProfile =  _userProfileService.UpdateUserProfileData(id,userProfileDto);
+            var userProfile =  _userProfileService.UpdateUserProfileData(id,userProfileDto);
             return StatusCode((int)HttpStatusCode.OK);
         }
-
+        
     }
 }
