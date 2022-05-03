@@ -13,7 +13,6 @@ import './DataTable.css'
 
 const DataTable = () =>{
     const {userProfile} = useContext(UserProfileContext);
-    console.log(userProfile)
     let data = [];
     // push user profile data to data array
     data.push(userProfile)
