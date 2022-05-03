@@ -2,6 +2,7 @@
 using CVapp.Domain.Models.Content;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
+using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Repository.EducationSectionRepository;
 using CVapp.Infrastructure.Repository.SkillRepository;
 using Newtonsoft.Json;
@@ -66,6 +67,12 @@ namespace CVapp.Infrastructure.Services
                 Name = skillDto.Name,
                 Range = skillDto.Range
             };
+            var skillFromDb = _skillRepository.GetSkillByName(skillDto.Name);
+            if (skillFromDb != null)
+            {
+                throw new DuplicateException("Skill already exists");
+            }
+            
             try
             {
                 _skillRepository.Create(skill);
@@ -79,7 +86,23 @@ namespace CVapp.Infrastructure.Services
                 Range = skill.Range
             };
         }
-        
-        
+
+        public void DeleteSkill(string name)
+        {
+            var skill = _skillRepository.GetSkillByName(name);
+            if (skill == null)
+            {
+                throw new SkillNotFoundException("Skill not found");
+            }
+            try
+            {
+                _skillRepository.Delete(skill);
+            }
+            catch
+            {
+                throw new Exception("Error in deleting skill");
+            }
+        }
+
     }
 }
