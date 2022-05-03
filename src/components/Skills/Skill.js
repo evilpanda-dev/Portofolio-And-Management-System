@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFormik, getIn } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewSkill, fetchSkills } from "../../features/skills/skillSlice";
+import { addNewSkill, fetchSkills,removeSkill } from "../../features/skills/skillSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import scale from "../../assets/images/scale.png";
@@ -66,6 +66,14 @@ const Skills = (props) => {
   const changeButtonState = () => {
     isEditing ? deactivateEdit() : activateEdit();
   };
+
+  const deleteSkill = (e) => {
+    e.preventDefault();
+    dispatch(removeSkill({skillName: type}));
+    setType("");
+    setRange("");
+  }
+
   return (
     <>
       <section id="skills">
@@ -144,6 +152,14 @@ const Skills = (props) => {
                     className="submitButton"
                   >
                     Add skill
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={deleteSkill}
+                    disabled={!formik.dirty || !formik.isValid}
+                    className="submitButton"
+                  >
+                    Remove
                   </button>
                 </form>
               </div>
