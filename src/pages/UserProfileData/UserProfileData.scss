@@ -28,6 +28,13 @@
     margin-top: 50px;
   }
 
+  .terminateAccountButtonContainer{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-top: 20px; 
+  }
+
   @media screen and (max-width: 600px) {
     .sideBarMenu ~ .userProfileData {
       margin-left: 5rem;
