@@ -2,16 +2,24 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchSkills = createAsyncThunk(
   "skills/fetchSkills",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue,dispatch }) => {
     try {
       const response = await fetch("https://localhost:5000/api/skills", {
         method: "GET",
-      });
+      }) 
+      // .then(res =>{
+      //   const skills = res.data
+      //   console.log(response)
+      //   dispatch(setSkill(skills));
+      // })
+
       if (!response.ok) {
         throw new Error("Server Error!");
       }
 
       const data = await response.json();
+      // dispatch(setSkill(data));
+      // console.log(data)
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -54,6 +62,25 @@ export const addNewSkill = createAsyncThunk(
   }
 );
 
+export const removeSkill = createAsyncThunk(
+  "skills/removeSkill",
+  async (skillData, { rejectWithValue, dispatch }) => {
+    const { skillName, skillRange } = skillData;
+    try {
+     
+ await fetch(`https://localhost:5000/api/deleteSkill/${skillName}`, {
+        method: 'DELETE'
+      })
+     // .then(response => response.json());
+
+      dispatch(deleteSkill(skillName));
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+
 export const skillSlice = createSlice({
   name: "skills",
   initialState: {
@@ -65,6 +92,14 @@ export const skillSlice = createSlice({
     setSkill: (state, action) => {
       state.skills.push(action.payload);
     },
+    deleteSkill:(state,action) =>{
+      //find index of the value for being deleted
+      const index = state.skills.findIndex(skill => skill.name === action.payload);
+      //remove the value from the array
+      if(index !== -1){
+        state.skills.splice(index,1);
+      }
+    }
   },
   extraReducers: {
     [fetchSkills.pending]: (state, action) => {
@@ -79,7 +114,8 @@ export const skillSlice = createSlice({
   },
 });
 
-const { setSkill } = skillSlice.actions;
+const { setSkill,deleteSkill } = skillSlice.actions;
+
 
 export const selectSkill = (state) => state?.skill;
 
