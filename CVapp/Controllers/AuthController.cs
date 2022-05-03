@@ -103,5 +103,12 @@ namespace CVapp.API.Controllers
             return Ok(new { message = "Succesfully logged out" });
         }
 
+        [HttpDelete("deleteUser/{id}")]
+        public IActionResult DeleteUserProfile(int id)
+        {
+            _userService.DeleteUser(id);
+            return Ok();
+        }
+
     }
 }
