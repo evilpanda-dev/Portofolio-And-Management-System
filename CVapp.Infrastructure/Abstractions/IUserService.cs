@@ -6,6 +6,6 @@ namespace CVapp.Infrastructure.Abstractions
     {
         public UserDto Register(RegisterDto userDto, UserProfileDto userProfileDto);
         public UserDto Login(LoginDto loginDto);
-        
+        public void DeleteUser(int id);
     }
 }

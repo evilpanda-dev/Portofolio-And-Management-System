@@ -132,6 +132,17 @@ namespace CVapp.Infrastructure.Services
             };
         }
 
-        
+        public void DeleteUser(int id)
+        {
+            try
+            {
+                _userRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw new BadRequestException("User not found!");
+            }
+        }        
+
     }
 }
