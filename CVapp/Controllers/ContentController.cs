@@ -1,6 +1,7 @@
 ﻿using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace CVapp.API.Controllers
 {
@@ -39,9 +40,17 @@ namespace CVapp.API.Controllers
         [HttpDelete("deleteSkill/{name}")]
         public IActionResult DeleteSkill(string name)
         {
-             _contentService.DeleteSkill(name);
+            _contentService.DeleteSkill(name);
             return Ok();
         }
 
+        [HttpPatch("updateSkill/{name}")]
+        public IActionResult UpdateSkill(string name, SkillDto skillDto)
+        {
+            _contentService.UpdateSkillRange(name, skillDto);
+            return StatusCode((int)HttpStatusCode.OK);
+
+        }
+        
     }
 }
