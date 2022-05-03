@@ -47,7 +47,7 @@ const {setUserProfile} = useContext(UserProfileContext)
           setImage(data.imgByte);
           setUserProfile({firstName: data.firstName,
             lastName: data.lastName,
-          birthDate: data.birthDate,
+          birthDate: (data.birthDate).toString().slice(0,10),
         address: data.address,
       city: data.city,
     country: data.country,
