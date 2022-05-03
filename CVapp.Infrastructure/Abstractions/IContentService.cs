@@ -14,5 +14,6 @@ namespace CVapp.Infrastructure.Abstractions
         public IEnumerable<SkillDto> GetSkillContent();
         public SkillDto AddNewSkill(SkillDto skillDto);
         public void DeleteSkill(string name);
+        public SkillDto UpdateSkillRange(string name,SkillDto skillDto);
     }
 }
