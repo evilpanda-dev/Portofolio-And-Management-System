@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { useFormik, getIn } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewSkill, fetchSkills,removeSkill } from "../../features/skills/skillSlice";
+import { addNewSkill, fetchSkills,removeSkill,updateSkillRange } from "../../features/skills/skillSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import scale from "../../assets/images/scale.png";
 import "../Skills/Skill.css";
+import { UserContext } from "../../providers/UserProvider";
 
 const Skills = (props) => {
   const dispatch = useDispatch();
@@ -17,12 +18,14 @@ const Skills = (props) => {
   const { status, error } = useSelector((state) => state.skills);
   const [type, setType] = useState("");
   const [range, setRange] = useState("");
+const {user} = useContext(UserContext);
 
   const handleAction = (e) => {
     e.preventDefault();
     dispatch(addNewSkill({ skillName: type, skillRange: range }));
     setType("");
     setRange("");
+    deactivateEdit();
   };
 
   const getStyles = (errors, fieldName) => {
@@ -72,13 +75,36 @@ const Skills = (props) => {
     dispatch(removeSkill({skillName: type}));
     setType("");
     setRange("");
+    deactivateEdit();
   }
 
-  return (
-    <>
-      <section id="skills">
-        <h1 className="skillSection">Skills</h1>
-        <div className="openEditButton">
+  const updateSkill =(e) => {
+    e.preventDefault();
+    dispatch(updateSkillRange({skillName: type, skillRange: range}));
+    setRange("")
+            setType("")
+            deactivateEdit();
+      //  fetch(`https://localhost:5000/api/updateProfile/${type}`, {
+      //   method:"PATCH",
+      //   body:JSON.stringify({
+      //     type:type,
+      //   range : range,
+      //  }),
+        
+      //   headers: new Headers({
+      //     "Content-Type": "application/json",
+      //   }),
+        
+      //     })
+      //     //.then((response) => response.json())
+      //     .then(setRange(""),
+      //     setType(""))
+  }
+
+  let editButton ;
+  if(user.role === "Admin"){
+editButton = (
+  <div className="openEditButton">
           <button className="openEdit" onClick={changeButtonState}>
             <i className="openEditIcon">
               <FontAwesomeIcon icon={solid("pen-to-square")} />
@@ -86,6 +112,17 @@ const Skills = (props) => {
             <span>Open edit</span>
           </button>
         </div>
+)
+  }
+  // } else if(isEditing){
+  //   deactivateEdit();
+  // }
+
+  return (
+    <>
+      <section id="skills">
+        <h1 className="skillSection">Skills</h1>
+        {editButton}
         {status === "loading" && (
           <div className="loadingContainer">
             <FontAwesomeIcon icon={solid("rotate")} className="loading" />
@@ -152,6 +189,14 @@ const Skills = (props) => {
                     className="submitButton"
                   >
                     Add skill
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={updateSkill}
+                    disabled={!formik.dirty || !formik.isValid}
+                    className="submitButton"
+                  >
+                    Update
                   </button>
                   <button
                     type="submit"
