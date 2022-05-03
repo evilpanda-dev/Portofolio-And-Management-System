@@ -62,6 +62,32 @@ export const addNewSkill = createAsyncThunk(
   }
 );
 
+export const updateSkillRange = createAsyncThunk(
+  "skills/updateSkill",
+  async (skillData, { rejectWithValue, dispatch }) => {
+    const { skillName, skillRange } = skillData;
+    try {
+      fetch(`https://localhost:5000/api/updateSkill/${skillName}`, {
+          method:"PATCH",
+          body:JSON.stringify({
+            name:skillName,
+          range : skillRange,
+         }),
+          
+          headers: new Headers({
+            "Content-Type": "application/json",
+          }),
+          
+            })
+
+
+      dispatch(updateSkill({name:skillName,range:skillRange}));
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const removeSkill = createAsyncThunk(
   "skills/removeSkill",
   async (skillData, { rejectWithValue, dispatch }) => {
@@ -99,8 +125,16 @@ export const skillSlice = createSlice({
       if(index !== -1){
         state.skills.splice(index,1);
       }
-    }
-  },
+    },
+    updateSkill:(state,action) =>{
+     // console.log(action.payload)
+      state.skills.map((skill)=>{
+        if(skill.name === action.payload.name){
+          skill.range = action.payload.range;
+        }
+      })
+  }
+},
   extraReducers: {
     [fetchSkills.pending]: (state, action) => {
       state.status = "loading";
@@ -114,7 +148,7 @@ export const skillSlice = createSlice({
   },
 });
 
-const { setSkill,deleteSkill } = skillSlice.actions;
+const { setSkill,deleteSkill,updateSkill } = skillSlice.actions;
 
 
 export const selectSkill = (state) => state?.skill;
