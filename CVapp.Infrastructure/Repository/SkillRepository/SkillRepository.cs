@@ -66,5 +66,10 @@ namespace CVapp.Infrastructure.Repository.SkillRepository
             return Filter()
                 .ToList();
         }
+        
+        public Skill GetSkillByName(string name)
+        {
+            return _dbSet.FirstOrDefault(n => n.Name == name);
+        }
     }
 }
