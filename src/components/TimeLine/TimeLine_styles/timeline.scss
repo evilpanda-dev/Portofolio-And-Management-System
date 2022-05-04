@@ -2,11 +2,11 @@
 @import "mixins";
 
 // Timeline
-@import 'timelineEditButton.scss';
 .timelineContainer {
   overflow-y: auto;
   min-height: 30vh;
   max-height: 80vh;
+  z-index: 1;
 }
 
 .educationSection {

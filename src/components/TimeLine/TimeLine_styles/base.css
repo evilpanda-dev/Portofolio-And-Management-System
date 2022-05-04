@@ -10,147 +10,11 @@
   width: 100%;
   clear: both; }
 
-.openEditButton {
-  float: right;
-  justify-content: flex-end;
-  margin-right: 250px;
-  margin-top: -55px; }
-
-.openEdit {
-  background: #222935;
-  cursor: pointer;
-  outline: inherit;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  width: 138px;
-  height: 40px;
-  color: #ffffff;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 120%; }
-
-.openEdit:hover {
-  background-color: #26c17e;
-  transition: 200ms ease; }
-
-.openEditIcon {
-  padding-right: 10px; }
-
-.dateWrapper {
-  margin-top: 10px; }
-
-.titleWrapper {
-  margin-top: 30px; }
-
-.educationLabel {
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 120%;
-  color: #000000;
-  margin-left: 40px; }
-
-.educationInput {
-  width: 270px;
-  height: 40px;
-  border: 1px solid #667081;
-  box-sizing: border-box;
-  border-radius: 5px;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 120%;
-  color: #667081;
-  display: inline-block;
-  margin-top: 10px;
-  margin-left: 20px; }
-
-.educationDataWrapper {
-  width: 90%;
-  height: 300px;
-  left: 34px;
-  border: 1px solid #26c17e;
-  box-sizing: border-box;
-  border-radius: 5px;
-  border-color: #26c17e; }
-
-.submitButton {
-  width: 103px;
-  height: 40px;
-  background: #222935;
-  border-radius: 5px;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 120%;
-  color: #ffffff;
-  margin-left: 40px;
-  margin-top: 20px; }
-
-.submitButton:hover {
-  background-color: #26c17e;
-  border: none;
-  transition: 200ms ease; }
-
-.submitButton:disabled,
-.submitButton[disabled] {
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666; }
-
-.titleWrapper {
-  margin-bottom: 20px; }
-
-.errorMessage {
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 120%;
-  position: absolute;
-  display: flex;
-  display: flex;
-  margin-left: 40px;
-  color: red;
-  height: 20%;
-  margin-top: 5px; }
-
-@media screen and (max-width: 600px) {
-  .educationInput {
-    width: 100%; }
-  .titleWrapper {
-    height: 100%;
-    padding-bottom: 40px; }
-  .educationDataWrapper {
-    width: 100%;
-    height: 100%; }
-  .errorMessage {
-    margin-top: 5px;
-    margin-left: 4px; }
-  .educationLabel {
-    margin-top: 10px; }
-  .submitButton {
-    margin-bottom: 20px; } }
-
-@media screen and (max-width: 1200px) {
-  .openEditButton {
-    margin-right: 100px;
-    transition: 0.5s ease; } }
-
-@media screen and (max-width: 600px) {
-  .openEditButton {
-    margin-right: 0px; } }
-
 .timelineContainer {
   overflow-y: auto;
   min-height: 30vh;
-  max-height: 80vh; }
+  max-height: 80vh;
+  z-index: 1; }
 
 .educationSection {
   font-family: Open Sans;
@@ -318,3 +182,157 @@
   width: 100%;
   height: 50vh;
   color: red; }
+
+.openEditButton {
+  float: right;
+  justify-content: flex-end;
+  margin-right: 250px;
+  margin-top: -55px; }
+
+.openEdit {
+  background: #222935;
+  cursor: pointer;
+  outline: inherit;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  width: 138px;
+  height: 40px;
+  color: #ffffff;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 120%; }
+
+.openEdit:hover {
+  background-color: #26c17e;
+  transition: 200ms ease; }
+
+.openEditIcon {
+  padding-right: 10px; }
+
+.dateWrapper {
+  margin-top: 10px; }
+
+.titleWrapper {
+  margin-top: 30px; }
+
+.textWrapper {
+  margin-top: 30px; }
+
+.educationLabel {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 120%;
+  color: #000000;
+  margin-left: 40px; }
+
+.educationInput {
+  width: 270px;
+  height: 40px;
+  border: 1px solid #667081;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 120%;
+  color: #667081;
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 20px; }
+
+.educationTextArea {
+  width: 400px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  color: #667081;
+  display: block;
+  margin-top: 10px;
+  margin-left: 20px; }
+
+.educationDataWrapper {
+  width: 90%;
+  height: 400px;
+  left: 34px;
+  border: 1px solid #26c17e;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border-color: #26c17e; }
+
+.submitButtonEducation {
+  width: 103px;
+  height: 40px;
+  background: #222935;
+  border-radius: 5px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 120%;
+  color: #ffffff;
+  margin-left: 40px;
+  margin-top: 40px; }
+
+.submitButtonEducation:hover {
+  background-color: #26c17e;
+  border: none;
+  transition: 200ms ease; }
+
+.submitButtonEducation:disabled,
+.submitButtonEducation[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666; }
+
+.titleWrapper {
+  margin-bottom: 20px; }
+
+.errorMessage {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 120%;
+  position: absolute;
+  display: flex;
+  display: flex;
+  margin-left: 40px;
+  color: red;
+  height: 20%;
+  margin-top: 5px; }
+
+@media screen and (max-width: 600px) {
+  .educationInput {
+    width: 100%; }
+  .titleWrapper {
+    height: 100%;
+    padding-bottom: 40px; }
+  .textWrapper {
+    margin-top: -25px; }
+  .educationDataWrapper {
+    width: 100%;
+    height: 100%; }
+  .errorMessage {
+    margin-top: 5px;
+    margin-left: 4px; }
+  .educationLabel {
+    margin-top: 10px; }
+  .submitButtonEducation {
+    margin-bottom: 20px; } }
+
+@media screen and (max-width: 1200px) {
+  .openEditButton {
+    margin-right: 100px;
+    transition: 0.5s ease; } }
+
+@media screen and (max-width: 600px) {
+  .openEditButton {
+    margin-right: 0px; } }

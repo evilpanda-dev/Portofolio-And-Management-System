@@ -38,6 +38,10 @@
     margin-top: 30px;
   }
 
+  .textWrapper{
+      margin-top: 30px;
+  }
+
   .educationLabel {
     font-family: Open Sans;
     font-style: normal;
@@ -67,10 +71,24 @@
     margin-left: 20px;
   //  padding-left: 40px;
   }
+
+  .educationTextArea{
+    width: 400px;
+    //border: 1px solid #667081;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    color: #667081;
+    display: block;
+    margin-top: 10px;
+    margin-left: 20px;
+  }
   
   .educationDataWrapper {
     width: 90%;
-    height: 300px;
+    height: 400px;
     left: 34px;
     border: 1px solid #26c17e;
     box-sizing: border-box;
@@ -78,7 +96,7 @@
     border-color: #26c17e;
   }
   
-  .submitButton {
+  .submitButtonEducation {
     width: 103px;
     height: 40px;
     background: #222935;
@@ -90,17 +108,18 @@
     line-height: 120%;
     color: #ffffff;
     margin-left: 40px;
-    margin-top: 20px;
+    margin-top: 40px;
+    
   }
   
-  .submitButton:hover {
+  .submitButtonEducation:hover {
     background-color: #26c17e;
     border: none;
     transition: 200ms ease;
   }
   
-  .submitButton:disabled,
-  .submitButton[disabled] {
+  .submitButtonEducation:disabled,
+  .submitButtonEducation[disabled] {
     border: 1px solid #999999;
     background-color: #cccccc;
     color: #666666;
@@ -134,7 +153,9 @@
       height: 100%;
       padding-bottom: 40px;
     }
-  
+  .textWrapper{
+margin-top: -25px;
+  }
     .educationDataWrapper {
       width: 100%;
       height: 100%;
@@ -147,7 +168,7 @@
     .educationLabel {
       margin-top: 10px;
     }
-    .submitButton {
+    .submitButtonEducation {
       margin-bottom: 20px;
     }
   }
