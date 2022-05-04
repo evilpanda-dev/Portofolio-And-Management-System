@@ -2,7 +2,7 @@
 @import "mixins";
 
 // Timeline
-
+@import 'timelineEditButton.scss';
 .timelineContainer {
   overflow-y: auto;
   min-height: 30vh;
