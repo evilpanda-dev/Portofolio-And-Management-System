@@ -23,6 +23,27 @@ namespace CVapp.API.Controllers
             return Ok(data);
         }
 
+        [HttpPost("addEducation")]
+        public IActionResult AddEducationContent(EducationDto educationDto)
+        {
+            var data = _contentService.AddNewEducation(educationDto);
+            return Ok(data);
+        }
+
+        [HttpPatch("updateEducation/{id}")]
+        public IActionResult UpdateEducationContent(int id, EducationDto educationDto)
+        {
+            var data = _contentService.UpdateEducation(id, educationDto);
+            return Ok(data);
+        }
+
+        [HttpDelete("deleteEducation/{id}")]
+        public IActionResult DeleteEducationContent(int id)
+        {
+            _contentService.DeleteEducation(id);
+            return Ok();
+        }
+
         [HttpGet("skills")]
         public IActionResult GetSkillsContent()
         {
@@ -51,6 +72,7 @@ namespace CVapp.API.Controllers
             return StatusCode((int)HttpStatusCode.OK);
 
         }
+
         
     }
 }
