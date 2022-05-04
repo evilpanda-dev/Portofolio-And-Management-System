@@ -126,5 +126,75 @@ namespace CVapp.Infrastructure.Services
             }
         }
 
+        public EducationDto AddNewEducation(EducationDto educationDto)
+        {
+            var education = new Education
+            {
+                Date = educationDto.Date,
+                Title = educationDto.Title,
+                Text = educationDto.Text
+            };
+            var educationFromDb = _educationRepository.GetById(educationDto.Id);
+            if (educationFromDb != null)
+            {
+                throw new DuplicateException("Skill already exists");
+            }
+
+            try
+            {
+                _educationRepository.Create(education);
+            }
+            catch
+            {
+                throw new Exception("Error in adding new education");
+            }
+            return new EducationDto
+            {
+                Date = education.Date,
+                Title = education.Title,
+                Text = education.Text
+            };
+        }
+
+        public EducationDto UpdateEducation(int id, EducationDto educationDto)
+        {
+            try
+            {
+                var education = _educationRepository.GetById(id);
+                if (education == null)
+                {
+                    throw new EducationNotFoundException("Education not found");
+                }
+                var propertyMapper = new PropertyMapper<EducationDto, Education>(educationDto, education);
+                propertyMapper.Map(educationDto, education)
+                   .ForMember(x => x.Date)
+                   .ForMember(x => x.Title)
+                   .ForMember(x => x.Text);
+                _educationRepository.SaveChanges();
+            }
+            catch
+            {
+                throw new Exception("Error in updating education");
+            }
+            return educationDto;
+        }
+
+        public void DeleteEducation(int id)
+        {
+            var education = _educationRepository.GetById(id);
+            if (education == null)
+            {
+                throw new EducationNotFoundException("Education not found");
+            }
+            try
+            {
+                _educationRepository.Delete(education);
+            }
+            catch
+            {
+                throw new Exception("Error in deleting education");
+            }
+        }
+
     }
 }
