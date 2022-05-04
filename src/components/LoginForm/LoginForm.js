@@ -89,6 +89,7 @@ setUser({userName: userName, role: role})
               <button
                 id="showLogin"
                 className="showLoginButton"
+                type="button"
                 onClick={changeButtonState}
               >
                 Login
