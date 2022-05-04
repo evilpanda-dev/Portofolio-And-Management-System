@@ -82,6 +82,7 @@ const RegistrationForm = () => {
               <button
                 id="showRegister"
                 className="showRegisterButton"
+                type="button"
                 onClick={changeButtonState}
               >
                 Register
@@ -112,7 +113,7 @@ const RegistrationForm = () => {
                     control="input"
                     type="email"
                     label="Email"
-                    name="email"
+                    name="registrationEmail"
                     placeholder="Enter your email"
                     value={Email}
                     onChange={(e) => {
@@ -126,7 +127,7 @@ const RegistrationForm = () => {
                     control="input"
                     type="password"
                     label="Password"
-                    name="password"
+                    name="registrationPassword"
                     placeholder="Enter your password"
                     value={Password}
                     onChange={(e) => {
