@@ -7,18 +7,21 @@ import { UserContext } from "../../providers/UserProvider";
 import { useDispatch } from "react-redux";
 import { useFormik,getIn } from "formik";
 import * as Yup from "yup";
+import { addNewEducation,updateEducation,removeEducation } from "../../features/education/educationSlice";
 
 const TimeLine = () => {
   const educations = useSelector(
     (state) => state.educationState.educationList
   );
 
+
   const { status, error } = useSelector((state) => state.educationState);
   const isEditing = useSelector((state) => state.editEducationState.editEducation);
 const {user } = useContext(UserContext);
 const dispatch= useDispatch();
-const [type, setType] = useState("");
-  const [range, setRange] = useState("");
+const [date,setDate] = useState("")
+const [title,setTitle] = useState("")
+const [description,setDescription] = useState("")
 
 const activateEdit = () => {
   dispatch({ type: "EDITEDUCATION_ACTIVATED", payload: true });
@@ -55,32 +58,63 @@ editButton = (
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Skill name is a required field"),
+    // name: Yup.string().required("Skill name is a required field"),
 
-    range: Yup.number()
-      .typeError("Skill Range must be a “number” from 10 to 100.")
-      .min(10, "Skill range must be greater than or equal to 10")
-      .max(100, "Skill range must be less than or equal to 100")
-      .required("Skill range is a required field"),
+    // range: Yup.number()
+    //   .typeError("Skill Range must be a “number” from 10 to 100.")
+    //   .min(10, "Skill range must be greater than or equal to 10")
+    //   .max(100, "Skill range must be less than or equal to 100")
+    //   .required("Skill range is a required field"),
+    date: Yup.number().required("Date is a required field")
+    .typeError("Date must be a “number”"),
+    title: Yup.string().required("Title is a required field")
+    .min(5, "Title must be greater than or equal to 5")
+    .max(100, "Title must be less than or equal to 50"),
+    description: Yup.string().required("Description is a required field")
+    .min(5, "Description must be greater than or equal to 5")
+    .max(1000, "Description must be less than or equal to 50"),
   });
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      range: "",
+      date: "",
+      title: "",
+      description: "",
     },
-
     validationSchema: validationSchema,
   });
 
 
   const handleAction = (e) => {
     e.preventDefault();
-    //dispatch(addNewSkill({ skillName: type, skillRange: range }));
-    setType("");
-    setRange("");
+    dispatch(addNewEducation({ educationDate: date, educationTitle: title, educationDescription: description }));
+    setDate("");
+    setTitle("");
+    setDescription("");
     deactivateEdit();
   };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const enteredId = prompt("Enter the id of the education you want to update");
+    //setId(enteredId);
+dispatch(updateEducation({ educationId: enteredId, educationDate: date, educationTitle: title, educationDescription: description }));
+setDate("");
+    setTitle("");
+    setDescription("");
+    deactivateEdit();
+  }
+
+  const handleDelete = (e) =>{
+    e.preventDefault();
+    const enteredId = prompt("Enter the id of the education you want to remove");
+    //setId(enteredId);
+    dispatch(removeEducation({ educationId: enteredId }));
+    setDate("");
+    setTitle("");
+    setDescription("");
+    deactivateEdit();
+  }
 
   return (
     <section id="timeLine">
@@ -102,68 +136,68 @@ editButton = (
               <div className="educationDataWrapper">
                 <form id="educationForm">
                   <div className="dateWrapper">
-                    <label htmlFor="type" className="educationLabel">
-                      Skill name:{" "}
+                    <label htmlFor="date" className="educationLabel">
+                      Year of graduation : 
                     </label>
                     <input
                       id="type"
-                      name="name"
+                      name="date"
                       type="text"
-                      placeholder="Enter skill name"
-                      value={type}
+                      placeholder="Enter date"
+                      value={date}
                       onChange={(e) => {
-                        setType(e.target.value);
+                        setDate(e.target.value);
                         formik.handleChange(e);
                       }}
                       className="educationInput"
-                      style={getStyles(formik.errors, "name")}
+                      style={getStyles(formik.errors, "date")}
                     />
-                    {formik.errors.name ? (
-                      <div className="errorMessage">{formik.errors.name}</div>
+                    {formik.errors.date ? (
+                      <div className="errorMessage">{formik.errors.date}</div>
                     ) : null}
                   </div>
 
                   <div className="titleWrapper">
-                    <label htmlFor="level" className="educationLabel">
-                      Skill range:{" "}
+                    <label htmlFor="title" className="educationLabel">
+                      Name of institution : 
                     </label>
                     <input
-                      id="level"
-                      name="range"
+                      id="title"
+                      name="title"
                       type="text"
-                      placeholder="Enter skill range"
-                      value={range}
+                      placeholder="Enter the name of institution"
+                      value={title}
                       onChange={(e) => {
-                        setRange(e.target.value);
+                        setTitle(e.target.value);
                         formik.handleChange(e);
                       }}
                       className="educationInput"
-                      style={getStyles(formik.errors, "range")}
+                      style={getStyles(formik.errors, "title")}
                     />
-                    {formik.errors.range ? (
-                      <div className="errorMessage">{formik.errors.range}</div>
+                    {formik.errors.title ? (
+                      <div className="errorMessage">{formik.errors.title}</div>
                     ) : null}
                   </div>
 
                   <div className="textWrapper">
-                    <label htmlFor="type" className="educationLabel">
-                      Skill name:{" "}
+                    <label htmlFor="description" className="educationLabel">
+                      Write something interesting about your qualification :
                     </label>
                     <textarea
-                      id="type"
-                      name="name"
+                      id="description"
+                      name="description"
                       type="text"
-                      placeholder="Enter skill name"
-                      value={type}
+                      placeholder="How was your experience?"
+                      value={description}
                       onChange={(e) => {
-                        setType(e.target.value);
+                        setDescription(e.target.value);
                         formik.handleChange(e);
                       }}
                       className="educationTextArea"
-                      style={getStyles(formik.errors, "name")}
+                      style={getStyles(formik.errors, "description")}
                     />
-                    {formik.errors.name ? (
-                      <div className="errorMessage">{formik.errors.name}</div>
+                    {formik.errors.description ? (
+                      <div className="errorMessage">{formik.errors.description}</div>
                     ) : null}
                   </div>
 
@@ -173,11 +207,11 @@ editButton = (
                     disabled={!formik.dirty || !formik.isValid}
                     className="submitButtonEducation"
                   >
-                    Add skill
+                    Add
                   </button>
                   <button
                     type="submit"
-                    //onClick={updateSkill}
+                    onClick={handleUpdate}
                     disabled={!formik.dirty || !formik.isValid}
                     className="submitButtonEducation"
                   >
@@ -185,8 +219,8 @@ editButton = (
                   </button>
                   <button
                     type="submit"
-                    //onClick={deleteSkill}
-                    disabled={!formik.dirty || !formik.isValid}
+                    onClick={handleDelete}
+                   //disabled={!formik.dirty || !formik.isValid}
                     className="submitButtonEducation"
                   >
                     Remove
