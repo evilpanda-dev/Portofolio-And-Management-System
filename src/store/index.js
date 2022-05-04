@@ -9,12 +9,14 @@ import skillReducer from "../features/skills/skillSlice";
 import { openEditreducer } from "../store/reducers/openEditReducer";
 import { loginButtonReducer } from "./reducers/loginButtonReducer";
 import { registerButtonReducer } from "./reducers/registerButtonReducer";
+import { editEducationReducer } from "./reducers/editEducationReducer";
 
 const rootReducer = combineReducers({
   visibilityState: toggleButtonReducer,
   educationState: educationReducer,
   skills: skillReducer,
   editState: openEditreducer,
+  editEducationState: editEducationReducer,
   popupState: loginButtonReducer,
   registerPopupState: registerButtonReducer,
 });
