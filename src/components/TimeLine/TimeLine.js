@@ -145,11 +145,33 @@ editButton = (
                     ) : null}
                   </div>
 
+                  <div className="textWrapper">
+                    <label htmlFor="type" className="educationLabel">
+                      Skill name:{" "}
+                    </label>
+                    <textarea
+                      id="type"
+                      name="name"
+                      type="text"
+                      placeholder="Enter skill name"
+                      value={type}
+                      onChange={(e) => {
+                        setType(e.target.value);
+                        formik.handleChange(e);
+                      }}
+                      className="educationTextArea"
+                      style={getStyles(formik.errors, "name")}
+                    />
+                    {formik.errors.name ? (
+                      <div className="errorMessage">{formik.errors.name}</div>
+                    ) : null}
+                  </div>
+
                   <button
                     type="submit"
                     onClick={handleAction}
                     disabled={!formik.dirty || !formik.isValid}
-                    className="submitButton"
+                    className="submitButtonEducation"
                   >
                     Add skill
                   </button>
@@ -157,7 +179,7 @@ editButton = (
                     type="submit"
                     //onClick={updateSkill}
                     disabled={!formik.dirty || !formik.isValid}
-                    className="submitButton"
+                    className="submitButtonEducation"
                   >
                     Update
                   </button>
@@ -165,7 +187,7 @@ editButton = (
                     type="submit"
                     //onClick={deleteSkill}
                     disabled={!formik.dirty || !formik.isValid}
-                    className="submitButton"
+                    className="submitButtonEducation"
                   >
                     Remove
                   </button>
