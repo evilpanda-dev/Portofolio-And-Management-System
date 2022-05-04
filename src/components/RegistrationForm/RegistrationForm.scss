@@ -12,7 +12,7 @@
 }
 
 .popup {
-  position: absolute;
+  position: fixed;
   top: -150%;
   left: 100vh;
   opacity: 0;
@@ -27,6 +27,7 @@
 }
 
 .popup.active {
+  z-index: 2;
   top: 50%;
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
