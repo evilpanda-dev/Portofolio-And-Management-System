@@ -113,7 +113,17 @@ editButton = (
           </button>
         </div>
 )
-  }
+  } 
+
+  
+  useEffect(()=>{
+    if(user.userId == undefined){
+      deactivateEdit()
+    }
+      },[isEditing])
+    
+
+
   // } else if(isEditing){
   //   deactivateEdit();
   // }

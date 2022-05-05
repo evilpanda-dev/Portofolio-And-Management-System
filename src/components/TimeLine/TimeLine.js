@@ -2,7 +2,7 @@ import "../TimeLine/TimeLine_styles/base.css";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { useContext,useState } from "react";
+import { useContext,useState,useEffect } from "react";
 import { UserContext } from "../../providers/UserProvider";
 import { useDispatch } from "react-redux";
 import { useFormik,getIn } from "formik";
@@ -47,7 +47,13 @@ editButton = (
           </button>
         </div>
 )
-  }
+  } 
+
+  useEffect(()=>{
+if(user.userId == undefined){
+  deactivateEdit()
+}
+  },[isEditing])
 
   const getStyles = (errors, fieldName) => {
     if (getIn(errors, fieldName)) {
