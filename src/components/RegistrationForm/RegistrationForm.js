@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import LoginForm from "../LoginForm/LoginForm.js";
+import Alert from "@mui/material/Alert";
+import AlertWindow from "../AlertWindow/AlertWindow.js";
 
 const RegistrationForm = () => {
   const [UserName, setUserName] = useState("");
@@ -19,18 +21,18 @@ const RegistrationForm = () => {
 
   const initialValues = {
     userName: "",
-    email: "",
-    password: "",
+    registrationEmail: "",
+    registrationPassword: "",
   };
 
   const validationSchema = Yup.object({
     userName: Yup.string().required("Required").min(6, "Too Short!"),
-    email: Yup.string().email("Invalid email format").required("Required"),
-    password: Yup.string()
+    registrationEmail: Yup.string().email("Invalid email format").required("Required"),
+    registrationPassword: Yup.string()
       .required("Required")
       .min(8, "Password must be at least 8 characters long"),
   });
-
+let alert;
   const onSubmit = async () => {
     const response = await fetch("https://localhost:5000/api/register", {
       method: "POST",
@@ -40,10 +42,33 @@ const RegistrationForm = () => {
         Email,
         Password,
       }),
-    });
-    if (response.status === 201) {
-      setRedirect(true);
-    }
+    })
+    .then(response => {
+      if (response.status === 201) {
+        setRedirect(true);
+        alert = (
+          // showAlertWindow("success","Account created successfully",true)
+          <AlertWindow message="Account created successfully" alertType="success"  state={true}/>
+        )
+      }
+      else {
+        //return response.text().then(text => { throw new Error(text) })
+        return response.json().then(text => { throw new Error(text.Message) })
+      }
+    })
+    .catch(error => {
+      // console.log('caught it!',error.message);
+      alert = (
+        // showAlertWindow("error",error.message,true)
+        <AlertWindow message={error.message} alertType="error" state={true}/>
+      )
+    })
+    // if (response.status === 201) {
+    //   setRedirect(true);
+    // } else {
+    //  // alert(response)
+    //  //console.log(response)
+    // }
   };
 
   const activateLogin = () => {
@@ -78,6 +103,7 @@ const RegistrationForm = () => {
       {(formik) => {
         return (
           <Form>
+            {alert}
             <div className="registerButton">
               <button
                 id="showRegister"
