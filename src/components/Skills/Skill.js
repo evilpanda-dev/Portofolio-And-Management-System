@@ -8,7 +8,8 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import scale from "../../assets/images/scale.png";
 import "../Skills/Skill.css";
 import { UserContext } from "../../providers/UserProvider";
-
+import AlertWindow from "../AlertWindow/AlertWindow";
+import { AlertContext } from "../../providers/AlertProvider";
 const Skills = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -19,10 +20,33 @@ const Skills = (props) => {
   const [type, setType] = useState("");
   const [range, setRange] = useState("");
 const {user} = useContext(UserContext);
-
+const {setAlert} = useContext(AlertContext);
   const handleAction = (e) => {
     e.preventDefault();
-    dispatch(addNewSkill({ skillName: type, skillRange: range }));
+    dispatch(addNewSkill({ skillName: type, skillRange: range }))
+    .then((data) => {
+      if(data.meta.requestStatus == "fulfilled"){
+        setAlert({appAlerts:
+          alert = (
+          <AlertWindow message="Skill added successefully" alertType="success"/>
+        )})
+      } 
+      else {
+        //return response.text().then(text => { throw new Error(text) })
+        //return data.json().then(text => { throw new Error(text.Message) })
+        throw new Error(data.payload)
+      }
+      })
+      .catch(error => {
+      
+      // console.log('caught it!',error.message);
+      setAlert({appAlerts:
+        alert = (
+        // showAlertWindow("error",error.message,true)
+        <AlertWindow message={error.message} alertType="error" />
+      )})
+      })
+      dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setType("");
     setRange("");
     deactivateEdit();
@@ -72,7 +96,30 @@ const {user} = useContext(UserContext);
 
   const deleteSkill = (e) => {
     e.preventDefault();
-    dispatch(removeSkill({skillName: type}));
+    dispatch(removeSkill({skillName: type}))
+    .then((data) => {
+      if(data.meta.requestStatus == "fulfilled"){
+        setAlert({appAlerts:
+          alert = (
+          <AlertWindow message="Skill removed successefully" alertType="success"/>
+        )})
+      } 
+      else {
+        //return response.text().then(text => { throw new Error(text) })
+        //return data.json().then(text => { throw new Error(text.Message) })
+        throw new Error(data.payload)
+      }
+      })
+      .catch(error => {
+      
+      // console.log('caught it!',error.message);
+      setAlert({appAlerts:
+        alert = (
+        // showAlertWindow("error",error.message,true)
+        <AlertWindow message={error.message} alertType="error" />
+      )})
+      })
+      dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setType("");
     setRange("");
     deactivateEdit();
@@ -80,7 +127,30 @@ const {user} = useContext(UserContext);
 
   const updateSkill =(e) => {
     e.preventDefault();
-    dispatch(updateSkillRange({skillName: type, skillRange: range}));
+    dispatch(updateSkillRange({skillName: type, skillRange: range}))
+    .then((data) => {
+      if(data.meta.requestStatus == "fulfilled"){
+        setAlert({appAlerts:
+          alert = (
+          <AlertWindow message="Skill updated successefully" alertType="success"/>
+        )})
+      } 
+      else {
+        //return response.text().then(text => { throw new Error(text) })
+        //return data.json().then(text => { throw new Error(text.Message) })
+        throw new Error(data.payload)
+      }
+      })
+      .catch(error => {
+      
+      // console.log('caught it!',error.message);
+      setAlert({appAlerts:
+        alert = (
+        // showAlertWindow("error",error.message,true)
+        <AlertWindow message={error.message} alertType="error" />
+      )})
+      })
+      dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setRange("")
             setType("")
             deactivateEdit();
