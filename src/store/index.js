@@ -10,6 +10,7 @@ import { openEditreducer } from "../store/reducers/openEditReducer";
 import { loginButtonReducer } from "./reducers/loginButtonReducer";
 import { registerButtonReducer } from "./reducers/registerButtonReducer";
 import { editEducationReducer } from "./reducers/editEducationReducer";
+import { alertWindowReducer } from "./reducers/alertWindowReducer";
 
 const rootReducer = combineReducers({
   visibilityState: toggleButtonReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   editEducationState: editEducationReducer,
   popupState: loginButtonReducer,
   registerPopupState: registerButtonReducer,
+  alertWindowState : alertWindowReducer,
 });
 
 const persistConfig = {
