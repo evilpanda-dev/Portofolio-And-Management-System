@@ -6,123 +6,203 @@ import * as Yup from "yup";
 import { UserContext } from "../../providers/UserProvider";
 import '../ProfileForm/ProfileForm.css';
 import Button from "../Button/Button";
+import { updateUserProfile } from "../../features/profileFormThunks";
+import { useDispatch } from "react-redux";
+import { AlertContext } from "../../providers/AlertProvider";
+import AlertWindow from "../AlertWindow/AlertWindow";
+import { uploadProfileAvatar } from "../../features/profileFormThunks";
+
 const initialValues = {
-    FirstName: "",
-    LastName: "",
-    BirthDate: "",
-    Address: "",
-    City: "",
-    Country: "",
-    PhoneNumber: "",
-    AboutMe: "",
-    Avatar: "",
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    address: "",
+    city: "",
+    country: "",
+    phoneNumber: "",
+    aboutMe: "",
+    avatar: "",
   };
 
   const validationSchema = Yup.object({
-    FirstName: Yup.string("First Name must be a text")
+    firstName: Yup.string("First Name must be a text")
       .min(3, "First Name must be at least 6 characters")
       .max(50, "First Name must be less than 50 characters"),
-    LastName: Yup.string("Last Name must be a text")
+    lastName: Yup.string("Last Name must be a text")
       .min(3, "Last Name must be at least 6 characters")
       .max(50, "Last Name must be less than 50 characters"),
-    BirthDate: Yup.date("Birth Date must be a date"),
-    Address: Yup.string("Address must be a text")
+    birthDate: Yup.date("Birth Date must be a date"),
+    address: Yup.string("Address must be a text")
       .min(6, "Address must be at least 6 characters")
       .max(50, "Address must be less than 50 characters"),
-    City: Yup.string("City must be a text")
+    city: Yup.string("City must be a text")
       .min(3, "City must be at least 6 characters")
       .max(50, "City must be less than 50 characters"),
-    Country: Yup.string("Country must be a text")
+    country: Yup.string("Country must be a text")
       .min(6, "Country must be at least 6 characters")
       .max(50, "Country must be less than 50 characters"),
-    PhoneNumber: Yup.number("Phone Number must be a number"),
-    AboutMe: Yup.string("About Me must be a text")
+    phoneNumber: Yup.number("Phone Number must be a number"),
+    aboutMe: Yup.string("About Me must be a text")
       .min(6, "About Me must be at least 6 characters")
       .max(100, "About Me must be less than 50 characters"),
   });
 
 const ProfileForm = () => {
-  const [FirstName, setFirstName] = useState("");
-  const [LastName, setLastName] = useState("");
-  const [BirthDate, setBirthDate] = useState("");
-  const [Address, setAddress] = useState("");
-  const [City, setCity] = useState("");
-  const [Country, setCountry] = useState("");
-  const [PhoneNumber, setPhoneNumber] = useState("");
-  const [AboutMe, setAboutMe] = useState("");
-  const [Avatar, setAvatar] = useState("");
-  const [AvatarPreview, setAvatarPreview] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [aboutMe, setAboutMe] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState("");
   const { user } = useContext(UserContext)
+  const dispatch = useDispatch();
+  const {setAlert} = useContext(AlertContext)
 let uploadButton;
   let data = new FormData();
-    // data.append("FirstName",FirstName);
-    // data.append("LastName",LastName);
-    // data.append("BirthDate",BirthDate);
-    // data.append("Address",Address);
-    // data.append("City",City);
-    // data.append("Country",Country);
-    // data.append("PhoneNumber",PhoneNumber);
-    // data.append("AboutMe",AboutMe);
-    data.append("files", Avatar);
+    // data.append("firstName",firstName);
+    // data.append("lastName",lastName);
+    // data.append("birthDate",birthDate);
+    // data.append("address",address);
+    // data.append("city",city);
+    // data.append("country",country);
+    // data.append("phoneNumber",phoneNumber);
+    // data.append("aboutMe",aboutMe);
+    data.append("files", avatar);
 
     const userId = user?.userId;
 
-
+let alert
   const onSubmit = () => {
     // let data = new FormData();
-    // data.append("FirstName",FirstName);
-    // data.append("LastName",LastName);
-    // data.append("BirthDate",BirthDate);
-    // data.append("Address",Address);
-    // data.append("City",City);
-    // data.append("Country",Country);
-    // data.append("PhoneNumber",PhoneNumber);
-    // data.append("AboutMe",AboutMe);
-    // data.append("Files", Avatar);
-    return fetch(`https://localhost:5000/api/updateProfile/${userId}`, {
-      method:"PATCH",
-      body:JSON.stringify({
-      firstName : FirstName,
-      lastName : LastName,
-      birthDate : BirthDate,
-      address : Address,
-      city : City,
-      country : Country,
-      phoneNumber : PhoneNumber,
-      aboutMe : AboutMe}),
+    // data.append("firstName",firstName);
+    // data.append("lastName",lastName);
+    // data.append("birthDate",birthDate);
+    // data.append("address",address);
+    // data.append("city",city);
+    // data.append("country",country);
+    // data.append("phoneNumber",phoneNumber);
+    // data.append("aboutMe",aboutMe);
+    // data.append("Files", avatar);
+    // return fetch(`https://localhost:5000/api/updateProfile/${userId}`, {
+    //   method:"PATCH",
+    //   body:JSON.stringify({
+    //   firstName : firstName,
+    //   lastName : lastName,
+    //   birthDate : birthDate,
+    //   address : address,
+    //   city : city,
+    //   country : country,
+    //   phoneNumber : phoneNumber,
+    //   aboutMe : aboutMe}),
       
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
+    //   headers: new Headers({
+    //     "Content-Type": "application/json",
+    //   }),
       
-        })
+    //     })
         //.then((response) => response.json())
-        .then(setFirstName(""),
-        setLastName(""),
+        dispatch(updateUserProfile({
+          userId : userId,
+          firstName : firstName,
+          lastName : lastName,
+          birthDate : birthDate,
+          address : address,
+          city : city,
+          country : country,
+          phoneNumber : phoneNumber,
+          aboutMe : aboutMe,
+        }))
+        .then((data) => {
+          if(data.meta.requestStatus == "fulfilled"){
+            // setRedirect(true);
+            // // setUser({userName : data.payload.userName,role : data.payload.role})
+            // console.log(data)
+            // const userName = data.meta.arg.email;
+            // const role =data.meta.arg.role;
+            // setUserName(userName)
+            // setRole(role)
+            // setUser({userName : userName,role : role})
+            setAlert({appAlerts:
+              alert = (
+              <AlertWindow message="Profile was successefull updated!" alertType="success"/>
+            )})
+          } 
+          else {
+            throw new Error(data.payload)
+          }
+          })
+          .then(setFirstName(""),
+          setLastName(""),
         setBirthDate(""),
         setAddress(""),
         setCity(""),
         setCountry(""),
         setPhoneNumber(""),
         setAboutMe(""))
+          .catch(error => {
+          
+          // console.log('caught it!',error.message);
+          setAlert({appAlerts:
+            alert = (
+            // showAlertWindow("error",error.message,true)
+            <AlertWindow message={error.message} alertType="error" />
+          )})
+          })
+          dispatch({type:"WINDOW_ACTIVATED",payload:true})
+
+        
   };
 
 const uploadAvatar = () => {
-  return fetch("https://localhost:5000/api/saveAvatar", {
-      method: "POST",
-      body: data,
-      headers: new Headers({
-        Accept: "application/json",
-      }),
-      credentials: "include",
+  // return fetch("https://localhost:5000/api/saveAvatar", {
+  //     method: "POST",
+  //     body: data,
+  //     headers: new Headers({
+  //       Accept: "application/json",
+  //     }),
+  //     credentials: "include",
+  //   })
+  dispatch(uploadProfileAvatar({avatar : data}))
+  .then((data) => {
+    if(data.meta.requestStatus == "fulfilled"){
+      // setRedirect(true);
+      // // setUser({userName : data.payload.userName,role : data.payload.role})
+      // console.log(data)
+      // const userName = data.meta.arg.email;
+      // const role =data.meta.arg.role;
+      // setUserName(userName)
+      // setRole(role)
+      // setUser({userName : userName,role : role})
+      setAlert({appAlerts:
+        alert = (
+        <AlertWindow message="Avatar uploaded successefully!" alertType="success"/>
+      )})
+    } 
+    else {
+      throw new Error(data.payload)
+    }
     })
       //.then((response) => response.json())
       .then(setAvatarPreview(""))
+      .catch(error => {
+          
+        // console.log('caught it!',error.message);
+        setAlert({appAlerts:
+          alert = (
+          // showAlertWindow("error",error.message,true)
+          <AlertWindow message={error.message} alertType="error" />
+        )})
+        })
+        dispatch({type:"WINDOW_ACTIVATED",payload:true})
       // .then((data) => console.log(data))
       // .catch((error) => console.log(error));
 }
 
-if(AvatarPreview != ""){
+if(avatarPreview != ""){
   uploadButton = (<div className="profileFormField">
               <button
                 type="submit"
@@ -154,12 +234,12 @@ const buttonDesign = {
                 control="input"
                 type="text"
                 label="First Name:"
-                name="FirstName"
+                name="firstName"
                 labelClass="profileFormLabel"
                 inputClass="profileFormInput"
                 inputError="profileFormError"
                 placeholder="Enter your first name"
-                value={FirstName}
+                value={firstName}
                 onChange={(e) => {
                   setFirstName(e.target.value);
                   formik.handleChange(e);
@@ -171,12 +251,12 @@ const buttonDesign = {
                 control="input"
                 type="text"
                 label="Last Name:"
-                name="LastName"
+                name="lastName"
                 labelClass="profileFormLabel"
                 inputClass="profileFormInput"
                 inputError="profileFormError"
                 placeholder="Enter your last name"
-                value={LastName}
+                value={lastName}
                 onChange={(e) => {
                   setLastName(e.target.value);
                   formik.handleChange(e);
@@ -188,11 +268,11 @@ const buttonDesign = {
                 control="input"
                 type="date"
                 label="Choose your birth date:"
-                name="BirthDate"
+                name="birthDate"
                 labelClass="profileFormLabel"
                 inputClass="profileFormInput"
                 inputError="profileFormError"
-                value={BirthDate}
+                value={birthDate}
                 onChange={(e) => {
                   setBirthDate(e.target.value);
                   formik.handleChange(e);
@@ -203,13 +283,13 @@ const buttonDesign = {
               <FormikControl
                 control="input"
                 type="text"
-                label="Address:"
-                name="Address"
+                label="address:"
+                name="address"
                 labelClass="profileFormLabel"
                 inputClass="profileFormInput"
                 inputError="profileFormError"
                 placeholder="Enter your address"
-                value={Address}
+                value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                   formik.handleChange(e);
@@ -220,13 +300,13 @@ const buttonDesign = {
               <FormikControl
                 control="input"
                 type="text"
-                label="City:"
-                name="City"
+                label="city:"
+                name="city"
                 labelClass="profileFormLabel"
                 inputClass="profileFormInput"
                 inputError="profileFormError"
                 placeholder="Enter your city"
-                value={City}
+                value={city}
                 onChange={(e) => {
                   setCity(e.target.value);
                   formik.handleChange(e);
@@ -237,13 +317,13 @@ const buttonDesign = {
               <FormikControl
                 control="input"
                 type="text"
-                label="Country:"
-                name="Country"
+                label="country:"
+                name="country"
                 labelClass="profileFormLabel"
                 inputClass="profileFormInput"
                 inputError="profileFormError"
                 placeholder="Enter your country"
-                value={Country}
+                value={country}
                 onChange={(e) => {
                   setCountry(e.target.value);
                   formik.handleChange(e);
@@ -255,12 +335,12 @@ const buttonDesign = {
                 control="input"
                 type="number"
                 label="Phone Number:"
-                name="PhoneNumber"
+                name="phoneNumber"
                 labelClass="profileFormLabel"
                 inputClass="profileFormInput"
                 inputError="profileFormError"
                 placeholder="Enter your phone number"
-                value={PhoneNumber}
+                value={phoneNumber}
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
                   formik.handleChange(e);
@@ -270,12 +350,12 @@ const buttonDesign = {
             <div className="profileFormField">
               <Textarea
                 label="About Me:"
-                name="AboutMe"
+                name="aboutMe"
                 labelClass="profileFormLabel"
                 inputClass="profileFormInput"
                 inputError="profileFormError"
                 placeholder="Write few sentences about yourself"
-                value={AboutMe}
+                value={aboutMe}
                 onChange={(e) => {
                   setAboutMe(e.target.value);
                   formik.handleChange(e);
@@ -290,7 +370,7 @@ const buttonDesign = {
                 inputClass="profileFormInput"
                 inputError="profileFormError"
                 label="Choose your avatar:"
-                name="Avatar"
+                name="avatar"
                 onChange={(e) => {
                   setAvatar(e.target.files[0]);
                   formik.handleChange(e);
@@ -299,7 +379,7 @@ const buttonDesign = {
               />
             </div>
             <div className="profileFormField">
-            <img className="avatarPreview" src={AvatarPreview} />
+            <img className="avatarPreview" src={avatarPreview} />
 </div>
             {uploadButton}
             <div className="profileFormField">
