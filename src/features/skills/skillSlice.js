@@ -50,7 +50,7 @@ export const addNewSkill = createAsyncThunk(
       });
 
       if (!response.ok) {
-        throw new Error("Can't add skill. Server error");
+        throw new Error("Can't add skill. Something went wrong!");
       }
 
       const data = await response.json();
@@ -67,7 +67,7 @@ export const updateSkillRange = createAsyncThunk(
   async (skillData, { rejectWithValue, dispatch }) => {
     const { skillName, skillRange } = skillData;
     try {
-      fetch(`https://localhost:5000/api/updateSkill/${skillName}`, {
+      const response = await fetch(`https://localhost:5000/api/updateSkill/${skillName}`, {
           method:"PATCH",
           body:JSON.stringify({
             name:skillName,
@@ -79,9 +79,10 @@ export const updateSkillRange = createAsyncThunk(
           }),
           
             })
-
-
-      dispatch(updateSkill({name:skillName,range:skillRange}));
+                if (!response.ok) {
+                  throw new Error("Can't update the skill. Something went wrong!");
+                }
+                dispatch(updateSkill({name:skillName,range:skillRange}))   
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -94,10 +95,13 @@ export const removeSkill = createAsyncThunk(
     const { skillName, skillRange } = skillData;
     try {
      
- await fetch(`https://localhost:5000/api/deleteSkill/${skillName}`, {
+ const response = await fetch(`https://localhost:5000/api/deleteSkill/${skillName}`, {
         method: 'DELETE'
       })
      // .then(response => response.json());
+     if (!response.ok) {
+      throw new Error("Can't remove skill. Something went wrong!");
+    }
 
       dispatch(deleteSkill(skillName));
     } catch (error) {
