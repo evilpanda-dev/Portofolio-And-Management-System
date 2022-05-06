@@ -14,6 +14,7 @@ import Skills from "../../components/Skills/Skill";
 import Header from "../../components/Header/Header";
 import { useState } from "react";
 import { UserContext } from "../../providers/UserProvider";
+import { AlertContext } from "../../providers/AlertProvider";
 
 const Inner = (props) => {
   const { imageSrc, setImage } = props;
@@ -22,7 +23,7 @@ const Inner = (props) => {
   const [role, setRole] = useState("");
   // const [image,setImage] = useState('')
   const {user,setUser} = useContext(UserContext)
-
+ const{alert} = useContext(AlertContext)
   const boxStyle = {
     titleClass: "aboutMeTitle",
     contentClass: "aboutMeDescription",
@@ -69,6 +70,7 @@ const Inner = (props) => {
   return (
     <>
       <BackToTopButton address="#aboutMe" />
+    {alert.appAlerts}
       <Panel />
       <Header
         userName={userName}
