@@ -8,6 +8,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserProvider.js";
+import AlertWindow from "../AlertWindow/AlertWindow.js";
+import { AlertContext } from "../../providers/AlertProvider.js";
+import { loginUser } from "../../features/loginFormThunk.js";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email format").required("Required"),
@@ -30,28 +33,80 @@ const LoginForm = (props) => {
 let navigate = useNavigate();
 const dispatch = useDispatch();
 const {setUser} = useContext(UserContext)
+const {setAlert} = useContext(AlertContext)
+let alert;
 
   const onSubmit = async () => {
-    const response = await fetch("https://localhost:5000/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-    const content = await response.json();   //to check if there is data in the response
-    const userName = content.userName;
-    const role = content.role;
+    // const response = await fetch("https://localhost:5000/api/login", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   credentials: "include",
+    //   body: JSON.stringify({
+    //     email,
+    //     password,
+    //   }),
+    // })
+    dispatch(loginUser({email : email,password : password}))
+    .then((data) => {
+      if(data.meta.requestStatus == "fulfilled"){
+        setRedirect(true);
+        // setUser({userName : data.payload.userName,role : data.payload.role})
+        console.log(data)
+        const userName = data.meta.arg.email;
+        const role =data.meta.arg.role;
+        setUserName(userName)
+        setRole(role)
+        setUser({userName : userName,role : role})
+        setAlert({appAlerts:
+          alert = (
+          <AlertWindow message="You successefully logged in" alertType="success"/>
+        )})
+      } 
+      else {
+        throw new Error(data.payload)
+      }
+      })
+      .catch(error => {
+      
+      // console.log('caught it!',error.message);
+      setAlert({appAlerts:
+        alert = (
+        // showAlertWindow("error",error.message,true)
+        <AlertWindow message={error.message} alertType="error" />
+      )})
+      })
+      dispatch({type:"WINDOW_ACTIVATED",payload:true})
+//     .then(response => {
+//       if (response.status === 200) {
+//         setRedirect(true);
+//         const content =  response.json();   //to check if there is data in the response
+//         const userName = content.userName;
+//         const role = content.role;
+    
+//         setUserName(userName);
+//         setRole(role);
+//     setUser({userName: userName, role: role})
+// setAlert({appAlerts:
+//         alert = (
+//           // showAlertWindow("success","Account created successfully",true)
+//           <AlertWindow message="You successefully logged in" alertType="success"/>
+//         )})
+//       }
+//       else {
+//         //return response.text().then(text => { throw new Error(text) })
+//         return response.json().then(text => { throw new Error(text.Message) })
+//       }
+//     })
+//     .catch(error => {
 
-    setUserName(userName);
-    setRole(role);
-setUser({userName: userName, role: role})
-
-    if (response.status === 200) {
-      setRedirect(true);
-    }
+//       // console.log('caught it!',error.message);
+//       setAlert({appAlerts:
+//         alert = (
+//         // showAlertWindow("error",error.message,true)
+//         <AlertWindow message={error.message} alertType="error" />
+//       )})
+//     })
+// dispatch({type:"WINDOW_ACTIVATED",payload:true})
   };
 
   const isVisible = useSelector((state) => state.popupState.popup);
