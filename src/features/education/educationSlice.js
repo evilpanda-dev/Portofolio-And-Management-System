@@ -38,11 +38,10 @@ export const addNewEducation = createAsyncThunk(
       });
 
       if (!response.ok) {
-        throw new Error("Can't add skill. Server error");
+        throw new Error("Can't add new education. Something went wrong!");
       }
-
       const data = await response.json();
-      dispatch(setEducation(data));
+      //dispatch(setEducation(data));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -59,7 +58,7 @@ export const updateEducation = createAsyncThunk(
       //   title: educationTitle,
       //   text : educationDescription
       // };
-      fetch(`https://localhost:5000/api/updateEducation/${educationId}`, {
+      const response = await fetch(`https://localhost:5000/api/updateEducation/${educationId}`, {
           method:"PATCH",
           body:JSON.stringify({
             date: educationDate,
@@ -72,6 +71,11 @@ export const updateEducation = createAsyncThunk(
           }),
           
             })
+
+            if (!response.ok) {
+              throw new Error("Can't update the education. Something went wrong!");
+            }
+
             dispatch(updateEducationState({date:educationDate,title:educationTitle,text:educationDescription}));
     } catch (error) {
       return rejectWithValue(error.message);
@@ -90,9 +94,13 @@ export const removeEducation = createAsyncThunk(
       //   text : educationDescription
       // };
      
- await fetch(`https://localhost:5000/api/deleteEducation/${educationId}`, {
+const response =  await fetch(`https://localhost:5000/api/deleteEducation/${educationId}`, {
         method: 'DELETE'
       })
+
+      if (!response.ok) {
+        throw new Error("Can't remove the education. Something went wrong!");
+      }
      // .then(response => response.json());
      dispatch(deleteEducation(educationId));
     } catch (error) {
