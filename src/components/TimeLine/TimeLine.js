@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { useFormik,getIn } from "formik";
 import * as Yup from "yup";
 import { addNewEducation,updateEducation,removeEducation } from "../../features/education/educationSlice";
+import { AlertContext } from "../../providers/AlertProvider";
+import AlertWindow from "../AlertWindow/AlertWindow";
 
 const TimeLine = () => {
   const educations = useSelector(
@@ -18,11 +20,13 @@ const TimeLine = () => {
   const { status, error } = useSelector((state) => state.educationState);
   const isEditing = useSelector((state) => state.editEducationState.editEducation);
 const {user } = useContext(UserContext);
+const {setAlert} = useContext(AlertContext);
 const dispatch= useDispatch();
 const [date,setDate] = useState("")
 const [title,setTitle] = useState("")
 const [description,setDescription] = useState("")
-
+const [hoveredItem,setHoveredItem] = useState()
+const [admin,setAdmin] = useState(false)
 const activateEdit = () => {
   dispatch({ type: "EDITEDUCATION_ACTIVATED", payload: true });
 };
@@ -35,25 +39,31 @@ const changeButtonState = () => {
   isEditing ? deactivateEdit() : activateEdit();
 };
 
-  let editButton ;
-  if(user.role === "Admin"){
-editButton = (
-  <div className="openEditButton">
-          <button className="openEdit" onClick={changeButtonState}>
-            <i className="openEditIcon">
-              <FontAwesomeIcon icon={solid("pen-to-square")} />
-            </i>
-            <span>Open edit</span>
-          </button>
-        </div>
-)
-  } 
-
+  //let editButton ;
   useEffect(()=>{
-if(user.userId == undefined){
-  deactivateEdit()
-}
-  },[isEditing])
+    if(user.role === "Admin"){
+  // editButton = (
+    // <div className="openEditButton">
+    //         <button className="openEdit" onClick={changeButtonState}>
+    //           <i className="openEditIcon">
+    //             <FontAwesomeIcon icon={solid("pen-to-square")} />
+    //           </i>
+    //           <span>Open edit</span>
+    //         </button>
+    //       </div>
+  //)
+  setAdmin(true)
+    } else {
+      setAdmin(false)
+      deactivateEdit()
+    } 
+  },[user.role])
+
+//   useEffect(()=>{
+// if(user.userId == undefined){
+//   deactivateEdit()
+// }
+//   },[isEditing])
 
   const getStyles = (errors, fieldName) => {
     if (getIn(errors, fieldName)) {
@@ -89,11 +99,35 @@ if(user.userId == undefined){
     },
     validationSchema: validationSchema,
   });
-
+  
+let alert;
 
   const handleAction = (e) => {
     e.preventDefault();
-    dispatch(addNewEducation({ educationDate: date, educationTitle: title, educationDescription: description }));
+    dispatch(addNewEducation({ educationDate: date, educationTitle: title, educationDescription: description }))
+    .then((data) => {
+if(data.meta.requestStatus == "fulfilled"){
+  setAlert({appAlerts:
+    alert = (
+    <AlertWindow message="Education added successefully" alertType="success"/>
+  )})
+} 
+else {
+  //return response.text().then(text => { throw new Error(text) })
+  //return data.json().then(text => { throw new Error(text.Message) })
+  throw new Error(data.payload)
+}
+})
+.catch(error => {
+
+// console.log('caught it!',error.message);
+setAlert({appAlerts:
+  alert = (
+  // showAlertWindow("error",error.message,true)
+  <AlertWindow message={error.message} alertType="error" />
+)})
+})
+dispatch({type:"WINDOW_ACTIVATED",payload:true})
     setDate("");
     setTitle("");
     setDescription("");
@@ -104,7 +138,30 @@ if(user.userId == undefined){
     e.preventDefault();
     const enteredId = prompt("Enter the id of the education you want to update");
     //setId(enteredId);
-dispatch(updateEducation({ educationId: enteredId, educationDate: date, educationTitle: title, educationDescription: description }));
+dispatch(updateEducation({ educationId: enteredId, educationDate: date, educationTitle: title, educationDescription: description }))
+.then((data) => {
+  if(data.meta.requestStatus == "fulfilled"){
+    setAlert({appAlerts:
+      alert = (
+      <AlertWindow message="Education updated successefully" alertType="success"/>
+    )})
+  } 
+  else {
+    //return response.text().then(text => { throw new Error(text) })
+    //return data.json().then(text => { throw new Error(text.Message) })
+    throw new Error(data.payload)
+  }
+  })
+  .catch(error => {
+  
+  // console.log('caught it!',error.message);
+  setAlert({appAlerts:
+    alert = (
+    // showAlertWindow("error",error.message,true)
+    <AlertWindow message={error.message} alertType="error" />
+  )})
+  })
+  dispatch({type:"WINDOW_ACTIVATED",payload:true});
 setDate("");
     setTitle("");
     setDescription("");
@@ -115,7 +172,30 @@ setDate("");
     e.preventDefault();
     const enteredId = prompt("Enter the id of the education you want to remove");
     //setId(enteredId);
-    dispatch(removeEducation({ educationId: enteredId }));
+    dispatch(removeEducation({ educationId: enteredId }))
+    .then((data) => {
+      if(data.meta.requestStatus == "fulfilled"){
+        setAlert({appAlerts:
+          alert = (
+          <AlertWindow message="Education removed successefully" alertType="success"/>
+        )})
+      } 
+      else {
+        //return response.text().then(text => { throw new Error(text) })
+        //return data.json().then(text => { throw new Error(text.Message) })
+        throw new Error(data.payload)
+      }
+      })
+      .catch(error => {
+      
+      // console.log('caught it!',error.message);
+      setAlert({appAlerts:
+        alert = (
+        // showAlertWindow("error",error.message,true)
+        <AlertWindow message={error.message} alertType="error" />
+      )})
+      })
+      dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setDate("");
     setTitle("");
     setDescription("");
@@ -125,7 +205,16 @@ setDate("");
   return (
     <section id="timeLine">
       <h1 className="educationSection">Education</h1>
-      {editButton}
+      {admin && (
+        <div className="openEditButton">
+        <button className="openEdit" onClick={changeButtonState}>
+          <i className="openEditIcon">
+            <FontAwesomeIcon icon={solid("pen-to-square")} />
+          </i>
+          <span>Open edit</span>
+        </button>
+      </div>
+      )}
       {status === "loading" && (
         <div className="loadingContainer">
           <FontAwesomeIcon icon={solid("rotate")} className="loading" />
@@ -236,12 +325,23 @@ setDate("");
             )}
           <div id="timeline" className="timelineWrapper">
             {educations.map(({ id, date, title, text }) => (
-              <div className="timeline-item" key={id}>
+              <div className="timeline-item" key={id} onMouseEnter={
+                ()=>{ 
+                setHoveredItem(id)
+                }}
+                onMouseLeave = {
+                  ()=>{
+                    setHoveredItem(0)
+                  }
+                }>
                 <span className="timeline-icon">
                   <span>&nbsp;&nbsp;</span>
                   <span className="year">{date}</span>
                 </span>
                 <div className="timeline-content">
+                {admin && hoveredItem === id && (
+                  <h3>{"This item's id is " + id}</h3>
+                )}
                   <h2>{title}</h2>
                   <p>{text}</p>
                 </div>
