@@ -1,5 +1,6 @@
 import { Alert,Snackbar } from "@mui/material"
 import { useState } from "react"
+import { useDispatch,useSelector } from "react-redux"
 
 // export const showAlertWindow =(alertType,message,state)=>{
 
@@ -24,17 +25,32 @@ import { useState } from "react"
     
 //     }
 
-const AlertWindow = (props) => {
-    const{alertType,message,state} = props
-    const [open, setOpen] = useState(state);
+const AlertWindow = props => {
+    const{alertType,message} = props
+    const dispatch = useDispatch()
+    const isVisible = useSelector((state) => state.alertWindowState.isWindowAlert);
+//     const [open, setOpen] = useState(state);
+// console.log("open = "+ open)
+// console.log("state = " +state)
+
+    // const handleClick = () => {
+    //     setOpen(open);
+    //   };
+
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
           return;
         }
-        setOpen(!state);
+        dispatch({type:"WINDOW_DEACTIVATED",payload:false})
+        // setOpen(!state);
 }
+
+// setTimeout(() => {
+//     handleClick()
+// },1000)
+
     return(
-        <Snackbar open={open}  autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={isVisible}  autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} variant="filled" severity={alertType} sx={{ width: '100%' }}>
             {message}
         </Alert>
