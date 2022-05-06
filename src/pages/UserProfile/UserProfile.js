@@ -3,10 +3,12 @@ import Panel from "../../components/Panel/Panel";
 import ProfileForm from "../../components/ProfileForm/ProfileForm";
 import { useEffect, useState } from "react";
 import "./UserProfile.css";
+import { useContext } from "react";
+import { AlertContext } from "../../providers/AlertProvider";
 
 const UserProfile = (props) => {
   const { setImage, setUserName, setRole, imageSrc } = props;
-
+const {alert} = useContext(AlertContext)
   // const [image,setImage] = useState('')
   // useEffect(()=>{
   //     (
@@ -26,6 +28,7 @@ const UserProfile = (props) => {
 
   return (
     <>
+    {alert.appAlerts}
       <Panel />
       <Header imageSrc={imageSrc} setUserName={setUserName} setRole={setRole} />
       <section className="profilePage">
