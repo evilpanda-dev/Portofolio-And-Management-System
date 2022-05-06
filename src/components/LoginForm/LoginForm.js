@@ -51,7 +51,6 @@ let alert;
       if(data.meta.requestStatus == "fulfilled"){
         setRedirect(true);
         // setUser({userName : data.payload.userName,role : data.payload.role})
-        console.log(data)
         const userName = data.meta.arg.email;
         const role =data.meta.arg.role;
         setUserName(userName)
