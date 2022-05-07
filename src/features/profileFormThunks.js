@@ -62,3 +62,24 @@ export const updateUserProfile = createAsyncThunk(
       }
     }
   );
+
+
+  export const deleteProfile = createAsyncThunk(
+    "profile/terminateAccount",
+    async (profileData, { rejectWithValue}) => {
+      const {userId} = profileData;
+      try {
+        const response = await fetch(`https://localhost:5000/api/deleteUser/${userId}`, {
+    method: 'DELETE'
+  })
+  
+   // const data = await response.json();
+        if (!response.ok) {
+          throw new Error(response.Message);
+        }
+
+      } catch (error) {
+        return rejectWithValue(error.message);
+      }
+    }
+  );
