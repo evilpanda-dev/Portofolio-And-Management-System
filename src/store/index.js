@@ -11,6 +11,7 @@ import { loginButtonReducer } from "./reducers/loginButtonReducer";
 import { registerButtonReducer } from "./reducers/registerButtonReducer";
 import { editEducationReducer } from "./reducers/editEducationReducer";
 import { alertWindowReducer } from "./reducers/alertWindowReducer";
+import { newsLetterReducer } from "./reducers/newsLetterReducer";
 
 const rootReducer = combineReducers({
   visibilityState: toggleButtonReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   popupState: loginButtonReducer,
   registerPopupState: registerButtonReducer,
   alertWindowState : alertWindowReducer,
+  newsLetterState: newsLetterReducer,
 });
 
 const persistConfig = {
