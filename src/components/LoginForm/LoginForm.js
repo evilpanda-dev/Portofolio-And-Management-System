@@ -11,6 +11,7 @@ import { UserContext } from "../../providers/UserProvider.js";
 import AlertWindow from "../AlertWindow/AlertWindow.js";
 import { AlertContext } from "../../providers/AlertProvider.js";
 import { loginUser } from "../../features/loginFormThunk.js";
+import { useAlert } from "../../hooks/useAlert.js";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email format").required("Required"),
@@ -34,6 +35,7 @@ let navigate = useNavigate();
 const dispatch = useDispatch();
 const {setUser} = useContext(UserContext)
 const {setAlert} = useContext(AlertContext)
+const triggerAlert = useAlert()
 let alert;
 
   const onSubmit = async () => {
@@ -46,8 +48,9 @@ let alert;
     //     password,
     //   }),
     // })
-    dispatch(loginUser({email : email,password : password}))
-    .then((data) => {
+   const data = await dispatch(loginUser({email : email,password : password}))
+   triggerAlert(data,"You successefully logged in")
+    // .then((data) => {
       if(data.meta.requestStatus == "fulfilled"){
         setRedirect(true);
         // setUser({userName : data.payload.userName,role : data.payload.role})
@@ -56,25 +59,26 @@ let alert;
         setUserName(userName)
         setRole(role)
         setUser({userName : userName,role : role})
-        setAlert({appAlerts:
-          alert = (
-          <AlertWindow message="You successefully logged in" alertType="success"/>
-        )})
-      } 
-      else {
-        throw new Error(data.payload)
       }
-      })
-      .catch(error => {
+      //   setAlert({appAlerts:
+      //     alert = (
+      //     <AlertWindow message="You successefully logged in" alertType="success"/>
+      //   )})
+      // } 
+      // else {
+      //   throw new Error(data.payload)
+      // }
+      // })
+      // .catch(error => {
       
-      // console.log('caught it!',error.message);
-      setAlert({appAlerts:
-        alert = (
-        // showAlertWindow("error",error.message,true)
-        <AlertWindow message={error.message} alertType="error" />
-      )})
-      })
-      dispatch({type:"WINDOW_ACTIVATED",payload:true})
+      // // console.log('caught it!',error.message);
+      // setAlert({appAlerts:
+      //   alert = (
+      //   // showAlertWindow("error",error.message,true)
+      //   <AlertWindow message={error.message} alertType="error" />
+      // )})
+      // })
+      // dispatch({type:"WINDOW_ACTIVATED",payload:true})
 //     .then(response => {
 //       if (response.status === 200) {
 //         setRedirect(true);

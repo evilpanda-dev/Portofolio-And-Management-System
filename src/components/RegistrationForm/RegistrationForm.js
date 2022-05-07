@@ -11,6 +11,7 @@ import LoginForm from "../LoginForm/LoginForm.js";
 import AlertWindow from "../AlertWindow/AlertWindow.js";
 import { AlertContext } from "../../providers/AlertProvider.js";
 import { registerUser } from "../../features/registrationFormThunk.js";
+import { useAlert } from "../../hooks/useAlert.js";
 
 const RegistrationForm = () => {
   const [userName, setUserName] = useState("");
@@ -21,6 +22,7 @@ const RegistrationForm = () => {
   const isVisible = useSelector((state) => state.registerPopupState.popup);
   const dispatch = useDispatch();
 const {setAlert} = useContext(AlertContext)
+const triggerAlert = useAlert()
 
   const initialValues = {
     userName: "",
@@ -46,29 +48,31 @@ const {setAlert} = useContext(AlertContext)
     //     Password,
     //   }),
     // })
-    dispatch(registerUser({userName : userName,email : email,password : password}))
-    .then((data) => {
-      if(data.meta.requestStatus == "fulfilled"){
+    const data = await dispatch(registerUser({userName : userName,email : email,password : password}))
+  triggerAlert(data,"Account created successfully")
+    // .then((data) => {
+    if(data.meta.requestStatus == "fulfilled"){
         setRedirect(true);
-        setAlert({appAlerts:
-          alert = (
-          <AlertWindow message="Account created successfully" alertType="success"/>
-        )})
-      } 
-      else {
-        throw new Error(data.payload)
-      }
-      })
-      .catch(error => {
+    }
+    //     setAlert({appAlerts:
+    //       alert = (
+    //       <AlertWindow message="Account created successfully" alertType="success"/>
+    //     )})
+    //   } 
+    //   else {
+    //     throw new Error(data.payload)
+    //   }
+    //   })
+    //   .catch(error => {
       
-      // console.log('caught it!',error.message);
-      setAlert({appAlerts:
-        alert = (
-        // showAlertWindow("error",error.message,true)
-        <AlertWindow message={error.message} alertType="error" />
-      )})
-      })
-      dispatch({type:"WINDOW_ACTIVATED",payload:true})
+    //   // console.log('caught it!',error.message);
+    //   setAlert({appAlerts:
+    //     alert = (
+    //     // showAlertWindow("error",error.message,true)
+    //     <AlertWindow message={error.message} alertType="error" />
+    //   )})
+    //   })
+    //   dispatch({type:"WINDOW_ACTIVATED",payload:true})
 //     setTimeout(() => {
 //     setOpen(false)
 // },1000)

@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { AlertContext } from "../../providers/AlertProvider";
 import AlertWindow from "../AlertWindow/AlertWindow";
 import { uploadProfileAvatar } from "../../features/profileFormThunks";
+import { useAlert } from "../../hooks/useAlert";
 
 const initialValues = {
     firstName: "",
@@ -61,8 +62,10 @@ const ProfileForm = () => {
   const { user } = useContext(UserContext)
   const dispatch = useDispatch();
   const {setAlert} = useContext(AlertContext)
+  const triggerAlert = useAlert()
+
 let uploadButton;
-  let data = new FormData();
+  let formData = new FormData();
     // data.append("firstName",firstName);
     // data.append("lastName",lastName);
     // data.append("birthDate",birthDate);
@@ -71,12 +74,12 @@ let uploadButton;
     // data.append("country",country);
     // data.append("phoneNumber",phoneNumber);
     // data.append("aboutMe",aboutMe);
-    data.append("files", avatar);
+    formData.append("files", avatar);
 
     const userId = user?.userId;
 
 let alert
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // let data = new FormData();
     // data.append("firstName",firstName);
     // data.append("lastName",lastName);
@@ -105,7 +108,7 @@ let alert
       
     //     })
         //.then((response) => response.json())
-        dispatch(updateUserProfile({
+       const data = await dispatch(updateUserProfile({
           userId : userId,
           firstName : firstName,
           lastName : lastName,
@@ -116,48 +119,57 @@ let alert
           phoneNumber : phoneNumber,
           aboutMe : aboutMe,
         }))
-        .then((data) => {
-          if(data.meta.requestStatus == "fulfilled"){
-            // setRedirect(true);
-            // // setUser({userName : data.payload.userName,role : data.payload.role})
-            // console.log(data)
-            // const userName = data.meta.arg.email;
-            // const role =data.meta.arg.role;
-            // setUserName(userName)
-            // setRole(role)
-            // setUser({userName : userName,role : role})
-            setAlert({appAlerts:
-              alert = (
-              <AlertWindow message="Profile was successefull updated!" alertType="success"/>
-            )})
-          } 
-          else {
-            throw new Error(data.payload)
-          }
-          })
-          .then(setFirstName(""),
-          setLastName(""),
-        setBirthDate(""),
-        setAddress(""),
-        setCity(""),
-        setCountry(""),
-        setPhoneNumber(""),
-        setAboutMe(""))
-          .catch(error => {
+    triggerAlert(data,"Profile was successefull updated")
+        setFirstName("")
+          setLastName("")
+        setBirthDate("")
+        setAddress("")
+        setCity("")
+        setCountry("")
+        setPhoneNumber("")
+        setAboutMe("")
+        // .then((data) => {
+        //   if(data.meta.requestStatus == "fulfilled"){
+        //     // setRedirect(true);
+        //     // // setUser({userName : data.payload.userName,role : data.payload.role})
+        //     // console.log(data)
+        //     // const userName = data.meta.arg.email;
+        //     // const role =data.meta.arg.role;
+        //     // setUserName(userName)
+        //     // setRole(role)
+        //     // setUser({userName : userName,role : role})
+        //     setAlert({appAlerts:
+        //       alert = (
+        //       <AlertWindow message="Profile was successefull updated!" alertType="success"/>
+        //     )})
+        //   } 
+        //   else {
+        //     throw new Error(data.payload)
+        //   }
+        //   })
+        //   .then(setFirstName(""),
+        //   setLastName(""),
+        // setBirthDate(""),
+        // setAddress(""),
+        // setCity(""),
+        // setCountry(""),
+        // setPhoneNumber(""),
+        // setAboutMe(""))
+        //   .catch(error => {
           
-          // console.log('caught it!',error.message);
-          setAlert({appAlerts:
-            alert = (
-            // showAlertWindow("error",error.message,true)
-            <AlertWindow message={error.message} alertType="error" />
-          )})
-          })
-          dispatch({type:"WINDOW_ACTIVATED",payload:true})
+        //   // console.log('caught it!',error.message);
+        //   setAlert({appAlerts:
+        //     alert = (
+        //     // showAlertWindow("error",error.message,true)
+        //     <AlertWindow message={error.message} alertType="error" />
+        //   )})
+        //   })
+        //   dispatch({type:"WINDOW_ACTIVATED",payload:true})
 
         
   };
 
-const uploadAvatar = () => {
+const uploadAvatar = async () => {
   // return fetch("https://localhost:5000/api/saveAvatar", {
   //     method: "POST",
   //     body: data,
@@ -166,38 +178,40 @@ const uploadAvatar = () => {
   //     }),
   //     credentials: "include",
   //   })
-  dispatch(uploadProfileAvatar({avatar : data}))
-  .then((data) => {
-    if(data.meta.requestStatus == "fulfilled"){
-      // setRedirect(true);
-      // // setUser({userName : data.payload.userName,role : data.payload.role})
-      // console.log(data)
-      // const userName = data.meta.arg.email;
-      // const role =data.meta.arg.role;
-      // setUserName(userName)
-      // setRole(role)
-      // setUser({userName : userName,role : role})
-      setAlert({appAlerts:
-        alert = (
-        <AlertWindow message="Avatar uploaded successefully!" alertType="success"/>
-      )})
-    } 
-    else {
-      throw new Error(data.payload)
-    }
-    })
-      //.then((response) => response.json())
-      .then(setAvatarPreview(""))
-      .catch(error => {
+  const data = await dispatch(uploadProfileAvatar({avatar : formData}))
+  triggerAlert(data,"Avatar uploaded successefully!")
+  // .then((data) => {
+  //   if(data.meta.requestStatus == "fulfilled"){
+  //     // setRedirect(true);
+  //     // // setUser({userName : data.payload.userName,role : data.payload.role})
+  //     // console.log(data)
+  //     // const userName = data.meta.arg.email;
+  //     // const role =data.meta.arg.role;
+  //     // setUserName(userName)
+  //     // setRole(role)
+  //     // setUser({userName : userName,role : role})
+  //     setAlert({appAlerts:
+  //       alert = (
+  //       <AlertWindow message="Avatar uploaded successefully!" alertType="success"/>
+  //     )})
+  //   } 
+  //   else {
+  //     throw new Error(data.payload)
+  //   }
+  //   })
+  //     //.then((response) => response.json())
+  //     .then(setAvatarPreview(""))
+  //     .catch(error => {
           
-        // console.log('caught it!',error.message);
-        setAlert({appAlerts:
-          alert = (
-          // showAlertWindow("error",error.message,true)
-          <AlertWindow message={error.message} alertType="error" />
-        )})
-        })
-        dispatch({type:"WINDOW_ACTIVATED",payload:true})
+  //       // console.log('caught it!',error.message);
+  //       setAlert({appAlerts:
+  //         alert = (
+  //         // showAlertWindow("error",error.message,true)
+  //         <AlertWindow message={error.message} alertType="error" />
+  //       )})
+  //       })
+  //       dispatch({type:"WINDOW_ACTIVATED",payload:true})
+        setAvatarPreview("")
       // .then((data) => console.log(data))
       // .catch((error) => console.log(error));
 }

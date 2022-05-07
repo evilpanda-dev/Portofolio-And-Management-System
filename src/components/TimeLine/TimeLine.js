@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import { addNewEducation,updateEducation,removeEducation } from "../../features/education/educationSlice";
 import { AlertContext } from "../../providers/AlertProvider";
 import AlertWindow from "../AlertWindow/AlertWindow";
+import { useAlert } from "../../hooks/useAlert";
 
 const TimeLine = () => {
   const educations = useSelector(
@@ -27,6 +28,8 @@ const [title,setTitle] = useState("")
 const [description,setDescription] = useState("")
 const [hoveredItem,setHoveredItem] = useState()
 const [admin,setAdmin] = useState(false)
+const triggerAlert = useAlert()
+
 const activateEdit = () => {
   dispatch({ type: "EDITEDUCATION_ACTIVATED", payload: true });
 };
@@ -102,100 +105,103 @@ const changeButtonState = () => {
   
 let alert;
 
-  const handleAction = (e) => {
+  const handleAction = async (e) => {
     e.preventDefault();
-    dispatch(addNewEducation({ educationDate: date, educationTitle: title, educationDescription: description }))
-    .then((data) => {
-if(data.meta.requestStatus == "fulfilled"){
-  setAlert({appAlerts:
-    alert = (
-    <AlertWindow message="Education added successefully" alertType="success"/>
-  )})
-} 
-else {
-  //return response.text().then(text => { throw new Error(text) })
-  //return data.json().then(text => { throw new Error(text.Message) })
-  throw new Error(data.payload)
-}
-})
-.catch(error => {
+   const data = await dispatch(addNewEducation({ educationDate: date, educationTitle: title, educationDescription: description }))
+   triggerAlert(data,"Education added successefully")
+//     .then((data) => {
+// if(data.meta.requestStatus == "fulfilled"){
+//   setAlert({appAlerts:
+//     alert = (
+//     <AlertWindow message="Education added successefully" alertType="success"/>
+//   )})
+// } 
+// else {
+//   //return response.text().then(text => { throw new Error(text) })
+//   //return data.json().then(text => { throw new Error(text.Message) })
+//   throw new Error(data.payload)
+// }
+// })
+// .catch(error => {
 
-// console.log('caught it!',error.message);
-setAlert({appAlerts:
-  alert = (
-  // showAlertWindow("error",error.message,true)
-  <AlertWindow message={error.message} alertType="error" />
-)})
-})
-dispatch({type:"WINDOW_ACTIVATED",payload:true})
+// // console.log('caught it!',error.message);
+// setAlert({appAlerts:
+//   alert = (
+//   // showAlertWindow("error",error.message,true)
+//   <AlertWindow message={error.message} alertType="error" />
+// )})
+// })
+// dispatch({type:"WINDOW_ACTIVATED",payload:true})
     setDate("");
     setTitle("");
     setDescription("");
     deactivateEdit();
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     const enteredId = prompt("Enter the id of the education you want to update");
     //setId(enteredId);
-dispatch(updateEducation({ educationId: enteredId, educationDate: date, educationTitle: title, educationDescription: description }))
-.then((data) => {
-  if(data.meta.requestStatus == "fulfilled"){
-    setAlert({appAlerts:
-      alert = (
-      <AlertWindow message="Education updated successefully" alertType="success"/>
-    )})
-  } 
-  else {
-    //return response.text().then(text => { throw new Error(text) })
-    //return data.json().then(text => { throw new Error(text.Message) })
-    throw new Error(data.payload)
-  }
-  })
-  .catch(error => {
+const data = await dispatch(updateEducation({ educationId: enteredId, educationDate: date, educationTitle: title, educationDescription: description }))
+triggerAlert(data,"Education updated successefully")
+// .then((data) => {
+//   if(data.meta.requestStatus == "fulfilled"){
+//     setAlert({appAlerts:
+//       alert = (
+//       <AlertWindow message="Education updated successefully" alertType="success"/>
+//     )})
+//   } 
+//   else {
+//     //return response.text().then(text => { throw new Error(text) })
+//     //return data.json().then(text => { throw new Error(text.Message) })
+//     throw new Error(data.payload)
+//   }
+//   })
+//   .catch(error => {
   
-  // console.log('caught it!',error.message);
-  setAlert({appAlerts:
-    alert = (
-    // showAlertWindow("error",error.message,true)
-    <AlertWindow message={error.message} alertType="error" />
-  )})
-  })
-  dispatch({type:"WINDOW_ACTIVATED",payload:true});
+//   // console.log('caught it!',error.message);
+//   setAlert({appAlerts:
+//     alert = (
+//     // showAlertWindow("error",error.message,true)
+//     <AlertWindow message={error.message} alertType="error" />
+//   )})
+//   })
+//   dispatch({type:"WINDOW_ACTIVATED",payload:true});
 setDate("");
     setTitle("");
     setDescription("");
     deactivateEdit();
   }
 
-  const handleDelete = (e) =>{
+  const handleDelete = async (e) =>{
     e.preventDefault();
     const enteredId = prompt("Enter the id of the education you want to remove");
     //setId(enteredId);
-    dispatch(removeEducation({ educationId: enteredId }))
-    .then((data) => {
-      if(data.meta.requestStatus == "fulfilled"){
-        setAlert({appAlerts:
-          alert = (
-          <AlertWindow message="Education removed successefully" alertType="success"/>
-        )})
-      } 
-      else {
-        //return response.text().then(text => { throw new Error(text) })
-        //return data.json().then(text => { throw new Error(text.Message) })
-        throw new Error(data.payload)
-      }
-      })
-      .catch(error => {
+   const data = await dispatch(removeEducation({ educationId: enteredId }))
+    triggerAlert(data,"Education removed successefully")
+    // .then((data) => {
+    //   if(data.meta.requestStatus == "fulfilled"){
+    //     setAlert({appAlerts:
+    //       alert = (
+    //       <AlertWindow message="Education removed successefully" alertType="success"/>
+    //     )})
+    //   } 
+    //   else {
+    //     //return response.text().then(text => { throw new Error(text) })
+    //     //return data.json().then(text => { throw new Error(text.Message) })
+    //     throw new Error(data.payload)
+    //   }
+    //   })
+    //   .catch(error => {
       
-      // console.log('caught it!',error.message);
-      setAlert({appAlerts:
-        alert = (
-        // showAlertWindow("error",error.message,true)
-        <AlertWindow message={error.message} alertType="error" />
-      )})
-      })
-      dispatch({type:"WINDOW_ACTIVATED",payload:true});;
+    //   // console.log('caught it!',error.message);
+    //   setAlert({appAlerts:
+    //     alert = (
+    //     // showAlertWindow("error",error.message,true)
+    //     <AlertWindow message={error.message} alertType="error" />
+    //   )})
+    //   })
+    //   dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setDate("");
     setTitle("");
     setDescription("");

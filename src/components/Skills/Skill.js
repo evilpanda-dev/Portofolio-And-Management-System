@@ -10,7 +10,9 @@ import "../Skills/Skill.css";
 import { UserContext } from "../../providers/UserProvider";
 import AlertWindow from "../AlertWindow/AlertWindow";
 import { AlertContext } from "../../providers/AlertProvider";
-const Skills = (props) => {
+import { useAlert } from "../../hooks/useAlert";
+
+const Skills = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchSkills());
@@ -21,32 +23,35 @@ const Skills = (props) => {
   const [range, setRange] = useState("");
 const {user} = useContext(UserContext);
 const {setAlert} = useContext(AlertContext);
-  const handleAction = (e) => {
+const triggerAlert = useAlert();
+
+  const handleAction = async (e) => {
     e.preventDefault();
-    dispatch(addNewSkill({ skillName: type, skillRange: range }))
-    .then((data) => {
-      if(data.meta.requestStatus == "fulfilled"){
-        setAlert({appAlerts:
-          alert = (
-          <AlertWindow message="Skill added successefully" alertType="success"/>
-        )})
-      } 
-      else {
-        //return response.text().then(text => { throw new Error(text) })
-        //return data.json().then(text => { throw new Error(text.Message) })
-        throw new Error(data.payload)
-      }
-      })
-      .catch(error => {
+    const data = await dispatch(addNewSkill({ skillName: type, skillRange: range }))
+triggerAlert(data,"Skill added successefully")
+    // .then((data) => {
+    //   if(data.meta.requestStatus == "fulfilled"){
+    //     setAlert({appAlerts:
+    //       alert = (
+    //       <AlertWindow message="Skill added successefully" alertType="success"/>
+    //     )})
+    //   } 
+    //   else {
+    //     //return response.text().then(text => { throw new Error(text) })
+    //     //return data.json().then(text => { throw new Error(text.Message) })
+    //     throw new Error(data.payload)
+    //   }
+    //   })
+    //   .catch(error => {
       
-      // console.log('caught it!',error.message);
-      setAlert({appAlerts:
-        alert = (
-        // showAlertWindow("error",error.message,true)
-        <AlertWindow message={error.message} alertType="error" />
-      )})
-      })
-      dispatch({type:"WINDOW_ACTIVATED",payload:true});;
+    //   // console.log('caught it!',error.message);
+    //   setAlert({appAlerts:
+    //     alert = (
+    //     // showAlertWindow("error",error.message,true)
+    //     <AlertWindow message={error.message} alertType="error" />
+    //   )})
+    //   })
+    //   dispatch({type:"WINDOW_ACTIVATED",payload:true});
     setType("");
     setRange("");
     deactivateEdit();
@@ -94,63 +99,65 @@ const {setAlert} = useContext(AlertContext);
     isEditing ? deactivateEdit() : activateEdit();
   };
 
-  const deleteSkill = (e) => {
+  const deleteSkill = async (e) => {
     e.preventDefault();
-    dispatch(removeSkill({skillName: type}))
-    .then((data) => {
-      if(data.meta.requestStatus == "fulfilled"){
-        setAlert({appAlerts:
-          alert = (
-          <AlertWindow message="Skill removed successefully" alertType="success"/>
-        )})
-      } 
-      else {
-        //return response.text().then(text => { throw new Error(text) })
-        //return data.json().then(text => { throw new Error(text.Message) })
-        throw new Error(data.payload)
-      }
-      })
-      .catch(error => {
+    const data = await dispatch(removeSkill({skillName: type}))
+    triggerAlert(data,"Skill removed successefully")
+    // .then((data) => {
+    //   if(data.meta.requestStatus == "fulfilled"){
+    //     setAlert({appAlerts:
+    //       alert = (
+    //       <AlertWindow message="Skill removed successefully" alertType="success"/>
+    //     )})
+    //   } 
+    //   else {
+    //     //return response.text().then(text => { throw new Error(text) })
+    //     //return data.json().then(text => { throw new Error(text.Message) })
+    //     throw new Error(data.payload)
+    //   }
+    //   })
+    //   .catch(error => {
       
-      // console.log('caught it!',error.message);
-      setAlert({appAlerts:
-        alert = (
-        // showAlertWindow("error",error.message,true)
-        <AlertWindow message={error.message} alertType="error" />
-      )})
-      })
-      dispatch({type:"WINDOW_ACTIVATED",payload:true});;
+    //   // console.log('caught it!',error.message);
+    //   setAlert({appAlerts:
+    //     alert = (
+    //     // showAlertWindow("error",error.message,true)
+    //     <AlertWindow message={error.message} alertType="error" />
+    //   )})
+    //   })
+    //   dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setType("");
     setRange("");
     deactivateEdit();
   }
 
-  const updateSkill =(e) => {
+  const updateSkill = async (e) => {
     e.preventDefault();
-    dispatch(updateSkillRange({skillName: type, skillRange: range}))
-    .then((data) => {
-      if(data.meta.requestStatus == "fulfilled"){
-        setAlert({appAlerts:
-          alert = (
-          <AlertWindow message="Skill updated successefully" alertType="success"/>
-        )})
-      } 
-      else {
-        //return response.text().then(text => { throw new Error(text) })
-        //return data.json().then(text => { throw new Error(text.Message) })
-        throw new Error(data.payload)
-      }
-      })
-      .catch(error => {
+   const data= await dispatch(updateSkillRange({skillName: type, skillRange: range}))
+   triggerAlert(data,"Skill updated successefully")
+    // .then((data) => {
+    //   if(data.meta.requestStatus == "fulfilled"){
+    //     setAlert({appAlerts:
+    //       alert = (
+    //       <AlertWindow message="Skill updated successefully" alertType="success"/>
+    //     )})
+    //   } 
+    //   else {
+    //     //return response.text().then(text => { throw new Error(text) })
+    //     //return data.json().then(text => { throw new Error(text.Message) })
+    //     throw new Error(data.payload)
+    //   }
+    //   })
+    //   .catch(error => {
       
-      // console.log('caught it!',error.message);
-      setAlert({appAlerts:
-        alert = (
-        // showAlertWindow("error",error.message,true)
-        <AlertWindow message={error.message} alertType="error" />
-      )})
-      })
-      dispatch({type:"WINDOW_ACTIVATED",payload:true});;
+    //   // console.log('caught it!',error.message);
+    //   setAlert({appAlerts:
+    //     alert = (
+    //     // showAlertWindow("error",error.message,true)
+    //     <AlertWindow message={error.message} alertType="error" />
+    //   )})
+    //   })
+    //   dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setRange("")
             setType("")
             deactivateEdit();
