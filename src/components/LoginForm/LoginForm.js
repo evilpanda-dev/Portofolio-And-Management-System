@@ -12,6 +12,7 @@ import AlertWindow from "../AlertWindow/AlertWindow.js";
 import { AlertContext } from "../../providers/AlertProvider.js";
 import { loginUser } from "../../features/loginFormThunk.js";
 import { useAlert } from "../../hooks/useAlert.js";
+import { checkIfEmailIsSubscribed } from "../../features/newsletterThunks.js";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email format").required("Required"),
@@ -59,6 +60,12 @@ let alert;
         setUserName(userName)
         setRole(role)
         setUser({userName : userName,role : role})
+        
+        
+      //   const isSubscribed = await dispatch(checkIfEmailIsSubscribed({userId : userId}))
+      //   triggerAlert(isSubscribed,"You are subscribed to our newsletter")
+      //   console.log(isSubscribed)
+      // dispatch({ type: "SHOW_NEWSLETTER", payload: true });
       }
       //   setAlert({appAlerts:
       //     alert = (
