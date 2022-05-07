@@ -5,10 +5,13 @@ using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Repository.EducationSectionRepository;
+using CVapp.Infrastructure.Repository.GenericRepository;
+using CVapp.Infrastructure.Repository.NewsletterRepository;
 using CVapp.Infrastructure.Repository.SkillRepository;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,13 +22,15 @@ namespace CVapp.Infrastructure.Services
     {
         private readonly IEducationRepository _educationRepository;
         private readonly ISkillRepository _skillRepository;
+        private readonly INewsletterRepository _newsletterRepository;
         private readonly IMapper _mapper;
 
-        public ContentService(IEducationRepository educationRepository, IMapper mapper, ISkillRepository skillRepository)
+        public ContentService(IEducationRepository educationRepository, IMapper mapper, ISkillRepository skillRepository,INewsletterRepository newsletterRepository)
         {
             _educationRepository = educationRepository;
             _mapper = mapper;
             _skillRepository = skillRepository;
+            _newsletterRepository = newsletterRepository;
         }
         
         public IEnumerable<EducationDto>  GetEducationContent()
@@ -193,6 +198,57 @@ namespace CVapp.Infrastructure.Services
             catch
             {
                 throw new Exception("Error in deleting education");
+            }
+        }
+
+        public NewsletterDto AddEmailToNewsletter(int id,NewsletterDto newsletterDto)
+        {
+            var mail = new EmailAddressAttribute().IsValid(newsletterDto.Email);
+            if (!mail)
+            {
+                throw new InvalidEmailException("Invalid email format");
+            }
+            
+            var newsletterSubscriber = new Newsletter
+            {
+                Email = newsletterDto.Email,
+                UserId = id
+            };
+            var newsletterSubscriberFromDb = _newsletterRepository.GetById(newsletterDto.Id);
+            if (newsletterSubscriberFromDb != null)
+            {
+                throw new DuplicateException("Email is already subscribed");
+            }
+
+            try
+            {
+                _newsletterRepository.Create(newsletterSubscriber);
+            }
+            catch
+            {
+                throw new Exception("Error in subscribing to newsletter");
+            }
+            return new NewsletterDto
+            {
+                Id = newsletterSubscriber.Id,
+                Email = newsletterSubscriber.Email,
+                UserId = newsletterSubscriber.UserId
+            };
+        }
+        public bool CheckIfEmailExists(int id)
+        {
+            var newsletterSubscriber = _newsletterRepository.GetByUserId(id);
+            if (id == 0)
+            {
+                throw new Exception("Error in checking if email exists");
+            }
+            if (newsletterSubscriber == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
