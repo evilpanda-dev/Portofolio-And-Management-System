@@ -18,5 +18,7 @@ namespace CVapp.Infrastructure.Abstractions
         public EducationDto AddNewEducation(EducationDto educationDto);
         public EducationDto UpdateEducation(int id, EducationDto educationDto);
         public void DeleteEducation(int id);
+        public NewsletterDto AddEmailToNewsletter(int id,NewsletterDto newsletterDto);
+        public bool CheckIfEmailExists(int id);
     }
 }
