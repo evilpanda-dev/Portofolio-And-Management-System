@@ -13,6 +13,7 @@ namespace CVapp.Infrastructure.Data
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Newsletter> Newsletter { get; set; }
         
         public Context()
         {
