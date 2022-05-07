@@ -15,6 +15,8 @@ import Header from "../../components/Header/Header";
 import { useState } from "react";
 import { UserContext } from "../../providers/UserProvider";
 import { AlertContext } from "../../providers/AlertProvider";
+import NewsLetter from "../../components/NewsLetter/NewsLetter";
+import { checkIfEmailIsSubscribed } from "../../features/newsletterThunks";
 
 const Inner = (props) => {
   const { imageSrc, setImage } = props;
@@ -46,6 +48,12 @@ const Inner = (props) => {
         setUserName(content.userName);
         setRole(content.role);
         setUser({userName: userName, role: role, userId: content.id})
+        const isSubscribed = await dispatch(checkIfEmailIsSubscribed({userId : content.id}))
+      if(isSubscribed.payload){
+        dispatch({ type: "HIDE_NEWSLETTER", payload: false });
+    } else {
+        dispatch({ type: "SHOW_NEWSLETTER", payload: true });
+    }
       } else {
         setUserName("");
         setRole("");
@@ -69,6 +77,8 @@ const Inner = (props) => {
 
   return (
     <>
+    {/* {showNewsletter && <NewsLetter />} */}
+    <NewsLetter/>
       <BackToTopButton address="#aboutMe" />
     {alert.appAlerts}
       <Panel />
