@@ -19,22 +19,22 @@ namespace CVapp.API.Controllers
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly JwtService _jwtService;*/
         private readonly IWebHostEnvironment _hostEnvironment;
-        private readonly ILoggerManager _logger;
-        private readonly JwtService _jwtService;
+/*        private readonly ILoggerManager _logger;
+        private readonly JwtService _jwtService;*/
         private readonly IUserProfileService _userProfileService;
-        private readonly IUserProfileRepository _userProfileRepository;
+/*        private readonly IUserProfileRepository _userProfileRepository;*/
 
         public UserProfileController(IWebHostEnvironment hostEnvironment,
-                                     ILoggerManager logger,
+/*                                     ILoggerManager logger,
                                      JwtService jwtService,
-                                     IUserProfileRepository userProfileRepository,
+                                     IUserProfileRepository userProfileRepository,*/
                                      IUserProfileService userProfileService)
         {
             _hostEnvironment = hostEnvironment;
-            _logger = logger;
-            _jwtService = jwtService;
+/*            _logger = logger;
+            _jwtService = jwtService;*/
             _userProfileService = userProfileService;
-            _userProfileRepository = userProfileRepository;
+/*            _userProfileRepository = userProfileRepository;*/
         }
 
         [HttpPost("saveAvatar")]
