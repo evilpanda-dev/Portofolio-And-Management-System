@@ -13,6 +13,7 @@ import Layout from "./components/Layout/Layout";
 import { UserContext } from "./providers/UserProvider";
 import { UserProfileContext } from "./providers/UserProfileProvider";
 import UserProfileData from "./pages/UserProfileData/UserProfileData";
+import { getDate } from "./helpers/getDate";
 
 const App = () => {
   const { pathname, hash, key } = useLocation();
@@ -47,7 +48,8 @@ const {setUserProfile} = useContext(UserProfileContext)
           setImage(data.imgByte);
           setUserProfile({firstName: data.firstName,
             lastName: data.lastName,
-          birthDate: (data.birthDate).toString().slice(0,10),
+          // birthDate: (data.birthDate).toString().slice(0,10),
+          birthDate : getDate(data.birthDate),
         address: data.address,
       city: data.city,
     country: data.country,
