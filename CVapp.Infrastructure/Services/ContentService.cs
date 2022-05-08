@@ -8,6 +8,11 @@ using CVapp.Infrastructure.Repository.EducationSectionRepository;
 using CVapp.Infrastructure.Repository.GenericRepository;
 using CVapp.Infrastructure.Repository.NewsletterRepository;
 using CVapp.Infrastructure.Repository.SkillRepository;
+
+using MailChimp.Helper;
+using MailChimp.Net;
+using MailChimp.Net.Interfaces;
+using MailChimp.Net.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -201,7 +206,7 @@ namespace CVapp.Infrastructure.Services
             }
         }
 
-        public NewsletterDto AddEmailToNewsletter(int id,NewsletterDto newsletterDto)
+        public async Task<NewsletterDto> AddEmailToNewsletterAsync(int id,NewsletterDto newsletterDto)
         {
             var mail = new EmailAddressAttribute().IsValid(newsletterDto.Email);
             if (!mail)
@@ -222,6 +227,15 @@ namespace CVapp.Infrastructure.Services
 
             try
             {
+                var listId = "fe8fa4d630";
+                var apiKey = "39b7751589939b24bba532d4c8d8dde9-us17";
+                IMailChimpManager mailChimpManager = new MailChimpManager(apiKey);
+                var member = new Member()
+                {
+                    EmailAddress = newsletterSubscriber.Email,
+                    StatusIfNew = Status.Subscribed
+                };
+                await mailChimpManager.Members.AddOrUpdateAsync(listId, member);
                 _newsletterRepository.Create(newsletterSubscriber);
             }
             catch
