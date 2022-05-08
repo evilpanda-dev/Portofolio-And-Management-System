@@ -71,12 +71,12 @@ namespace CVapp.API.Controllers
             _contentService.UpdateSkillRange(name, skillDto);
             return StatusCode((int)HttpStatusCode.OK);
         }
-
+        
         [HttpPost("subscribeToNewsletter/{id}")]
-        public IActionResult SubscribeToNewsletter(int id, NewsletterDto newsletterDto)
+        public async Task<IActionResult> SubscribeToNewsletter(int id, NewsletterDto newsletterDto)
         {
-            var data = _contentService.AddEmailToNewsletter(id, newsletterDto);
-            return Ok(data);
+            var data = await _contentService.AddEmailToNewsletterAsync(id, newsletterDto);
+            return  Ok(data);
         }
 
         [HttpGet("checkEmail/{id}")]
