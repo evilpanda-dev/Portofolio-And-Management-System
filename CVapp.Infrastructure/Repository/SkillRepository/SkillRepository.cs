@@ -1,4 +1,5 @@
 ﻿using CVapp.Domain.Models.Content;
+using CVapp.Infrastructure.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Repository.SkillRepository
 {
-    public class SkillRepository : ISkillRepository
+    public class SkillRepository : Repository<Skill>,ISkillRepository
     {
         private readonly DbContext _context;
         private DbSet<Skill> _dbSet;
 
-        public SkillRepository(DbContext context)
+        public SkillRepository(DbContext context) : base(context)
         {
             _context = context;
             _dbSet = _context.Set<Skill>();
         }
 
-        public Skill Create(Skill entity)
+        /*public Skill Create(Skill entity)
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
@@ -60,7 +61,7 @@ namespace CVapp.Infrastructure.Repository.SkillRepository
             _context.SaveChanges();
 
             return entity;
-        }
+        }*/
         public IEnumerable<Skill> GetAllSkills()
         {
             return Filter()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Repository.SkillRepository
 {
-    public interface ISkillRepository: IRepository<Skill>
+    public interface ISkillRepository
     {
         public IEnumerable<Skill> GetAllSkills();
         public Skill GetSkillByName(string name);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Repository.EducationSectionRepository
 {
-    public interface IEducationRepository : IRepository<Education>
+    public interface IEducationRepository
     {
         public IEnumerable<Education> GetAllEducations();
     }

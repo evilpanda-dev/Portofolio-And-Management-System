@@ -1,20 +1,21 @@
 ﻿using CVapp.Domain.Models.Authentificated;
+using CVapp.Infrastructure.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace CVapp.Infrastructure.Repository.UserProfileRepository
 {
-    public class UserProfileRepository : IUserProfileRepository
+    public class UserProfileRepository : Repository<UserProfile>,IUserProfileRepository
     {
         private readonly DbContext _context;
         private DbSet<UserProfile> _dbSet;
 
-        public UserProfileRepository(DbContext context)
+        public UserProfileRepository(DbContext context) : base(context)
         {
             _context = context;
             _dbSet = _context.Set<UserProfile>();
         }
 
-        public UserProfile Create(UserProfile entity)
+        /*public UserProfile Create(UserProfile entity)
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
@@ -45,14 +46,14 @@ namespace CVapp.Infrastructure.Repository.UserProfileRepository
         public UserProfile GetById(int id)
         {
             return _dbSet.FirstOrDefault(e => e.Id == id);
-        }
+        }*/
 
         public UserProfile GetByUserId(int id)
         {
             return _dbSet.FirstOrDefault(e => e.UserId == id);
         }
 
-        public void SaveChanges() => _context.SaveChanges();
+        /*public void SaveChanges() => _context.SaveChanges();
 
         public UserProfile Update(UserProfile entity)
         {
@@ -60,6 +61,6 @@ namespace CVapp.Infrastructure.Repository.UserProfileRepository
             _context.SaveChanges();
 
             return entity;
-        }
+        }*/
     }
 }

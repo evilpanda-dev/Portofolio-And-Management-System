@@ -1,4 +1,5 @@
 ﻿using CVapp.Domain.Models.Content;
+using CVapp.Infrastructure.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Repository.EducationSectionRepository
 {
-    public class EducationRepository : IEducationRepository
+    public class EducationRepository : Repository<Education>,IEducationRepository
     {
         private readonly DbContext _context;
         private DbSet<Education> _dbSet;
 
-        public EducationRepository(DbContext context)
+        public EducationRepository(DbContext context) : base(context)
         {
             _context = context;
             _dbSet = _context.Set<Education>();
         }
         
-        public Education Create(Education entity)
+       /* public Education Create(Education entity)
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
@@ -60,7 +61,7 @@ namespace CVapp.Infrastructure.Repository.EducationSectionRepository
             _context.SaveChanges();
 
             return entity;
-        }
+        }*/
 
         public IEnumerable<Education> GetAllEducations()
         {

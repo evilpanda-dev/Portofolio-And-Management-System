@@ -1,4 +1,5 @@
 ﻿using CVapp.Domain.Models.Content;
+using CVapp.Infrastructure.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Repository.NewsletterRepository
 {
-    public class NewsletterRepository : INewsletterRepository
+    public class NewsletterRepository : Repository<Newsletter>,INewsletterRepository
     {
         private readonly DbContext _context;
         private DbSet<Newsletter> _dbSet;
 
-        public NewsletterRepository(DbContext context)
+        public NewsletterRepository(DbContext context) : base(context)
         {
             _context = context;
             _dbSet = _context.Set<Newsletter>();
         }
 
-        public Newsletter Create(Newsletter entity)
+        /*public Newsletter Create(Newsletter entity)
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
@@ -50,14 +51,14 @@ namespace CVapp.Infrastructure.Repository.NewsletterRepository
         public Newsletter GetById(int id)
         {
             return _dbSet.FirstOrDefault(e => e.Id == id);
-        }
+        }*/
 
         public Newsletter GetByUserId(int id)
         {
             return _dbSet.FirstOrDefault(e => e.UserId == id);
         }
 
-        public void SaveChanges() => _context.SaveChanges();
+       /* public void SaveChanges() => _context.SaveChanges();
 
         public Newsletter Update(Newsletter entity)
         {
@@ -65,6 +66,6 @@ namespace CVapp.Infrastructure.Repository.NewsletterRepository
             _context.SaveChanges();
 
             return entity;
-        }
+        }*/
     }
 }

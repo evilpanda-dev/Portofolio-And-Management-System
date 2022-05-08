@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Repository.NewsletterRepository
 {
-    public interface INewsletterRepository : IRepository<Newsletter>
+    public interface INewsletterRepository 
     {
         public Newsletter GetByUserId(int userId);
     }

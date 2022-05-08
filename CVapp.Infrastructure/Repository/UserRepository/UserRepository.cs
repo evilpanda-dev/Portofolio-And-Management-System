@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CVapp.Infrastructure.Repository.UserRepository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<User>,IUserRepository
     {
         private readonly DbContext _context;
         private DbSet<User> _dbSet;
 
-        public UserRepository(DbContext context)
+        public UserRepository(DbContext context) : base(context)
         {
             _context = context;
             _dbSet = _context.Set<User>();
         }
 
-        public User Create(User entity)
+        /*public User Create(User entity)
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
@@ -41,24 +41,24 @@ namespace CVapp.Infrastructure.Repository.UserRepository
 
         public IEnumerable<User> Filter() => _dbSet;
 
-        public IEnumerable<User> Filter(Func<User, bool> predicate) => _dbSet.Where(predicate);
+        public IEnumerable<User> Filter(Func<User, bool> predicate) => _dbSet.Where(predicate);*/
 
         public User GetByEmail(string Email)
         {
             return _dbSet.FirstOrDefault(e => e.Email == Email);
         }
 
-        public User GetById(int id)
+        /*public User GetById(int id)
         {
             return _dbSet.FirstOrDefault(e => e.Id == id);
-        }
+        }*/
 
         public User GetByUserName(string username)
         {
             return _dbSet.FirstOrDefault(e => e.UserName == username);
         }
 
-        public void SaveChanges() => _context.SaveChanges();
+       /* public void SaveChanges() => _context.SaveChanges();
 
         public User Update(User entity)
         {
@@ -66,6 +66,6 @@ namespace CVapp.Infrastructure.Repository.UserRepository
             _context.SaveChanges();
 
             return entity;
-        }
+        }*/
     }
 }

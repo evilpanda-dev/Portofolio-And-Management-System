@@ -3,7 +3,7 @@ using CVapp.Infrastructure.Repository.GenericRepository;
 
 namespace CVapp.Infrastructure.Repository.UserProfileRepository
 {
-    public interface IUserProfileRepository: IRepository<UserProfile>
+    public interface IUserProfileRepository 
     {
         public UserProfile GetByUserId(int id);
     }
