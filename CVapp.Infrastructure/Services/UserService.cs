@@ -15,10 +15,10 @@ namespace CVapp.Infrastructure.Services
     {
         private readonly ILoggerManager _logger;
        // private readonly IRepository<User> _repository;
-        private readonly IUserRepository _userRepository;
-        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly UserRepository _userRepository;
+        private readonly UserProfileRepository _userProfileRepository;
 
-        public UserService(ILoggerManager logger, IUserRepository userRepository, IUserProfileRepository userProfileRepository)
+        public UserService(ILoggerManager logger, UserRepository userRepository, UserProfileRepository userProfileRepository)
         {
             _logger = logger;
             _userRepository = userRepository;

@@ -25,12 +25,12 @@ namespace CVapp.Infrastructure.Services
 {
     public class ContentService : IContentService
     {
-        private readonly IEducationRepository _educationRepository;
-        private readonly ISkillRepository _skillRepository;
-        private readonly INewsletterRepository _newsletterRepository;
+        private readonly EducationRepository _educationRepository;
+        private readonly SkillRepository _skillRepository;
+        private readonly NewsletterRepository _newsletterRepository;
         private readonly IMapper _mapper;
 
-        public ContentService(IEducationRepository educationRepository, IMapper mapper, ISkillRepository skillRepository,INewsletterRepository newsletterRepository)
+        public ContentService(EducationRepository educationRepository, IMapper mapper, SkillRepository skillRepository, NewsletterRepository newsletterRepository)
         {
             _educationRepository = educationRepository;
             _mapper = mapper;

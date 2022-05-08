@@ -19,12 +19,12 @@ namespace CVapp.Infrastructure.Services
 {
     public class UserProfileService : IUserProfileService
     {
-        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly UserProfileRepository _userProfileRepository;
         private readonly JwtService _jwtService;
         private readonly HttpContext _httpContext;
         private readonly IMapper _mapper;
         //private readonly IPropertyMapper<UserProfileDto,UserProfile> _propertyMapper;
-        public UserProfileService(IUserProfileRepository userProfileRepository, JwtService jwtService, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public UserProfileService(UserProfileRepository userProfileRepository, JwtService jwtService, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _userProfileRepository = userProfileRepository;
             _jwtService = jwtService;
