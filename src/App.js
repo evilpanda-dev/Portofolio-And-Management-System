@@ -14,6 +14,7 @@ import { UserContext } from "./providers/UserProvider";
 import { UserProfileContext } from "./providers/UserProfileProvider";
 import UserProfileData from "./pages/UserProfileData/UserProfileData";
 import { getDate } from "./helpers/getDate";
+import DynamicUserProfile from "./pages/DynamicUserProfile/DynamicUserProfile";
 
 const App = () => {
   const { pathname, hash, key } = useLocation();
@@ -82,6 +83,7 @@ id: data.id})
          <Route element={<RequireAuth allowedRoles={["Admin","User"]}/>}>
           <Route path="/profile" element={<UserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>} />
           <Route path="/profileData" element={<UserProfileData setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>} />
+          <Route path="/profile/:userName" element={<DynamicUserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>}/>
           </Route>
 
           {/* catch all */}
