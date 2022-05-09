@@ -88,6 +88,12 @@ namespace CVapp.API.Controllers
             var userProfile =  _userProfileService.UpdateUserProfileData(id,userProfileDto);
             return StatusCode((int)HttpStatusCode.OK);
         }
-        
+
+        [HttpGet("profile/{name}")]
+        public IActionResult GetPersonalProfile(string name)
+        {
+            var userProfile = _userProfileService.GetPersonalUserProfileData(name);
+            return Ok(userProfile);
+        }
     }
 }
