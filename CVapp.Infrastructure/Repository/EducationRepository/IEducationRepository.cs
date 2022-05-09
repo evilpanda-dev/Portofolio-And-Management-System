@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CVapp.Infrastructure.Repository.EducationSectionRepository
+namespace CVapp.Infrastructure.Repository.EducationRepository
 {
     public interface IEducationRepository
     {
