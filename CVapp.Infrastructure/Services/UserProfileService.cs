@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using CVapp.Domain.Models.Authentificated;
+using CVapp.Domain.Models.Authentification;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
+using CVapp.Infrastructure.Repository.UserRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
@@ -20,13 +22,15 @@ namespace CVapp.Infrastructure.Services
     public class UserProfileService : IUserProfileService
     {
         private readonly UserProfileRepository _userProfileRepository;
+        private readonly UserRepository _userRepository;
         private readonly JwtService _jwtService;
         private readonly HttpContext _httpContext;
         private readonly IMapper _mapper;
         //private readonly IPropertyMapper<UserProfileDto,UserProfile> _propertyMapper;
-        public UserProfileService(UserProfileRepository userProfileRepository, JwtService jwtService, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public UserProfileService(UserProfileRepository userProfileRepository, JwtService jwtService, IHttpContextAccessor httpContextAccessor, IMapper mapper,UserRepository userRepository)
         {
             _userProfileRepository = userProfileRepository;
+            _userRepository = userRepository;
             _jwtService = jwtService;
             _httpContext = httpContextAccessor.HttpContext;
             _mapper = mapper;
@@ -149,6 +153,31 @@ namespace CVapp.Infrastructure.Services
             // var mappedUserProfile = _mapper.Map(userProfileFromDb, userProfileDto);
 
             return userProfileDto;
+        }
+
+        public UserProfileDto GetPersonalUserProfileData(string name)
+        {
+            try
+            {
+                var userName = _userRepository.Filter(x => x.UserName == name).FirstOrDefault();
+                var userProfile = _userProfileRepository.Filter(x => x.UserId == userName.Id).FirstOrDefault();
+                return new UserProfileDto
+                {
+                    AboutMe = userProfile.AboutMe,
+                    Address = userProfile.Address,
+                    BirthDate = userProfile.BirthDate,
+                    City = userProfile.City,
+                    Country = userProfile.Country,
+                    FirstName = userProfile.FirstName,
+                    LastName = userProfile.LastName,
+                    Id = userProfile.Id,
+                    PhoneNumber = userProfile.PhoneNumber,
+                    UserId = userProfile.UserId
+                };
+            } catch
+            {
+                throw new BadRequestException("User profile not found!");
+            }
         }
 
     }
