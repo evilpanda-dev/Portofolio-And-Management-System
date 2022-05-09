@@ -17,6 +17,7 @@ import { UserContext } from "../../providers/UserProvider";
 import { AlertContext } from "../../providers/AlertProvider";
 import NewsLetter from "../../components/NewsLetter/NewsLetter";
 import { checkIfEmailIsSubscribed } from "../../features/newsletterThunks";
+import ProjectData from '../../utils/data.js'
 
 const Inner = (props) => {
   const { imageSrc, setImage } = props;
@@ -129,7 +130,7 @@ const Inner = (props) => {
           ]}
         />
         <Skills />
-        {/* <Portofolio data={ProjectData} /> */}
+        <Portofolio data={ProjectData} />
         <Address />
         <Feedback
           data={[
