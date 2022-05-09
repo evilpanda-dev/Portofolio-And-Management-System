@@ -132,7 +132,8 @@ const Inner = (props) => {
         <Skills />
         <Portofolio data={ProjectData} />
         <Address />
-        <Feedback
+        <Feedback imageSrc={imageSrc}/>
+        {/* <Feedback
           data={[
             {
               feedback:
@@ -155,7 +156,7 @@ const Inner = (props) => {
               },
             },
           ]}
-        />
+        /> */}
       </div>
     </>
   );
