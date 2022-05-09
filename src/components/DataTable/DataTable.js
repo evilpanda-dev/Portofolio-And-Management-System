@@ -8,14 +8,35 @@ import {
     Paper
 } from '@mui/material';
 import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useEffect,useState } from 'react';
 import {UserProfileContext} from '../../providers/UserProfileProvider'
 import './DataTable.css'
 
-const DataTable = () =>{
-    const {userProfile} = useContext(UserProfileContext);
-    let data = [];
-    // push user profile data to data array
-    data.push(userProfile)
+const DataTable = props =>{
+    const {
+        profileData,
+    } = props
+   const [data,setData] = useState([]);
+    let dataKeys = {};
+
+    useEffect(()=>{
+        if(profileData instanceof Promise){
+            profileData.then((response) => {
+               // data.push(response)
+               for (var attr in response) {
+                   if (response.hasOwnProperty(attr)) dataKeys[attr] = (response[attr]);
+                   if(attr === 'birthDate'){
+                          dataKeys[attr] = (response[attr].split('T')[0]);
+                   }
+               }
+           })
+           data.push(dataKeys)
+       } else {
+           data.push(profileData)
+       }
+    },[])
+    
     return(
         <div className="dataTable">
 <TableContainer component={Paper} >
