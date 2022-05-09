@@ -1,0 +1,18 @@
+﻿using CVapp.Infrastructure.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CVapp.Infrastructure.Abstractions
+{
+    public interface ICommentService
+    {
+        public IEnumerable<CommentDto> GetAllComments();
+        public CommentDto AddNewComment(CommentDto commentDto);
+        public CommentDto UpdateComment(int id, CommentDto commentDto);
+        public CommentDto ReplyToTheComment(CommentDto commentDto);
+        public void DeleteComment(int id);
+    }
+}
