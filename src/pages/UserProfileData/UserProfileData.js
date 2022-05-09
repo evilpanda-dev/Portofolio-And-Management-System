@@ -9,13 +9,14 @@ import { UserContext } from "../../providers/UserProvider";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 const UserProfileData = props => {
     const { setImage, setUserName, setRole, imageSrc } = props;
     // const { user } = useContext(UserContext);
     // const navigate = useNavigate();
     // const userId = user?.userId;
-
+    const {userProfile} = useContext(UserProfileContext);
     const buttonDesign = {
         buttonClass: "previousButton"
       }
@@ -36,7 +37,7 @@ const UserProfileData = props => {
         <Typography variant="h4" component="h2" align="center" marginTop={'40px'}>
   Your profile data: 
 </Typography>
-<DataTable/>
+<DataTable profileData={userProfile}/>
 <div className="previousPageButtonContainer">
 <Button text="Previous page" address="/profile" theme={buttonDesign} />
 </div>
