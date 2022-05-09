@@ -4,7 +4,7 @@ using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Helpers;
-using CVapp.Infrastructure.Repository.EducationSectionRepository;
+using CVapp.Infrastructure.Repository.EducationRepository;
 using CVapp.Infrastructure.Repository.GenericRepository;
 using CVapp.Infrastructure.Repository.NewsletterRepository;
 using CVapp.Infrastructure.Repository.SkillRepository;
