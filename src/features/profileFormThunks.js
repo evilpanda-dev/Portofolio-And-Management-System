@@ -83,3 +83,27 @@ export const updateUserProfile = createAsyncThunk(
       }
     }
   );
+
+  export const getPersonalProfile = createAsyncThunk(
+    "profile/getProfile",
+    async (profileData, { rejectWithValue,dispatch}) => {
+      const {userName} = profileData;
+      try {
+     const response = await fetch(`https://localhost:5000/api/profile/${userName}`, {
+      method:"GET",
+        })
+        .then(response => {
+            return response
+        })
+        
+  
+   // const data = await response.json();
+        if (!response.ok) {
+          throw new Error(response.Message);
+        }
+      return await response.json()
+      } catch (error) {
+        return rejectWithValue(error.message);
+      }
+    }
+  );
