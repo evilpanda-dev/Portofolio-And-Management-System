@@ -12,7 +12,7 @@ namespace CVapp.Infrastructure.Abstractions
         public IEnumerable<CommentDto> GetAllComments();
         public CommentDto AddNewComment(CommentDto commentDto);
         public CommentDto UpdateComment(int id, CommentDto commentDto);
-        public CommentDto ReplyToTheComment(CommentDto commentDto);
+/*        public CommentDto ReplyToTheComment(CommentDto commentDto);*/
         public void DeleteComment(int id);
     }
 }
