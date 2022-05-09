@@ -4,14 +4,12 @@
   font-weight: bold;
   font-size: 25px;
   line-height: 120%;
-  color: #26c17e;
-}
+  color: #26c17e; }
 
 .feedbackAvatar {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-}
+  border-radius: 50%; }
 
 .feedbackName {
   font-family: Open Sans;
@@ -20,8 +18,7 @@
   font-size: 14px;
   line-height: 120%;
   color: #222935;
-  margin-left: 20px;
-}
+  margin-left: 20px; }
 
 .feedbackUrl {
   font-family: Open Sans;
@@ -31,28 +28,21 @@
   line-height: 120%;
   color: #26c17e;
   text-decoration: none;
-  margin-top: 15px;
-}
+  margin-top: 15px; }
 
 .feedbackWrapper {
   display: flex;
   flex-direction: column;
-  padding-bottom: 10px;
-}
+  padding-bottom: 10px; }
 
 .userDetails {
   display: flex;
-  justify-content: flex-start;
-}
+  justify-content: flex-start; }
 
 @media screen and (max-width: 600px) {
   .userDetails {
-    flex-direction: column;
-  }
+    flex-direction: column; }
   .feedbackName {
-    margin-left: 0;
-  }
+    margin-left: 0; }
   .feedbackUrl {
-    margin-top: 0;
-  }
-}
+    margin-top: 0; } }
