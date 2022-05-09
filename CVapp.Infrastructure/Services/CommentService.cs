@@ -44,9 +44,11 @@ namespace CVapp.Infrastructure.Services
         {
             var comment = new Comment
             {
+                Image = commentDto.Image,
                 Text = commentDto.Text,
                 UserName = commentDto.UserName,
                 UserId = commentDto.UserId,
+                ParentId = commentDto.ParentId,
                 CreatedAt = commentDto.CreatedAt
             };
             var commentFromDb = _commentRepository.GetById(commentDto.Id);
@@ -65,10 +67,13 @@ namespace CVapp.Infrastructure.Services
             }
             return new CommentDto
             {
-                Text = commentFromDb.Text,
-                UserName = commentFromDb.UserName,
-                UserId = commentFromDb.UserId,
-                CreatedAt = commentFromDb.CreatedAt
+                Id = comment.Id,
+                Image = comment.Image,
+                Text = comment.Text,
+                UserName = comment.UserName,
+                UserId = comment.UserId,
+                ParentId = comment.ParentId,
+                CreatedAt = comment.CreatedAt
             };
         }
         
@@ -83,7 +88,8 @@ namespace CVapp.Infrastructure.Services
                 }
                 var propertyMapper = new PropertyMapper<CommentDto, Comment>(commentDto, comment);
                 propertyMapper.Map(commentDto, comment)
-                   .ForMember(x => x.Text);
+                   .ForMember(x => x.Text)
+                    .ForMember(x => x.UserName);
                 _commentRepository.SaveChanges();
             }
             catch
@@ -93,7 +99,7 @@ namespace CVapp.Infrastructure.Services
             return commentDto;
         }
         
-        public CommentDto ReplyToTheComment(CommentDto commentDto)
+        /*public CommentDto ReplyToTheComment(CommentDto commentDto)
         {
             var comment = new Comment
             {
@@ -125,7 +131,7 @@ namespace CVapp.Infrastructure.Services
                 ParentId = commentDto.ParentId,
                 CreatedAt = commentFromDb.CreatedAt
             };
-        }
+        }*/
         
         public void DeleteComment(int id)
         {
