@@ -9,7 +9,7 @@ namespace CVapp.Infrastructure.Abstractions
 {
     public interface ICommentService
     {
-        public IEnumerable<CommentDto> GetAllComments();
+        public CommentResponse GetAllComments( int page);
         public CommentDto AddNewComment(CommentDto commentDto);
         public CommentDto UpdateComment(int id, CommentDto commentDto);
 /*        public CommentDto ReplyToTheComment(CommentDto commentDto);*/
