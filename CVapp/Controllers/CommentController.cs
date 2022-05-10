@@ -15,10 +15,10 @@ namespace CVapp.API.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet("comments")]
-        public IActionResult GetComments()
+        [HttpGet("comments/{page}")]
+        public IActionResult GetComments(int page)
         {
-            var data = _commentService.GetAllComments();
+            var data = _commentService.GetAllComments(page);
             return Ok(data);
         }
 
