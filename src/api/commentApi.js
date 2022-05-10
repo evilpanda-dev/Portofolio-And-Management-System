@@ -1,8 +1,8 @@
-export const getComments = async () => {
+export const getComments = async (currentPage) => {
     // const dispatch = useDispatch()
     let data = []
     return (
-         fetch("https://localhost:5000/api/comments", {
+         fetch(`https://localhost:5000/api/comments/${currentPage}`, {
             method: "GET",
           }) 
           .then((response) => {
