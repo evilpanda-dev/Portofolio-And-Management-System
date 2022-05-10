@@ -1,6 +1,3 @@
-import { useDispatch } from "react-redux";
-import { fetchComments,addNewComment } from "../features/commentThunks.js";
-
 export const getComments = async () => {
     // const dispatch = useDispatch()
     let data = []
