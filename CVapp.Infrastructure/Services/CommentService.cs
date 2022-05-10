@@ -24,15 +24,28 @@ namespace CVapp.Infrastructure.Services
             _mapper = mapper;
         }
         
-        public IEnumerable<CommentDto> GetAllComments()
+        public CommentResponse GetAllComments(int page)
         {
             try
             {
                 var comments = _commentRepository.GetAllComments();
                 var commentsResult = _mapper.Map<IEnumerable<CommentDto>>(comments);
-                var commentsResultArray = commentsResult.ToArray();
 
-                return commentsResultArray;
+                var pageResults = 3f;
+                var pageCount = (int)Math.Ceiling(commentsResult.Count() / pageResults);
+                
+                var commentsResultList = commentsResult
+                    .Skip((page - 1) * (int)pageResults)
+                    .Take((int)pageResults)
+                    .ToList();
+
+                var response = new CommentResponse
+                {
+                    Comments = commentsResultList,
+                    CurrentPage = page,
+                    Pages = pageCount
+                };
+                return response;
             }
             catch
             {
