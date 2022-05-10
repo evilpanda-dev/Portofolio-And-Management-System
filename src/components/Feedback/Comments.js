@@ -14,10 +14,40 @@ import { useAlert } from "../../hooks/useAlert";
 const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
- const triggerAlert = useAlert()
-  const rootComments = backendComments.filter(
-    (backendComment) => backendComment.parentId === null
-  );
+  const [currentPage,setCurrentPage] = useState(1)
+  const [fetching,setFetching] = useState(true)
+  const [totalCount,setTotalCount] = useState()
+  
+  const scrollHandler = (e) =>{
+    // if(e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100 && 
+    // backendComments.length < totalCount){
+    //       setFetching(true)
+    // }
+    if(window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight){
+        setFetching(true)
+    }
+}
+
+  useEffect(()=>{
+ document.addEventListener('scroll', scrollHandler)
+
+ return ()=>{
+    document.removeEventListener('scroll', scrollHandler)
+ }
+  },[])
+
+  useEffect(() => {
+    if(fetching){
+        getCommentsApi(currentPage).then((data) => {
+          setBackendComments([...backendComments, ...data.comments]);
+          setCurrentPage(prevState => prevState + 1)
+          setTotalCount(data.pages)
+        })
+        .finally(()=>{
+          setFetching(false)
+        });
+    }
+}, [fetching]);
 
   const getReplies = (commentId) =>
     backendComments
@@ -26,6 +56,7 @@ const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
+
   const addComment = (text,parentId) => {
     createCommentApi(text,currentUserName,currentUserId,parentId,currentAvatar).then((comment) => {
       setBackendComments([comment, ...backendComments]);
@@ -57,11 +88,9 @@ const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
     }
   };
 
-  useEffect(() => {
-    getCommentsApi().then((data) => {
-      setBackendComments(data);
-    });
-  }, []);
+  const rootComments = backendComments.filter(
+    (backendComment) => backendComment.parentId === null
+  );
 
   return (
     <div className="comments">
