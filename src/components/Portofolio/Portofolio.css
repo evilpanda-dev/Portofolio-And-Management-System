@@ -2,8 +2,8 @@
 @import url(../Button/FilterButton.css);
 .row {
   display: flex;
-  flex-wrap: nowrap;
-}
+  flex-wrap: wrap;
+  justify-content: space-around; }
 
 .portofolioSection {
   font-family: Open Sans;
@@ -11,17 +11,12 @@
   font-weight: bold;
   font-size: 25px;
   line-height: 120%;
-  color: #26c17e;
-}
+  color: #26c17e; }
 
 @media only screen and (max-width: 600px) {
   .row {
-    flex-wrap: wrap;
-  }
-}
+    flex-wrap: wrap; } }
 
 @media only screen and (max-width: 1500px) {
   .row {
-    flex-wrap: wrap;
-  }
-}
+    flex-wrap: wrap; } }
