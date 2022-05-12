@@ -78,7 +78,7 @@ id: data.id})
           />
           {/* protected routes */}
       <Route element={<RequireAuth allowedRoles={["Admin"]}/>}>
-         <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/dashboard" element={<Dashboard imageSrc={image}/>} />
          </Route>
          <Route element={<RequireAuth allowedRoles={["Admin","User"]}/>}>
           <Route path="/profile" element={<UserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>} />
