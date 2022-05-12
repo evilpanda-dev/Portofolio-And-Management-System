@@ -1,0 +1,28 @@
+.dashboardPage {
+  margin-left: 18.5rem;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  transition: 0.5s; }
+
+.sideBarMenu.active ~ .dashboardPage {
+  margin-left: 7.5rem; }
+
+.statsTitle {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 120%;
+  color: #26c17e; }
+
+.chart {
+  width: 110%;
+  height: 110%;
+  margin-left: -90px; }
+
+@media screen and (max-width: 600px) {
+  .sideBarMenu ~ .dashboardPage {
+    margin-left: 7.5rem; }
+  ~ .dashboardPage {
+    margin-left: 2.5rem; } }
