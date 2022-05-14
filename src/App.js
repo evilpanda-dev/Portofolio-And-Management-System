@@ -6,7 +6,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState,useContext } from "react";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import Layout from "./components/Layout/Layout";
@@ -21,6 +21,7 @@ const App = () => {
   const [image, setImage] = useState("");
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("");
+  const navigate = useNavigate();
 const {setUserProfile} = useContext(UserProfileContext)
 
   useEffect(() => {
@@ -35,6 +36,8 @@ const {setUserProfile} = useContext(UserProfileContext)
         const element = document.getElementById(id);
         if (element) {
           element.scrollIntoView();
+        } else {
+          navigate(`/Inner${hash}`);
         }
       }, 0);
     }
