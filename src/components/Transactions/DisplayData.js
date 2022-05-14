@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { excelDateToJson } from "../../functions/excelDateToJson";
+import { excelDateToJson } from "../../helpers/excelDateToJson";
 import { getDate } from "../../helpers/getDate";
 import "../Transactions/DisplayData.css";
 
@@ -40,8 +40,6 @@ const DisplayData = props => {
 tableBody.forEach(row => {
   if(typeof row.A === "number"){
     // let date = Date(excelDateToJson(row.A))
-    let date = excelDateToJson(row.A);
-    console.log(date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear())
     row.A = excelDateToJson(row.A).toLocaleDateString("ro-RO");
   }
 });
