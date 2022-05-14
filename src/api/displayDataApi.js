@@ -36,6 +36,14 @@ document.body.removeChild(link);
     return instance.request(options)
   }
 
-  export const getDatabaseData = () =>{
-
+  export const getDatabaseData = async(currentPage,rowsNumber) =>{
+// const dispatch = useDispatch()
+return (
+     fetch(`https://localhost:5000/api/getTransaction/${currentPage}/${rowsNumber}`, {
+        method: "GET",
+      }) 
+      .then((response) => {
+        return response.json()
+      })
+)
   }
