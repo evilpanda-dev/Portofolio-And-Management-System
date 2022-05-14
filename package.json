@@ -16,9 +16,12 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
+    "ajax": "^0.0.4",
     "axios": "^0.26.1",
+    "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "node-sass": "^7.0.1",
+    "node.extend": "^2.0.2",
     "prettier": "^2.6.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -30,6 +33,7 @@
     "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.11"
   },
   "scripts": {
