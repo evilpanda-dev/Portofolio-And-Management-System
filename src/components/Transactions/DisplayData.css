@@ -1,7 +1,9 @@
 .displayData {
   margin-top: 2em;
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  overflow-y: scroll;
+  max-height: 500px; }
 
 .displayData thead th {
   text-align: left;
