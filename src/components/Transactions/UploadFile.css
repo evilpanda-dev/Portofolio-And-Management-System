@@ -1,0 +1,49 @@
+.uploadFile > label {
+  font-size: 1.4em; }
+
+.uploadFile > div {
+  background-color: #00d394;
+  height: 11em;
+  margin-top: 1em; }
+
+.uploadFile > div > label {
+  border: 2px solid black;
+  height: 98%;
+  cursor: pointer;
+  border-style: dashed;
+  display: flex;
+  justify-content: center; }
+
+.uploadFile > div > label > div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column; }
+
+.uploadFile input {
+  margin-top: 1em;
+  width: 13.2em; }
+
+.uploadFile input + div {
+  text-align: center;
+  margin-top: 0.6em;
+  margin-bottom: 7px; }
+
+.uploadFile input::file-selector-button {
+  width: 13.2em;
+  height: 2.5em;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333333;
+  background-color: white;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase; }
+
+.uploadFile input::file-selector-button:hover {
+  background-color: #ebebeb;
+  transition: all 0.1s ease-in-out; }
+
+.uploadFile input::file-selector-button:active {
+  background-color: #d6d6d6;
+  transition: all 0.2s ease-in-out; }
