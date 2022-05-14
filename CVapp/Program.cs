@@ -7,6 +7,7 @@ using CVapp.Infrastructure.Mappings.Profiles;
 using CVapp.Infrastructure.Repository.CommentRepository;
 using CVapp.Infrastructure.Repository.EducationRepository;
 using CVapp.Infrastructure.Repository.GenericRepository;
+using CVapp.Infrastructure.Repository.MoneyRepository;
 using CVapp.Infrastructure.Repository.NewsletterRepository;
 using CVapp.Infrastructure.Repository.SkillRepository;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
@@ -14,6 +15,7 @@ using CVapp.Infrastructure.Repository.UserRepository;
 using CVapp.Infrastructure.Services;
 using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
@@ -39,12 +41,14 @@ builder.Services.AddScoped(typeof(EducationRepository));
 builder.Services.AddScoped(typeof(SkillRepository));
 builder.Services.AddScoped(typeof(NewsletterRepository));
 builder.Services.AddScoped(typeof(CommentRepository));
+builder.Services.AddScoped(typeof(MoneyRepository));
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IMoneyService, MoneyService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -64,6 +68,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.KeyLengthLimit = 209715200;
+});
 
 var app = builder.Build();
 
