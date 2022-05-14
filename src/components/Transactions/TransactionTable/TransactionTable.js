@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import { getDatabaseData } from "../../../api/displayDataApi";
+import { getDate } from "../../../helpers/getDate";
 
 const TransactionTable = () => {
     const [dataFromDb, setDataFromDb] = useState([]);
@@ -44,6 +45,12 @@ const TransactionTable = () => {
     const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, totalItems.length - tableCurrentPage * rowsPerPage);
     
+    dataFromDb.forEach(row => {
+      if(row.transactionDate){
+        row.transactionDate = row.transactionDate.split('T')[0];
+      }
+    });
+
     return (
         <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
