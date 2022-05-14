@@ -30,7 +30,9 @@ namespace CVapp.Infrastructure.Mappings.Profiles
             CreateMap<Education, EducationDto>();
             CreateMap<Skill, SkillDto>();
             CreateMap<Comment, CommentDto>();
-           // CreateMap<Skill, SkillDto>().ReverseMap();
+            CreateMap<Money, MoneyDto>().ReverseMap()
+                .ForMember(u => u.Id, opt => opt.Ignore());
+            // CreateMap<Skill, SkillDto>().ReverseMap();
         }
     }
 }
