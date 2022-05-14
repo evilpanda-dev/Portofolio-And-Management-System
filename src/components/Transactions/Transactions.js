@@ -3,6 +3,7 @@ import { generateAndDownloadExcel,saveToDatabase } from "../../api/displayDataAp
 import UploadFile from "./UploadFile.js"
 import DisplayData from "./DisplayData.js";
 import { getDatabaseData } from "../../api/displayDataApi.js";
+import TransactionTable from "./TransactionTable/TransactionTable";
 
 const Transactions = () => {
     const [uploadedExcelData, setUploadedExcelData] = useState([]);
@@ -15,12 +16,16 @@ const Transactions = () => {
   
   const viewDatabaseTable = () => {
     setIsViewingData(true);
-    getDatabaseData()
   }
 
     return(
         <>
         <h1 className="transactionsTitle">Transactions</h1>
+        
+        <div>
+        <UploadFile onUploadExcelFile={uploadedExcelDataHandler} />
+      <DisplayData excelData={uploadedExcelData} setData={setDataForDb}/>
+        </div>
         <button onClick={()=>{
             generateAndDownloadExcel("generateExcel","GET")
         }}>Download Excel</button>
@@ -28,10 +33,8 @@ const Transactions = () => {
             saveToDatabase(dataForDb)
         }}>Save to database</button>
         <button onClick={viewDatabaseTable}>View database table</button>
-        <div>
-        <UploadFile onUploadExcelFile={uploadedExcelDataHandler} />
-      <DisplayData excelData={uploadedExcelData} setData={setDataForDb}/>
-        </div>
+        {isViewingData && 
+        <TransactionTable />}
         </>
     )
 }
