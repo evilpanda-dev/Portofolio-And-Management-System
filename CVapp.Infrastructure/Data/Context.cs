@@ -15,6 +15,7 @@ namespace CVapp.Infrastructure.Data
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Newsletter> Newsletter { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Money> Money { get; set; }
         
         public Context()
         {
