@@ -43,16 +43,16 @@ const DisplayData = props => {
       <table>
         <thead>
           <tr>
-            {keys.map((key) => (
-              <th>{tableHead[key]}</th>
+            {keys.map((key,index) => (
+              <th key={index}>{tableHead[key]}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {tableBody.map((row) => (
-            <tr key={row.id}>
-              {keys.map((key) => (
-                <td>{row[key]}</td>
+          {tableBody.map((row,index) => (
+            <tr key={index}>
+              {keys.map((key,index) => (
+                <td key={index}>{row[key]}</td>
               ))}
             </tr>
           ))}
