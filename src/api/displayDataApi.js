@@ -47,3 +47,14 @@ return (
       })
 )
   }
+
+  export const searchForData = async (searchTransactions) => {
+return (
+  fetch(`https://localhost:5000/api/searchTransactions/${searchTransactions}`, {
+        method: "GET",
+      }) 
+      .then((response) => {
+        return response.json()
+      })
+)
+  }
