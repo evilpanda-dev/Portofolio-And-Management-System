@@ -8,8 +8,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
-import { getDatabaseData } from "../../../api/displayDataApi";
-import { getDate } from "../../../helpers/getDate";
+import SearchBar from "material-ui-search-bar";
+import { getDatabaseData, searchForData } from "../../../api/displayDataApi";
+
 
 const TransactionTable = () => {
     const [dataFromDb, setDataFromDb] = useState([]);
@@ -17,6 +18,7 @@ const TransactionTable = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [totalItems,setTotalItems] = useState(0);
     const [rowsPerPage,setRowsPerPage] = useState(10);
+    const [searched,setSearched] = useState("")
 
     useEffect(()=>{
       getDatabaseData(tableCurrentPage,rowsPerPage).then(data => {
@@ -42,17 +44,35 @@ const TransactionTable = () => {
         setTableCurrentPage(0);
     }
 
+    const requestSearch = (searchedVal) =>{
+      const filteredRows = searchForData(searchedVal).then(data => {
+        setDataFromDb(data);
+      })
+    }
+
+    const cancelSearch = () =>{
+      setSearched("");
+      requestSearch(searched);
+    }
+
     const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, totalItems.length - tableCurrentPage * rowsPerPage);
     
-    dataFromDb.forEach(row => {
-      if(row.transactionDate){
-        row.transactionDate = row.transactionDate.split('T')[0];
-      }
-    });
+    if(dataFromDb.length > 0 ){
+      dataFromDb.forEach(row => {
+        if(row.transactionDate){
+          row.transactionDate = row.transactionDate.split('T')[0];
+        }
+      });
+    }
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{"maxHeight" : "600px"}}>
+          <SearchBar
+          value={searched}
+          onChange={(searchVal) => requestSearch(searchVal)}
+          onCancelSearch={() => cancelSearch()}
+        />
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -66,9 +86,9 @@ const TransactionTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataFromDb
+            {dataFromDb.length > 0 ? dataFromDb.map((row, index) => (
               // .slice(tableCurrentPage * rowsPerPage, tableCurrentPage * rowsPerPage + rowsPerPage)
-              .map((row) => (
+              // .map((row) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     {row.transactionDate}
@@ -80,7 +100,11 @@ const TransactionTable = () => {
                   <TableCell align="right">{row.transactionType}</TableCell>
                   <TableCell align="right">{row.currency}</TableCell>
                 </TableRow>
-              ))}
+              )) : (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">No data found</TableCell>
+                  </TableRow>
+                  )}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />
@@ -89,7 +113,7 @@ const TransactionTable = () => {
           </TableBody>
         </Table>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10, 25,{ label: 'All', value: totalItems }]}
           component="div"
           count={totalItems}
           rowsPerPage={rowsPerPage}
