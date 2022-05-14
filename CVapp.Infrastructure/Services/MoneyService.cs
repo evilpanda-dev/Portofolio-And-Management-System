@@ -30,8 +30,14 @@ namespace CVapp.Infrastructure.Services
 
         public async Task<List<MoneyDto>> SaveTransactions(List<MoneyDto> transactionsDto)
         {
+            try
+            {
             var transactions = _mapper.Map<List<MoneyDto>,List<Money>>(transactionsDto);
-            await _moneyRepository.SaveTransactions(transactions);
+            await _moneyRepository.SaveTransactions(transactions);  
+            }catch
+            {
+                throw new Exception("Error while saving transactions");
+            }
             return transactionsDto;
         }
 
