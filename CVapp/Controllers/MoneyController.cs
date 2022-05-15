@@ -28,5 +28,33 @@ namespace CVapp.API.Controllers
             var result = _moneyService.GenerateAndDownloadExcel();
             return Ok(result);
         }
+
+        [HttpGet("getTransactions")]
+        public IActionResult GetTransactions()
+        {
+            var result = _moneyService.GetTransactions();
+            return Ok(result);
+        }
+
+        [HttpGet("transactionsDescending/{property}/{order}")]
+        public IActionResult SortTransactions(string property,string order)
+        {
+            var result = _moneyService.SortTransactions(property,order);
+            return Ok(result);
+        }
+
+        [HttpGet("searchTransactions/{search}")]
+        public IActionResult SearchTransactions(string search)
+        {
+            var result = _moneyService.SearchTransaction(search);
+            return Ok(result);
+        }
+
+        [HttpGet("getTransaction/{pageNumber}/{pageSize}")]
+        public IActionResult GetTransaction(int pageNumber,int pageSize)
+        {
+            var result = _moneyService.GetPaginatedTransactions(pageNumber, pageSize);
+            return Ok(result);
+        }
     }
 }
