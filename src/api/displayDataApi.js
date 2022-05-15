@@ -36,10 +36,13 @@ document.body.removeChild(link);
     return instance.request(options)
   }
 
-  export const getDatabaseData = async(currentPage,rowsNumber) =>{
+  export const getDatabaseData = async(params) =>{
 // const dispatch = useDispatch()
+var url = new URL ("https://localhost:5000/api/getTransactions")
+if (params != null) Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
 return (
-     fetch(`https://localhost:5000/api/getTransaction/${currentPage}/${rowsNumber}`, {
+     fetch(url, {
         method: "GET",
       }) 
       .then((response) => {
@@ -48,24 +51,24 @@ return (
 )
   }
 
-  export const searchForData = async (searchTransactions) => {
-return (
-  fetch(`https://localhost:5000/api/searchTransactions/${searchTransactions}`, {
-        method: "GET",
-      }) 
-      .then((response) => {
-        return response.json()
-      })
-)
-  }
+//   export const searchForData = async (searchTransactions) => {
+// return (
+//   fetch(`https://localhost:5000/api/searchTransactions/${searchTransactions}`, {
+//         method: "GET",
+//       }) 
+//       .then((response) => {
+//         return response.json()
+//       })
+// )
+//   }
 
-  export const sortData = async(sortBy,sortOrder) => {
-    return (
-      fetch(`https://localhost:5000/api/transactionsDescending/${sortBy}/${sortOrder}`, {
-        method: "GET",
-      }) 
-      .then((response) => {
-        return response.json()
-      })
-    )
-  }
+//   export const sortData = async(sortBy,sortOrder) => {
+//     return (
+//       fetch(`https://localhost:5000/api/transactionsDescending/${sortBy}/${sortOrder}`, {
+//         method: "GET",
+//       }) 
+//       .then((response) => {
+//         return response.json()
+//       })
+//     )
+//   }
