@@ -2,10 +2,12 @@
 using CVapp.Domain.Models.Content;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
+using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Repository.MoneyRepository;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using CVapp.Infrastructure.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,5 +68,106 @@ namespace CVapp.Infrastructure.Services
             }
             return Convert.ToBase64String(fileContents);
         }
+
+        public List<MoneyDto> GetTransactions()
+        {
+            try
+            {
+                var transactions = _moneyRepository.GetTransactions();
+                if (transactions.Count == 0)
+                {
+                    throw new DataSetEmptyException("No transactions found");
+                }
+                var transactionsDto = _mapper.Map<List<Money>, List<MoneyDto>>(transactions);
+            return transactionsDto;
+            }
+            catch (DataSetEmptyException ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<MoneyDto> SortTransactions(string property,string order)
+        {
+            try
+            {
+                var transactions = _moneyRepository.GetTransactions();
+                var isDescending = false;
+                if(order == "asc")
+                {
+                    transactions = transactions.AsQueryable().OrderBy(property, isDescending).ToList();
+                }
+                else
+                {
+                    isDescending = true;
+
+                    transactions = transactions.AsQueryable().OrderBy(property, isDescending).ToList();
+                }
+                
+                if (transactions.Count == 0)
+                {
+                    throw new DataSetEmptyException("No transactions found");
+                }
+                var transactionsDto = _mapper.Map<List<Money>, List<MoneyDto>>(transactions);
+                return transactionsDto;
+            }
+            catch (DataSetEmptyException ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<MoneyDto> SearchTransaction(string text)
+        {
+            try
+            {
+                var transactions = _moneyRepository.GetTransactions()
+                    .Where(x => x.TransactionAccount.Contains(text) ||
+                    x.Category.Contains(text) ||
+                    x.Item.Contains(text) ||
+                    x.TransactionType.Contains(text))
+                    .ToList();
+                if (transactions.Count == 0)
+                {
+                    throw new DataSetEmptyException("No transactions found");
+                }
+                var transactionsDto = _mapper.Map<List<Money>, List<MoneyDto>>(transactions);
+                return transactionsDto;
+            }
+            catch (DataSetEmptyException ex)
+            {
+                throw ex;
+            }
+        }
+
+        public MoneyResponse GetPaginatedTransactions(int pageNumber, int pageSize)
+        {
+            try
+            {
+                var transactions = _moneyRepository.GetTransactions();
+                var transactionsResult = _mapper.Map<List<Money>, List<MoneyDto>>(transactions);
+
+                var totalPages = (int)Math.Ceiling(transactionsResult.Count() / (double)pageSize);
+
+                var transactionsResultList = transactionsResult
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                var response = new MoneyResponse
+                {
+                    Transactions = transactionsResultList,
+                    CurrentPage = pageNumber,
+                    TotalPages = totalPages,
+                    TotalItems = transactionsResult.Count()
+                };
+                return response;
+            }
+            catch
+            {
+                throw new Exception("Error in getting transactions");
+            }
+        }
+
     }
 }
