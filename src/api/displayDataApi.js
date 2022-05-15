@@ -58,3 +58,14 @@ return (
       })
 )
   }
+
+  export const sortData = async(sortBy,sortOrder) => {
+    return (
+      fetch(`https://localhost:5000/api/transactionsDescending/${sortBy}/${sortOrder}`, {
+        method: "GET",
+      }) 
+      .then((response) => {
+        return response.json()
+      })
+    )
+  }
