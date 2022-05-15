@@ -13,7 +13,7 @@ namespace CVapp.Domain.Models.Content
         public string TransactionAccount { get; set; }
         public string Category { get; set; }
         public string Item { get; set; }
-        public float Amount { get; set; }
+        public float Sum { get; set; }
         public string TransactionType { get; set; }
         public string Currency { get; set; }
     }
