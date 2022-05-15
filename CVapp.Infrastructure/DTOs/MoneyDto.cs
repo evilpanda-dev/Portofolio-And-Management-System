@@ -13,7 +13,7 @@ namespace CVapp.Infrastructure.DTOs
         public string TransactionAccount { get; set; }
         public string Category { get; set; }
         public string Item { get; set; }
-        public float Amount { get; set; }
+        public decimal Sum { get; set; }
         public string TransactionType { get; set; }
         public string Currency { get; set; }
     }
