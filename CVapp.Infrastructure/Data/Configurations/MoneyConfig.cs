@@ -32,9 +32,9 @@ namespace CVapp.Infrastructure.Data.Configurations
                 .HasColumnType("nvarchar")
                 .HasMaxLength(100)
                 .HasColumnName("Item");
-            builder.Property(u => u.Amount)
+            builder.Property(u => u.Sum)
                 .HasColumnType("float")
-                .HasColumnName("Amount");
+                .HasColumnName("Sum");
             builder.Property(u => u.TransactionType)
                 .HasColumnType("nvarchar")
                 .HasMaxLength(100)
