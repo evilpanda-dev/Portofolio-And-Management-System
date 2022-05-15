@@ -16,10 +16,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using LicenseContext = OfficeOpenXml.LicenseContext;
+using CVapp.Infrastructure.Query;
 
 namespace CVapp.Infrastructure.Services
 {
-    
+
     public class MoneyService : IMoneyService
     {
         private readonly MoneyRepository _moneyRepository;
@@ -69,7 +70,7 @@ namespace CVapp.Infrastructure.Services
             return Convert.ToBase64String(fileContents);
         }
 
-        public List<MoneyDto> GetTransactions()
+        public MoneyResponse GetTransactions(MoneyQueryParameters queryParameters)
         {
             try
             {
@@ -79,14 +80,66 @@ namespace CVapp.Infrastructure.Services
                     throw new DataSetEmptyException("No transactions found");
                 }
                 var transactionsDto = _mapper.Map<List<Money>, List<MoneyDto>>(transactions);
-            return transactionsDto;
+                var quaryableTransactions = transactionsDto.AsQueryable();
+                
+                //Filtering by price
+                if(queryParameters.MinPrice != null && queryParameters.MaxPrice != null)
+                {
+                    quaryableTransactions = quaryableTransactions.Where(
+                        p => p.Sum >= queryParameters.MinPrice && p.Sum <= queryParameters.MaxPrice);
+                }
+                //Filter by item
+                if (!string.IsNullOrEmpty(queryParameters.Item))
+                {
+                    quaryableTransactions = quaryableTransactions.Where(p => p.Item == queryParameters.Item);
+                }
+
+                //Search in every column
+                if (!string.IsNullOrEmpty(queryParameters.Search))
+                {
+                    quaryableTransactions = quaryableTransactions.Where(p =>
+                        p.Item.ToLower().Contains(queryParameters.Search.ToLower()) ||
+                        p.TransactionAccount.ToLower().Contains(queryParameters.Search.ToLower()) ||
+                        p.Category.ToLower().Contains(queryParameters.Search.ToLower()) ||
+                        p.TransactionType.ToLower().Contains(queryParameters.Search.ToLower()));
+                }
+
+                //Sort by all columns
+                var isDescending = false;
+                if (queryParameters.OrderDirection == "asc" &&
+                    !string.IsNullOrEmpty(queryParameters.OrderByProperty) &&
+                    !string.IsNullOrEmpty(queryParameters.OrderDirection))
+                {
+                    quaryableTransactions = quaryableTransactions.OrderBy(queryParameters.OrderByProperty, isDescending);
+                }
+                else if(queryParameters.OrderDirection == "desc" &&
+                    !string.IsNullOrEmpty(queryParameters.OrderByProperty) &&
+                    !string.IsNullOrEmpty(queryParameters.OrderDirection))
+                {
+                    isDescending = true;
+
+                    quaryableTransactions = quaryableTransactions.OrderBy(queryParameters.OrderByProperty, isDescending);
+                }
+
+                //Pagination
+                quaryableTransactions = quaryableTransactions
+                    .Skip(queryParameters.PageSize * (queryParameters.PageNumber - 1))
+                    .Take(queryParameters.PageSize);
+                
+                var response = new MoneyResponse
+                {
+                    Transactions = quaryableTransactions.ToList(),
+                    CurrentPage = queryParameters.PageNumber,
+                    TotalItems = transactions.Count()
+                };
+                return response;
             }
             catch (DataSetEmptyException ex)
             {
                 throw ex;
             }
         }
-
+/*
         public List<MoneyDto> SortTransactions(string property,string order)
         {
             try
@@ -167,7 +220,7 @@ namespace CVapp.Infrastructure.Services
             {
                 throw new Exception("Error in getting transactions");
             }
-        }
+        }*/
 
     }
 }
