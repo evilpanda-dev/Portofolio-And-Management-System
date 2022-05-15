@@ -1,6 +1,7 @@
 ﻿using CVapp.Domain.Models.Content;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
+using CVapp.Infrastructure.Query;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CVapp.API.Controllers
@@ -30,12 +31,12 @@ namespace CVapp.API.Controllers
         }
 
         [HttpGet("getTransactions")]
-        public IActionResult GetTransactions()
+        public IActionResult GetTransactions([FromQuery]MoneyQueryParameters queryParameters)
         {
-            var result = _moneyService.GetTransactions();
+            var result = _moneyService.GetTransactions(queryParameters);
             return Ok(result);
         }
-
+/*
         [HttpGet("transactionsDescending/{property}/{order}")]
         public IActionResult SortTransactions(string property,string order)
         {
@@ -55,6 +56,6 @@ namespace CVapp.API.Controllers
         {
             var result = _moneyService.GetPaginatedTransactions(pageNumber, pageSize);
             return Ok(result);
-        }
+        }*/
     }
 }
