@@ -49,6 +49,7 @@ builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddScoped<IContentService, ContentService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IMoneyService, MoneyService>();
+builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
