@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -13,6 +13,7 @@ import { getDatabaseData } from "../../api/userDataApi";
 import { useDispatch } from "react-redux";
 import { deleteProfile } from "../../features/profileFormThunks";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
+import { UserCountContext } from "../../providers/UserCountProvider";
 
 const useStyles = makeStyles({
   table: {
@@ -25,6 +26,7 @@ const UserDataTable = () => {
     const [tableCurrentPage, setTableCurrentPage] = useState(0);
     const [totalItems,setTotalItems] = useState(0);
     const [rowsPerPage,setRowsPerPage] = useState(5);
+    const {setUserCount} = useContext(UserCountContext)
 
     const classes = useStyles();
     const dispatch = useDispatch()
@@ -37,6 +39,7 @@ const UserDataTable = () => {
         getDatabaseData(queryParams).then(data => {
           setDataFromDb(data.userData);
           setTotalItems(data.totalItems);
+          setUserCount({totalUsers: totalItems})
         })
         if(dataFromDb.length === 0){
           setTableCurrentPage(0)
