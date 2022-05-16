@@ -40,7 +40,7 @@ const MorePieCharts = () => {
         </div>
           {menuItems.map((month,index)=>{
             return(
-              <div className="pieChart">
+              <div className="pieChart" key={index}>
               <PieChart month={month} transactionType="Expense" key={index}/>
               </div>
             )
@@ -51,7 +51,7 @@ const MorePieCharts = () => {
         </div> */}
           {menuItems.map((month,index)=>{
             return(
-              <div className="pieChart">
+              <div className="pieChart" key={index}>
               <PieChart month={month} transactionType="Income" key={index}/>
               </div>
             )
