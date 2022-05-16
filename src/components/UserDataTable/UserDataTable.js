@@ -10,6 +10,9 @@ import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import { TablePagination } from "@material-ui/core";
 import { getDatabaseData } from "../../api/userDataApi";
+import { useDispatch } from "react-redux";
+import { deleteProfile } from "../../features/profileFormThunks";
+import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 
 const useStyles = makeStyles({
   table: {
@@ -24,7 +27,7 @@ const UserDataTable = () => {
     const [rowsPerPage,setRowsPerPage] = useState(5);
 
     const classes = useStyles();
-
+    const dispatch = useDispatch()
     let queryParams = Object.assign({},
         rowsPerPage === null ? null : {pageSize: rowsPerPage},
         tableCurrentPage === null ? null : {pageNumber: tableCurrentPage},
@@ -49,9 +52,14 @@ const UserDataTable = () => {
         setTableCurrentPage(0);
     }
 
-    const handleEdit = values => {
-      console.log("The Values that you wish to edit ", values);
-    };
+    // let terminateWindow ;
+    
+    // const terminateAccount = values => {
+    // //   console.log("The Values that you wish to edit ", values);
+    // terminateWindow = (
+    //     <ConfirmDialog anotherUserId={values.id}/>
+    // )
+    // };
 
     const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, totalItems - tableCurrentPage * rowsPerPage);
@@ -104,9 +112,7 @@ const UserDataTable = () => {
                   <TableCell align="center">{row.phoneNumber}</TableCell>
                   <TableCell align="center">{row.aboutMe}</TableCell>
                   <TableCell align="center">
-                <Button aria-label="edit" onClick={() => handleEdit(row)}>
-                  Edit
-                </Button>
+                <ConfirmDialog anotherUserId={row.id}/>
               </TableCell>
                 </TableRow>
               )) : (
