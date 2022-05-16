@@ -1,8 +1,6 @@
 using CVapp.API.Extensions;
-using CVapp.Domain.Models.Authentificated;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.Data;
-using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Mappings.Profiles;
 using CVapp.Infrastructure.Repository.CommentRepository;
 using CVapp.Infrastructure.Repository.EducationRepository;
@@ -49,7 +47,7 @@ builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => 
+    .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {

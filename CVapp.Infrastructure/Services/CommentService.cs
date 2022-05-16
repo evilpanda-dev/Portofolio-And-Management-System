@@ -5,11 +5,6 @@ using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Repository.CommentRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Services
 {
@@ -23,7 +18,7 @@ namespace CVapp.Infrastructure.Services
             _commentRepository = commentRepository;
             _mapper = mapper;
         }
-        
+
         public CommentResponse GetAllComments(int page)
         {
             try
@@ -33,7 +28,7 @@ namespace CVapp.Infrastructure.Services
 
                 var pageResults = 3f;
                 var pageCount = (int)Math.Ceiling(commentsResult.Count() / pageResults);
-                
+
                 var commentsResultList = commentsResult
                     .Skip((page - 1) * (int)pageResults)
                     .Take((int)pageResults)
@@ -51,11 +46,11 @@ namespace CVapp.Infrastructure.Services
             }
             catch
             {
-                
+
                 throw new Exception("Error in getting comments");
             }
         }
-        
+
         public CommentDto AddNewComment(CommentDto commentDto)
         {
             var comment = new Comment
@@ -92,8 +87,8 @@ namespace CVapp.Infrastructure.Services
                 CreatedAt = comment.CreatedAt
             };
         }
-        
-        public CommentDto UpdateComment(int id,CommentDto commentDto)
+
+        public CommentDto UpdateComment(int id, CommentDto commentDto)
         {
             try
             {
@@ -114,7 +109,7 @@ namespace CVapp.Infrastructure.Services
             }
             return commentDto;
         }
-        
+
         public void DeleteComment(int id)
         {
             var comment = _commentRepository.GetById(id);
@@ -131,6 +126,6 @@ namespace CVapp.Infrastructure.Services
                 throw new Exception("Error in deleting the comment");
             }
         }
-        
+
     }
 }

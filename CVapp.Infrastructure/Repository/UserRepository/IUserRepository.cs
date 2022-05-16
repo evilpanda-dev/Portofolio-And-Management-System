@@ -1,5 +1,4 @@
 ﻿using CVapp.Domain.Models.Authentification;
-using CVapp.Infrastructure.Repository.GenericRepository;
 
 namespace CVapp.Infrastructure.Repository.UserRepository
 {

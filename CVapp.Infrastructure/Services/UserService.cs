@@ -3,7 +3,6 @@ using CVapp.Domain.Models.Authentification;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
-using CVapp.Infrastructure.Repository.GenericRepository;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Repository.UserRepository;
 using LoggerService;
@@ -17,14 +16,16 @@ namespace CVapp.Infrastructure.Services
         private readonly UserRepository _userRepository;
         private readonly UserProfileRepository _userProfileRepository;
 
-        public UserService(ILoggerManager logger, UserRepository userRepository, UserProfileRepository userProfileRepository)
+        public UserService(ILoggerManager logger,
+            UserRepository userRepository,
+            UserProfileRepository userProfileRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
             _userProfileRepository = userProfileRepository;
         }
 
-        public UserDto Register(RegisterDto dto,UserProfileDto userProfileDto)
+        public UserDto Register(RegisterDto dto, UserProfileDto userProfileDto)
         {
             var user = new User
             {
@@ -56,7 +57,7 @@ namespace CVapp.Infrastructure.Services
                 throw new BadRequestException("Password must be at least 8 characters long");
             }
             _userRepository.Create(user);
-            
+
             _logger.LogInfo($"User {user.UserName} is successeful registered");
 
             var userProfile = new UserProfile
@@ -98,12 +99,12 @@ namespace CVapp.Infrastructure.Services
             if (user == null)
             {
                 _logger.LogError($"Login attempt failed for user: {dto.Email} because the email is not matching");
-                 throw new BadRequestException($"The email {dto.Email} is not matching" );
+                throw new BadRequestException($"The email {dto.Email} is not matching");
             }
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
             {
                 _logger.LogError($"Login attempt failed for user: {dto.Email} because the password is not matching");
-                 throw new BadRequestException("The password is not matching");
+                throw new BadRequestException("The password is not matching");
             }
             if (dto.Email == "artiom.suruc@outlook.com")
             {
@@ -130,7 +131,7 @@ namespace CVapp.Infrastructure.Services
             {
                 throw new BadRequestException("User not found!");
             }
-        }        
+        }
 
     }
 }

@@ -1,11 +1,6 @@
 ﻿using CVapp.Domain.Models.Content;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Data.Configurations
 {
@@ -15,10 +10,11 @@ namespace CVapp.Infrastructure.Data.Configurations
         {
             builder.ToTable("Money");
             builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id).ValueGeneratedOnAdd()
+            builder.Property(u => u.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnType("int")
                 .HasColumnName("Id");
-            builder.Property(u=> u.TransactionDate)
+            builder.Property(u => u.TransactionDate)
                 .HasColumnType("datetime")
                 .HasColumnName("TransactionDate");
             builder.Property(u => u.TransactionAccount)

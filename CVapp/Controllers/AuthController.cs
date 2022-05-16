@@ -5,9 +5,7 @@ using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Repository.GenericRepository;
 using CVapp.Infrastructure.Services;
 using LoggerService;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace CVapp.API.Controllers
 {
@@ -35,7 +33,7 @@ namespace CVapp.API.Controllers
         public IActionResult Register(RegisterDto dto)
         {
             var userProfileDto = new UserProfileDto();
-            var userDto = _userService.Register(dto,userProfileDto);
+            var userDto = _userService.Register(dto, userProfileDto);
             return CreatedAtAction(nameof(Register), userDto);
 
         }

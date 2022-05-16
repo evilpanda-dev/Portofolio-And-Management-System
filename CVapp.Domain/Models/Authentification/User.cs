@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CVapp.Domain.Models.Authentification
+﻿namespace CVapp.Domain.Models.Authentification
 {
     public class User : IEntityBase
     {

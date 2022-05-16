@@ -1,15 +1,10 @@
 ﻿using CVapp.Domain.Models.Content;
 using CVapp.Infrastructure.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Repository.NewsletterRepository
 {
-    public class NewsletterRepository : Repository<Newsletter>,INewsletterRepository
+    public class NewsletterRepository : Repository<Newsletter>, INewsletterRepository
     {
         private readonly DbContext _context;
         private DbSet<Newsletter> _dbSet;

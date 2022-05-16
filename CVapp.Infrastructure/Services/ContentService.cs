@@ -5,21 +5,12 @@ using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
 using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Repository.EducationRepository;
-using CVapp.Infrastructure.Repository.GenericRepository;
 using CVapp.Infrastructure.Repository.NewsletterRepository;
 using CVapp.Infrastructure.Repository.SkillRepository;
-
-using MailChimp.Helper;
 using MailChimp.Net;
 using MailChimp.Net.Interfaces;
 using MailChimp.Net.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Services
 {
@@ -30,28 +21,32 @@ namespace CVapp.Infrastructure.Services
         private readonly NewsletterRepository _newsletterRepository;
         private readonly IMapper _mapper;
 
-        public ContentService(EducationRepository educationRepository, IMapper mapper, SkillRepository skillRepository, NewsletterRepository newsletterRepository)
+        public ContentService(EducationRepository educationRepository,
+            IMapper mapper,
+            SkillRepository skillRepository,
+            NewsletterRepository newsletterRepository)
         {
             _educationRepository = educationRepository;
             _mapper = mapper;
             _skillRepository = skillRepository;
             _newsletterRepository = newsletterRepository;
         }
-        
-        public IEnumerable<EducationDto>  GetEducationContent()
+
+        public IEnumerable<EducationDto> GetEducationContent()
         {
             try
-            {    
-            var educations = _educationRepository.GetAllEducations();
+            {
+                var educations = _educationRepository.GetAllEducations();
                 var educationResult = _mapper.Map<IEnumerable<EducationDto>>(educations);
                 var educationResultArray = educationResult.ToArray();
-                
+
                 return educationResultArray;
-            } catch
+            }
+            catch
             {
                 throw new Exception("Error in getting education data");
             }
-            
+
         }
 
         public IEnumerable<SkillDto> GetSkillContent()
@@ -83,11 +78,12 @@ namespace CVapp.Infrastructure.Services
             {
                 throw new DuplicateException("Skill already exists");
             }
-            
+
             try
             {
                 _skillRepository.Create(skill);
-            } catch
+            }
+            catch
             {
                 throw new Exception("Error in adding new skill");
             }
@@ -206,14 +202,14 @@ namespace CVapp.Infrastructure.Services
             }
         }
 
-        public async Task<NewsletterDto> AddEmailToNewsletterAsync(int id,NewsletterDto newsletterDto)
+        public async Task<NewsletterDto> AddEmailToNewsletterAsync(int id, NewsletterDto newsletterDto)
         {
             var mail = new EmailAddressAttribute().IsValid(newsletterDto.Email);
             if (!mail)
             {
                 throw new InvalidEmailException("Invalid email format");
             }
-            
+
             var newsletterSubscriber = new Newsletter
             {
                 Email = newsletterDto.Email,

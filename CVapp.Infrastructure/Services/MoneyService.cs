@@ -8,13 +8,6 @@ using CVapp.Infrastructure.Repository.MoneyRepository;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using CVapp.Infrastructure.ExtensionMethods;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 using CVapp.Infrastructure.Query;
 
@@ -25,7 +18,7 @@ namespace CVapp.Infrastructure.Services
     {
         private readonly MoneyRepository _moneyRepository;
         private readonly IMapper _mapper;
-        public MoneyService(MoneyRepository moneyRepository,IMapper mapper)
+        public MoneyService(MoneyRepository moneyRepository, IMapper mapper)
         {
             _moneyRepository = moneyRepository;
             _mapper = mapper;
@@ -35,9 +28,10 @@ namespace CVapp.Infrastructure.Services
         {
             try
             {
-            var transactions = _mapper.Map<List<MoneyDto>,List<Money>>(transactionsDto);
-            await _moneyRepository.SaveTransactions(transactions);  
-            }catch
+                var transactions = _mapper.Map<List<MoneyDto>, List<Money>>(transactionsDto);
+                await _moneyRepository.SaveTransactions(transactions);
+            }
+            catch
             {
                 throw new Exception("Error while saving transactions");
             }
@@ -51,7 +45,7 @@ namespace CVapp.Infrastructure.Services
             dataTable.Columns.Remove("Id");
             byte[] fileContents = null;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using(ExcelPackage pck = new ExcelPackage())
+            using (ExcelPackage pck = new ExcelPackage())
             {
                 ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Transactions");
                 ws.Cells["A1"].LoadFromDataTable(dataTable, true);
@@ -81,9 +75,9 @@ namespace CVapp.Infrastructure.Services
                 }
                 var transactionsDto = _mapper.Map<List<Money>, List<MoneyDto>>(transactions);
                 var quaryableTransactions = transactionsDto.AsQueryable();
-                
+
                 //Filtering by price
-                if(queryParameters.MinPrice != null && queryParameters.MaxPrice != null)
+                if (queryParameters.MinPrice != null && queryParameters.MaxPrice != null)
                 {
                     quaryableTransactions = quaryableTransactions.Where(
                         p => p.Sum >= queryParameters.MinPrice && p.Sum <= queryParameters.MaxPrice);
@@ -112,7 +106,7 @@ namespace CVapp.Infrastructure.Services
                 {
                     quaryableTransactions = quaryableTransactions.OrderBy(queryParameters.OrderByProperty, isDescending);
                 }
-                else if(queryParameters.OrderDirection == "desc" &&
+                else if (queryParameters.OrderDirection == "desc" &&
                     !string.IsNullOrEmpty(queryParameters.OrderByProperty) &&
                     !string.IsNullOrEmpty(queryParameters.OrderDirection))
                 {
@@ -125,7 +119,7 @@ namespace CVapp.Infrastructure.Services
                 quaryableTransactions = quaryableTransactions
                     .Skip(queryParameters.PageSize * (queryParameters.PageNumber - 1))
                     .Take(queryParameters.PageSize);
-                
+
                 var response = new MoneyResponse
                 {
                     Transactions = quaryableTransactions.ToList(),

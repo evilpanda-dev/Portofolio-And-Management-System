@@ -26,7 +26,7 @@ namespace CVapp.API.Middlewares
             }
             catch (UnauthorizedException ex)
             {
-                await HandleExceptionAsync(httpContext,ex, HttpStatusCode.Unauthorized);
+                await HandleExceptionAsync(httpContext, ex, HttpStatusCode.Unauthorized);
             }
             catch (Exception ex)
             {

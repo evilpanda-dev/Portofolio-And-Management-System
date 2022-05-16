@@ -1,12 +1,5 @@
-﻿using CVapp.Domain.Models.Content;
-using CVapp.Infrastructure.DTOs;
+﻿using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Query;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace CVapp.Infrastructure.Abstractions
 {

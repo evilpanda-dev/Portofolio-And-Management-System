@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CVapp.Infrastructure.Query
+﻿namespace CVapp.Infrastructure.Query
 {
     public class MoneyQueryParameters : QueryParameters
     {

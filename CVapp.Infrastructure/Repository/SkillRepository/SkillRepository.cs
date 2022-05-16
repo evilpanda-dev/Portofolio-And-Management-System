@@ -1,15 +1,10 @@
 ﻿using CVapp.Domain.Models.Content;
 using CVapp.Infrastructure.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Repository.SkillRepository
 {
-    public class SkillRepository : Repository<Skill>,ISkillRepository
+    public class SkillRepository : Repository<Skill>, ISkillRepository
     {
         private readonly DbContext _context;
         private DbSet<Skill> _dbSet;
@@ -19,13 +14,13 @@ namespace CVapp.Infrastructure.Repository.SkillRepository
             _context = context;
             _dbSet = _context.Set<Skill>();
         }
-        
+
         public IEnumerable<Skill> GetAllSkills()
         {
             return Filter()
                 .ToList();
         }
-        
+
         public Skill GetSkillByName(string name)
         {
             return _dbSet.FirstOrDefault(n => n.Name == name);

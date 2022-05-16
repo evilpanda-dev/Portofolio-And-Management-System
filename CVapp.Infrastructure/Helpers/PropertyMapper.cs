@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Helpers
 {
-    public class PropertyMapper<T1, T2> : IPropertyMapper<T1,T2>
+    public class PropertyMapper<T1, T2> : IPropertyMapper<T1, T2>
     {
         private readonly T1 _source;
         private readonly T2 _destination;
@@ -33,10 +28,10 @@ namespace CVapp.Infrastructure.Helpers
             return this;
         }
 
-       public PropertyMapper<T1, T2> Map<T1, T2>(T1 source, T2 destination)
+        public PropertyMapper<T1, T2> Map<T1, T2>(T1 source, T2 destination)
         {
             return new PropertyMapper<T1, T2>(source, destination);
         }
-        
+
     }
 }

@@ -9,7 +9,8 @@ namespace CVapp.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
             builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id).ValueGeneratedOnAdd()
+            builder.Property(u => u.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnType("int");
             builder.Property(u => u.FirstName)
                 .HasColumnName("FirstName")

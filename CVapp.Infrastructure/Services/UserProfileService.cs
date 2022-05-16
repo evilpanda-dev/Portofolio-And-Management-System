@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using CVapp.Domain.Models.Authentificated;
-using CVapp.Domain.Models.Authentification;
+﻿using CVapp.Domain.Models.Authentificated;
 using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Exceptions;
@@ -8,14 +6,6 @@ using CVapp.Infrastructure.Helpers;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Repository.UserRepository;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Services
 {
@@ -25,19 +15,16 @@ namespace CVapp.Infrastructure.Services
         private readonly UserRepository _userRepository;
         private readonly JwtService _jwtService;
         private readonly HttpContext _httpContext;
-        private readonly IMapper _mapper;
 
         public UserProfileService(UserProfileRepository userProfileRepository,
             JwtService jwtService,
             IHttpContextAccessor httpContextAccessor,
-            IMapper mapper,
             UserRepository userRepository)
         {
             _userProfileRepository = userProfileRepository;
             _userRepository = userRepository;
             _jwtService = jwtService;
             _httpContext = httpContextAccessor.HttpContext;
-            _mapper = mapper;
         }
 
         public UserProfileDto GetUserProfileData(string environment)
@@ -77,7 +64,7 @@ namespace CVapp.Infrastructure.Services
             try
             {
                 string fileName = "avatarPic_" + userProfile.UserId + ".jpg";
-            var path = Path.Combine(environment, "usersAvatar", fileName);
+                var path = Path.Combine(environment, "usersAvatar", fileName);
                 if (path == null)
                 {
                     throw new AvatarNotFoundException("Avatar not found,upload avatar in profile page");
@@ -103,7 +90,7 @@ namespace CVapp.Infrastructure.Services
             var files = userProfileDto.Files;
 
             var userProfile = _userProfileRepository.GetByUserId(userId);
-            
+
             if (userProfile.Id > 0 && files != null && files.Length > 0)
             {
 
@@ -127,23 +114,23 @@ namespace CVapp.Infrastructure.Services
             return userProfileDto;
         }
 
-        public UserProfileDto UpdateUserProfileData(int id,UserProfileDto userProfileDto)
+        public UserProfileDto UpdateUserProfileData(int id, UserProfileDto userProfileDto)
         {
             try
             {
-            var userProfileFromDb = _userProfileRepository.GetByUserId(id);
-            var propertyMapper = new PropertyMapper<UserProfileDto, UserProfile>(userProfileDto,userProfileFromDb);
-            propertyMapper.Map(userProfileDto, userProfileFromDb)
-                .ForMember(x => x.FirstName)
-                .ForMember(x => x.LastName)
-                .ForMember(x => x.BirthDate)
-                .ForMember(x => x.Address)
-                .ForMember(x => x.City)
-                .ForMember(x => x.Country)
-                .ForMember(x => x.PhoneNumber)
-                .ForMember(x => x.AboutMe);
-             userProfileFromDb.ModifiedDate = DateTime.Now;
-            _userProfileRepository.SaveChanges();
+                var userProfileFromDb = _userProfileRepository.GetByUserId(id);
+                var propertyMapper = new PropertyMapper<UserProfileDto, UserProfile>(userProfileDto, userProfileFromDb);
+                propertyMapper.Map(userProfileDto, userProfileFromDb)
+                    .ForMember(x => x.FirstName)
+                    .ForMember(x => x.LastName)
+                    .ForMember(x => x.BirthDate)
+                    .ForMember(x => x.Address)
+                    .ForMember(x => x.City)
+                    .ForMember(x => x.Country)
+                    .ForMember(x => x.PhoneNumber)
+                    .ForMember(x => x.AboutMe);
+                userProfileFromDb.ModifiedDate = DateTime.Now;
+                _userProfileRepository.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -171,7 +158,8 @@ namespace CVapp.Infrastructure.Services
                     PhoneNumber = userProfile.PhoneNumber,
                     UserId = userProfile.UserId
                 };
-            } catch
+            }
+            catch
             {
                 throw new BadRequestException("User profile not found!");
             }

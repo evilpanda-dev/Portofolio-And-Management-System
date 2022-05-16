@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CVapp.Infrastructure.Repository.UserProfileRepository
 {
-    public class UserProfileRepository : Repository<UserProfile>,IUserProfileRepository
+    public class UserProfileRepository : Repository<UserProfile>, IUserProfileRepository
     {
         private readonly DbContext _context;
         private DbSet<UserProfile> _dbSet;

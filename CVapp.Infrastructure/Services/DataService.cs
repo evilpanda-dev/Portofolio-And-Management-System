@@ -5,12 +5,7 @@ using CVapp.Infrastructure.Repository.CommentRepository;
 using CVapp.Infrastructure.Repository.MoneyRepository;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Repository.UserRepository;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVapp.Infrastructure.Services
 {
@@ -20,7 +15,10 @@ namespace CVapp.Infrastructure.Services
         private readonly UserProfileRepository _userProfileRepository;
         private readonly CommentRepository _commentRepository;
         private readonly MoneyRepository _moneyRepository;
-        public DataService(UserRepository userRepository, UserProfileRepository userProfileRepository, CommentRepository commentRepository,MoneyRepository moneyRepository)
+        public DataService(UserRepository userRepository,
+            UserProfileRepository userProfileRepository,
+            CommentRepository commentRepository,
+            MoneyRepository moneyRepository)
         {
             _userRepository = userRepository;
             _userProfileRepository = userProfileRepository;
@@ -49,12 +47,12 @@ namespace CVapp.Infrastructure.Services
                                   PhoneNumber = b.PhoneNumber,
                                   AboutMe = b.AboutMe
                               }).ToList();
-                
+
                 var queryableResult = result.AsQueryable();
                 queryableResult = queryableResult
                     .Skip(queryParameters.PageSize * (queryParameters.PageNumber - 1))
                     .Take(queryParameters.PageSize);
-                
+
                 var userDataResponse = new UserDataResponse
                 {
                     UserData = queryableResult.ToList(),
@@ -96,7 +94,8 @@ namespace CVapp.Infrastructure.Services
                     Success = true
                 };
                 return commentResponse;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return new CommentResponse { Success = false, Message = e.Message };
             }
@@ -107,7 +106,7 @@ namespace CVapp.Infrastructure.Services
             try
             {
                 DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-                
+
                 var minDate = new DateTime(2022, 1, 1);
 
                 var query = from transaction in _moneyRepository.GetTransactions()
@@ -127,22 +126,22 @@ namespace CVapp.Infrastructure.Services
                 };
                 return response;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new { Success = false, Message = ex.Message };
             }
         }
 
-        public object GetTransactionsPerCategory(string transactionType,string month)
+        public object GetTransactionsPerCategory(string transactionType, string month)
         {
             try
             {
                 DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
                 var minDate = new DateTime(2022, 1, 1);
-                
+
                 var query = from transaction in _moneyRepository.GetTransactions()
                             where transaction.TransactionDate >= minDate && dtfi.GetMonthName(transaction.TransactionDate.Month) == month
-                            group transaction by new { transaction.Category,transaction.TransactionDate.Month,transaction.TransactionType } into g
+                            group transaction by new { transaction.Category, transaction.TransactionDate.Month, transaction.TransactionType } into g
                             where g.Key.TransactionType == transactionType
                             select new
                             {

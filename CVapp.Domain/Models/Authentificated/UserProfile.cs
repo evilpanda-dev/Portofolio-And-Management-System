@@ -1,10 +1,8 @@
 ﻿using CVapp.Domain.Models.Authentification;
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CVapp.Domain.Models.Authentificated
 {
-    public class UserProfile :IEntityBase
+    public class UserProfile : IEntityBase
     {
         public int Id { get; set; }
         public string? FirstName { get; set; }

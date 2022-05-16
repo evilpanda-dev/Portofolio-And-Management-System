@@ -1,5 +1,4 @@
-﻿using CVapp.Domain.Models.Content;
-using CVapp.Infrastructure.Abstractions;
+﻿using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Query;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +30,7 @@ namespace CVapp.API.Controllers
         }
 
         [HttpGet("getTransactions")]
-        public IActionResult GetTransactions([FromQuery]MoneyQueryParameters queryParameters)
+        public IActionResult GetTransactions([FromQuery] MoneyQueryParameters queryParameters)
         {
             var result = _moneyService.GetTransactions(queryParameters);
             return Ok(result);

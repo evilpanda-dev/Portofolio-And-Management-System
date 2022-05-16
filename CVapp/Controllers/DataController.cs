@@ -36,9 +36,9 @@ namespace CVapp.API.Controllers
         }
 
         [HttpGet("transactionsPerCategory/{transactionType}/{month}")]
-        public IActionResult GetTransactionsPerCategory(string transactionType,string month)
+        public IActionResult GetTransactionsPerCategory(string transactionType, string month)
         {
-            var result = _dataService.GetTransactionsPerCategory(transactionType,month);
+            var result = _dataService.GetTransactionsPerCategory(transactionType, month);
             return Ok(result);
         }
     }
