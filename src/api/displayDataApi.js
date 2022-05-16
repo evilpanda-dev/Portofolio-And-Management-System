@@ -1,7 +1,5 @@
-import ajax from "ajax"
-import axios, { AxiosRequestConfig, Method } from 'axios';
-import { saveAs } from 'file-saver';
-import excelToJson from '../helpers/excelToJson.js';
+import axios from 'axios';
+
 
 export const generateAndDownloadExcel = (url,method) => {
       let instance = axios.create({  baseURL: "https://localhost:5000/api/" });  

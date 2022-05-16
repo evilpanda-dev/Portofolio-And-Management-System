@@ -1,5 +1,4 @@
 export const getDatabaseData = async(params) =>{
-    // const dispatch = useDispatch()
     var url = new URL ("https://localhost:5000/api/allUserData")
     if (params != null) Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -14,7 +13,6 @@ export const getDatabaseData = async(params) =>{
       }
 
       export const getCommentsData = async(params) =>{
-        // const dispatch = useDispatch()
         var url = new URL ("https://localhost:5000/api/allUserComments")
         if (params != null) Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         

@@ -1,6 +1,4 @@
 export const getComments = async (currentPage) => {
-    // const dispatch = useDispatch()
-    let data = []
     return (
          fetch(`https://localhost:5000/api/comments/${currentPage}`, {
             method: "GET",
@@ -12,14 +10,6 @@ export const getComments = async (currentPage) => {
   };
   
   export const createComment = async (text,userName,userId, parentId = null,avatar) => {
-    // return {
-    //   id: Math.random().toString(36).substr(2, 9),
-    //   body: text,
-    //   parentId,
-    //   userId: "1",
-    //   username: "John",
-    //   createdAt: new Date().toISOString(),
-    // };
     const comment = {
         image : avatar,
         text: text,
