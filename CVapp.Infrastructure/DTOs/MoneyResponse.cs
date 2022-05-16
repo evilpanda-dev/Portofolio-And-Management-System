@@ -12,5 +12,7 @@ namespace CVapp.Infrastructure.DTOs
         /*public int TotalPages { get; set; }*/
         public int CurrentPage { get; set; }
         public int TotalItems { get; set; }
+        public bool? Success { get; set; }
+        public string? Message { get; set; }
     }
 }
