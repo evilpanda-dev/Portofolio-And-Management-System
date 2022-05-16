@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { deleteProfile } from "../../features/profileFormThunks";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import { deleteComment } from "../../api/commentApi";
+import { CommentCountContext } from "../../providers/CommentCountProvider";
 
 const useStyles = makeStyles({
   table: {
@@ -27,6 +28,7 @@ const CommentsTable = () => {
     const [totalItems,setTotalItems] = useState(0);
     const [rowsPerPage,setRowsPerPage] = useState(5);
     const [isDeleting,setDeleting] = useState(false)
+    const {setCommentsCount} = useContext(CommentCountContext)
     const classes = useStyles();
 
     let queryParams = Object.assign({},
@@ -39,6 +41,7 @@ const CommentsTable = () => {
           setDataFromDb(data.comments);
           setTotalItems(data.totalItems);
           setDeleting(false)
+          setCommentsCount({totalComments : totalItems})
         })
         if(dataFromDb.length === 0){
           setTableCurrentPage(0)
