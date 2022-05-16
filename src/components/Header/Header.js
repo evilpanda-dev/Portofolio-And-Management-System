@@ -1,9 +1,17 @@
 import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import Logout from "../Logout/Logout";
-import UserProfile from "../../pages/UserProfile/UserProfile";
 import "./Header.css";
 import Button from "../Button/Button";
+
+let menu ;
+let adminPage;
+let src ;
+const homeButton = {
+  buttonClass: "headerElement",
+  buttonText: "profileLink"
+};
+
 
 const Header = (props) =>{
   const {
@@ -11,18 +19,8 @@ const Header = (props) =>{
     setUserName,
     role,
     setRole,
-    setImage,
     imageSrc
   } = props
-
-let menu ;
-let adminPage;
-let src ;
-
-const homeButton = {
-  buttonClass: "headerElement",
-  buttonText: "profileLink"
-};
 
 if (imageSrc==null){
   src="http://avatars0.githubusercontent.com/u/246180?v=4"

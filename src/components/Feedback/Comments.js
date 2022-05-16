@@ -8,9 +8,9 @@ import {
   deleteComment as deleteCommentApi,
 } from "../../api/commentApi.js";
 import '././Comments.css';
-import { useDispatch } from "react-redux";
-import { useAlert } from "../../hooks/useAlert";
 import { UserContext } from "../../providers/UserProvider";
+
+let commentForm 
 
 const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
   const [backendComments, setBackendComments] = useState([]);
@@ -19,11 +19,8 @@ const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
   const [fetching,setFetching] = useState(true)
   const [totalCount,setTotalCount] = useState()
   const {user} = useContext(UserContext)
+  
   const scrollHandler = (e) =>{
-    // if(e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100 && 
-    // backendComments.length < totalCount){
-    //       setFetching(true)
-    // }
     if(window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight){
         setFetching(true)
     }
@@ -93,7 +90,6 @@ const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
     (backendComment) => backendComment.parentId === null
   );
 
-  let commentForm 
   if(user.role ==="Admin" || user.role ==="User"){
     <div className="comment-form-title">Leave a message : </div>
     commentForm = <CommentForm submitLabel="Write" handleSubmit={addComment} />
@@ -101,9 +97,6 @@ const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
 
   return (
     <div className="comments">
-      {/* <h3 className="comments-title">Comments</h3> */}
-      {/* <div className="comment-form-title">Leave a message : </div> */}
-      {/* <CommentForm submitLabel="Write" handleSubmit={addComment} /> */}
       {commentForm}
       <div className="comments-container">
         {rootComments.map((rootComment) => (

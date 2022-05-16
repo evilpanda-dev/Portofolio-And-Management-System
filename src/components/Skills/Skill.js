@@ -8,9 +8,20 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import scale from "../../assets/images/scale.png";
 import "../Skills/Skill.css";
 import { UserContext } from "../../providers/UserProvider";
-import AlertWindow from "../AlertWindow/AlertWindow";
 import { AlertContext } from "../../providers/AlertProvider";
 import { useAlert } from "../../hooks/useAlert";
+
+const validationSchema = Yup.object({
+  name: Yup.string().required("Skill name is a required field"),
+
+  range: Yup.number()
+    .typeError("Skill Range must be a “number” from 10 to 100.")
+    .min(10, "Skill range must be greater than or equal to 10")
+    .max(100, "Skill range must be less than or equal to 100")
+    .required("Skill range is a required field"),
+});
+
+let editButton ;
 
 const Skills = () => {
   const dispatch = useDispatch();
@@ -22,36 +33,12 @@ const Skills = () => {
   const [type, setType] = useState("");
   const [range, setRange] = useState("");
 const {user} = useContext(UserContext);
-const {setAlert} = useContext(AlertContext);
 const triggerAlert = useAlert();
 
   const handleAction = async (e) => {
     e.preventDefault();
     const data = await dispatch(addNewSkill({ skillName: type, skillRange: range }))
 triggerAlert(data,"Skill added successefully")
-    // .then((data) => {
-    //   if(data.meta.requestStatus == "fulfilled"){
-    //     setAlert({appAlerts:
-    //       alert = (
-    //       <AlertWindow message="Skill added successefully" alertType="success"/>
-    //     )})
-    //   } 
-    //   else {
-    //     //return response.text().then(text => { throw new Error(text) })
-    //     //return data.json().then(text => { throw new Error(text.Message) })
-    //     throw new Error(data.payload)
-    //   }
-    //   })
-    //   .catch(error => {
-      
-    //   // console.log('caught it!',error.message);
-    //   setAlert({appAlerts:
-    //     alert = (
-    //     // showAlertWindow("error",error.message,true)
-    //     <AlertWindow message={error.message} alertType="error" />
-    //   )})
-    //   })
-    //   dispatch({type:"WINDOW_ACTIVATED",payload:true});
     setType("");
     setRange("");
     deactivateEdit();
@@ -64,16 +51,6 @@ triggerAlert(data,"Skill added successefully")
       };
     }
   };
-
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Skill name is a required field"),
-
-    range: Yup.number()
-      .typeError("Skill Range must be a “number” from 10 to 100.")
-      .min(10, "Skill range must be greater than or equal to 10")
-      .max(100, "Skill range must be less than or equal to 100")
-      .required("Skill range is a required field"),
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -103,29 +80,6 @@ triggerAlert(data,"Skill added successefully")
     e.preventDefault();
     const data = await dispatch(removeSkill({skillName: type}))
     triggerAlert(data,"Skill removed successefully")
-    // .then((data) => {
-    //   if(data.meta.requestStatus == "fulfilled"){
-    //     setAlert({appAlerts:
-    //       alert = (
-    //       <AlertWindow message="Skill removed successefully" alertType="success"/>
-    //     )})
-    //   } 
-    //   else {
-    //     //return response.text().then(text => { throw new Error(text) })
-    //     //return data.json().then(text => { throw new Error(text.Message) })
-    //     throw new Error(data.payload)
-    //   }
-    //   })
-    //   .catch(error => {
-      
-    //   // console.log('caught it!',error.message);
-    //   setAlert({appAlerts:
-    //     alert = (
-    //     // showAlertWindow("error",error.message,true)
-    //     <AlertWindow message={error.message} alertType="error" />
-    //   )})
-    //   })
-    //   dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setType("");
     setRange("");
     deactivateEdit();
@@ -135,50 +89,11 @@ triggerAlert(data,"Skill added successefully")
     e.preventDefault();
    const data= await dispatch(updateSkillRange({skillName: type, skillRange: range}))
    triggerAlert(data,"Skill updated successefully")
-    // .then((data) => {
-    //   if(data.meta.requestStatus == "fulfilled"){
-    //     setAlert({appAlerts:
-    //       alert = (
-    //       <AlertWindow message="Skill updated successefully" alertType="success"/>
-    //     )})
-    //   } 
-    //   else {
-    //     //return response.text().then(text => { throw new Error(text) })
-    //     //return data.json().then(text => { throw new Error(text.Message) })
-    //     throw new Error(data.payload)
-    //   }
-    //   })
-    //   .catch(error => {
-      
-    //   // console.log('caught it!',error.message);
-    //   setAlert({appAlerts:
-    //     alert = (
-    //     // showAlertWindow("error",error.message,true)
-    //     <AlertWindow message={error.message} alertType="error" />
-    //   )})
-    //   })
-    //   dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setRange("")
             setType("")
             deactivateEdit();
-      //  fetch(`https://localhost:5000/api/updateProfile/${type}`, {
-      //   method:"PATCH",
-      //   body:JSON.stringify({
-      //     type:type,
-      //   range : range,
-      //  }),
-        
-      //   headers: new Headers({
-      //     "Content-Type": "application/json",
-      //   }),
-        
-      //     })
-      //     //.then((response) => response.json())
-      //     .then(setRange(""),
-      //     setType(""))
   }
 
-  let editButton ;
   if(user.role === "Admin"){
 editButton = (
   <div className="openEditButton">
@@ -198,12 +113,6 @@ editButton = (
       deactivateEdit()
     }
       },[isEditing])
-    
-
-
-  // } else if(isEditing){
-  //   deactivateEdit();
-  // }
 
   return (
     <>

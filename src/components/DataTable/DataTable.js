@@ -7,23 +7,21 @@ import {
     TableCell,
     Paper
 } from '@mui/material';
-import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useEffect,useState } from 'react';
-import {UserProfileContext} from '../../providers/UserProfileProvider'
 import './DataTable.css'
+
+let dataKeys = {};
 
 const DataTable = props =>{
     const {
         profileData,
     } = props
-   const [data,setData] = useState([]);
-    let dataKeys = {};
+   const [data] = useState([]);
+
 
     useEffect(()=>{
         if(profileData instanceof Promise){
             profileData.then((response) => {
-               // data.push(response)
                for (var attr in response) {
                    if (response.hasOwnProperty(attr)) dataKeys[attr] = (response[attr]);
                    if(attr === 'birthDate'){

@@ -7,11 +7,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Button } from "@material-ui/core";
 import { TablePagination } from "@material-ui/core";
 import { getDatabaseData } from "../../api/userDataApi";
-import { useDispatch } from "react-redux";
-import { deleteProfile } from "../../features/profileFormThunks";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import { UserCountContext } from "../../providers/UserCountProvider";
 
@@ -29,7 +26,6 @@ const UserDataTable = () => {
     const {setUserCount} = useContext(UserCountContext)
 
     const classes = useStyles();
-    const dispatch = useDispatch()
     let queryParams = Object.assign({},
         rowsPerPage === null ? null : {pageSize: rowsPerPage},
         tableCurrentPage === null ? null : {pageNumber: tableCurrentPage},
@@ -46,7 +42,7 @@ const UserDataTable = () => {
         }
       },[tableCurrentPage,rowsPerPage])
 
-      const handleChangePage = (event, newPage) => {
+      const handleChangePage = (event,newPage) => {
         setTableCurrentPage(newPage);
     }
 
@@ -54,15 +50,6 @@ const UserDataTable = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setTableCurrentPage(0);
     }
-
-    // let terminateWindow ;
-    
-    // const terminateAccount = values => {
-    // //   console.log("The Values that you wish to edit ", values);
-    // terminateWindow = (
-    //     <ConfirmDialog anotherUserId={values.id}/>
-    // )
-    // };
 
     const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, totalItems - tableCurrentPage * rowsPerPage);
@@ -99,8 +86,6 @@ const UserDataTable = () => {
         </TableHead>
         <TableBody>
         {dataFromDb.length > 0 ? dataFromDb.map((row) => (
-              // .slice(tableCurrentPage * rowsPerPage, tableCurrentPage * rowsPerPage + rowsPerPage)
-              // .map((row) => (
                 <TableRow key={row.id}>
                   <TableCell align="center">{row.id}</TableCell>
                   <TableCell align="center">{row.userName}</TableCell>

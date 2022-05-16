@@ -2,7 +2,6 @@ import { useState } from "react";
 import { generateAndDownloadExcel,saveToDatabase } from "../../api/displayDataApi"
 import UploadFile from "./UploadFile.js"
 import DisplayData from "./DisplayData.js";
-import { getDatabaseData } from "../../api/displayDataApi.js";
 import TransactionTable from "./TransactionTable/TransactionTable";
 import './Transactions.css'
 import LineChart from "../Charts/LineChart";

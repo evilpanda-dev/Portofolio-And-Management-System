@@ -19,8 +19,7 @@ export const subscribeToNewsletter = createAsyncThunk(
       }),
       
         })
-  
-   // const data = await response.json();
+
         if (!response.ok) {
           throw new Error(response.Message);
         }
@@ -33,7 +32,7 @@ export const subscribeToNewsletter = createAsyncThunk(
 
   export const checkIfEmailIsSubscribed = createAsyncThunk(
     "newsletter/getEmail",
-    async (newsletterData, { rejectWithValue,dispatch}) => {
+    async (newsletterData, { rejectWithValue}) => {
       const {userId} = newsletterData;
       try {
      const response = await fetch(`https://localhost:5000/api/checkEmail/${userId}`, {
@@ -43,8 +42,6 @@ export const subscribeToNewsletter = createAsyncThunk(
             return response
         })
         
-  
-   // const data = await response.json();
         if (!response.ok) {
           throw new Error(response.Message);
         }
@@ -54,50 +51,3 @@ export const subscribeToNewsletter = createAsyncThunk(
       }
     }
   );
-
-
-//   export const uploadProfileAvatar = createAsyncThunk(
-//     "avatar/uploadProfileAvatar",
-//     async (avatarData, { rejectWithValue}) => {
-//       const {avatar} = avatarData;
-//       try {
-//         const response = await fetch("https://localhost:5000/api/saveAvatar", {
-//           method: "POST",
-//           body: avatar,
-//           headers: new Headers({
-//             Accept: "application/json",
-//           }),
-//           credentials: "include",
-//         })
-  
-//    // const data = await response.json();
-//         if (!response.ok) {
-//           throw new Error(response.Message);
-//         }
-
-//       } catch (error) {
-//         return rejectWithValue(error.message);
-//       }
-//     }
-//   );
-
-
-//   export const deleteProfile = createAsyncThunk(
-//     "profile/terminateAccount",
-//     async (profileData, { rejectWithValue}) => {
-//       const {userId} = profileData;
-//       try {
-//         const response = await fetch(`https://localhost:5000/api/deleteUser/${userId}`, {
-//     method: 'DELETE'
-//   })
-  
-//    // const data = await response.json();
-//         if (!response.ok) {
-//           throw new Error(response.Message);
-//         }
-
-//       } catch (error) {
-//         return rejectWithValue(error.message);
-//       }
-//     }
-//   );

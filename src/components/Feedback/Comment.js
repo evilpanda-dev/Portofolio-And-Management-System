@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import Info from "../Info/Info";
 
+let src;
+
 const Comment = ({
     comment,
     replies,
@@ -29,14 +31,14 @@ const Comment = ({
     const canReply = Boolean(currentUserId);
     const canEdit = currentUserId === comment.userId && !timePassed;
     const replyId = parentId ? parentId : comment.id;
-    const createdAt = new Date(comment.createdAt).toLocaleDateString();
-    let src;
+    const createdAt = new Date(comment.createdAt).toLocaleDateString("ro-RO");
 
     if (imageSrc==="") {
         src="http://avatars0.githubusercontent.com/u/246180?v=4"
       } else {
       src=`data:image/jpeg;base64,${imageSrc}`
       }
+      
     return (
       <div key={comment.id} className="comment">
         <div className="comment-image-container">

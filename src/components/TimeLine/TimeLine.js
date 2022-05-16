@@ -8,20 +8,26 @@ import { useDispatch } from "react-redux";
 import { useFormik,getIn } from "formik";
 import * as Yup from "yup";
 import { addNewEducation,updateEducation,removeEducation } from "../../features/education/educationSlice";
-import { AlertContext } from "../../providers/AlertProvider";
-import AlertWindow from "../AlertWindow/AlertWindow";
 import { useAlert } from "../../hooks/useAlert";
+
+const validationSchema = Yup.object({
+  date: Yup.number().required("Date is a required field")
+  .typeError("Date must be a “number”"),
+  title: Yup.string().required("Title is a required field")
+  .min(5, "Title must be greater than or equal to 5")
+  .max(100, "Title must be less than or equal to 50"),
+  description: Yup.string().required("Description is a required field")
+  .min(5, "Description must be greater than or equal to 5")
+  .max(1000, "Description must be less than or equal to 50"),
+});
 
 const TimeLine = () => {
   const educations = useSelector(
     (state) => state.educationState.educationList
   );
-
-
   const { status, error } = useSelector((state) => state.educationState);
   const isEditing = useSelector((state) => state.editEducationState.editEducation);
 const {user } = useContext(UserContext);
-const {setAlert} = useContext(AlertContext);
 const dispatch= useDispatch();
 const [date,setDate] = useState("")
 const [title,setTitle] = useState("")
@@ -42,31 +48,14 @@ const changeButtonState = () => {
   isEditing ? deactivateEdit() : activateEdit();
 };
 
-  //let editButton ;
   useEffect(()=>{
     if(user.role === "Admin"){
-  // editButton = (
-    // <div className="openEditButton">
-    //         <button className="openEdit" onClick={changeButtonState}>
-    //           <i className="openEditIcon">
-    //             <FontAwesomeIcon icon={solid("pen-to-square")} />
-    //           </i>
-    //           <span>Open edit</span>
-    //         </button>
-    //       </div>
-  //)
   setAdmin(true)
     } else {
       setAdmin(false)
       deactivateEdit()
     } 
   },[user.role])
-
-//   useEffect(()=>{
-// if(user.userId == undefined){
-//   deactivateEdit()
-// }
-//   },[isEditing])
 
   const getStyles = (errors, fieldName) => {
     if (getIn(errors, fieldName)) {
@@ -76,24 +65,6 @@ const changeButtonState = () => {
     }
   };
 
-  const validationSchema = Yup.object({
-    // name: Yup.string().required("Skill name is a required field"),
-
-    // range: Yup.number()
-    //   .typeError("Skill Range must be a “number” from 10 to 100.")
-    //   .min(10, "Skill range must be greater than or equal to 10")
-    //   .max(100, "Skill range must be less than or equal to 100")
-    //   .required("Skill range is a required field"),
-    date: Yup.number().required("Date is a required field")
-    .typeError("Date must be a “number”"),
-    title: Yup.string().required("Title is a required field")
-    .min(5, "Title must be greater than or equal to 5")
-    .max(100, "Title must be less than or equal to 50"),
-    description: Yup.string().required("Description is a required field")
-    .min(5, "Description must be greater than or equal to 5")
-    .max(1000, "Description must be less than or equal to 50"),
-  });
-
   const formik = useFormik({
     initialValues: {
       date: "",
@@ -102,36 +73,11 @@ const changeButtonState = () => {
     },
     validationSchema: validationSchema,
   });
-  
-let alert;
 
   const handleAction = async (e) => {
     e.preventDefault();
    const data = await dispatch(addNewEducation({ educationDate: date, educationTitle: title, educationDescription: description }))
    triggerAlert(data,"Education added successefully")
-//     .then((data) => {
-// if(data.meta.requestStatus == "fulfilled"){
-//   setAlert({appAlerts:
-//     alert = (
-//     <AlertWindow message="Education added successefully" alertType="success"/>
-//   )})
-// } 
-// else {
-//   //return response.text().then(text => { throw new Error(text) })
-//   //return data.json().then(text => { throw new Error(text.Message) })
-//   throw new Error(data.payload)
-// }
-// })
-// .catch(error => {
-
-// // console.log('caught it!',error.message);
-// setAlert({appAlerts:
-//   alert = (
-//   // showAlertWindow("error",error.message,true)
-//   <AlertWindow message={error.message} alertType="error" />
-// )})
-// })
-// dispatch({type:"WINDOW_ACTIVATED",payload:true})
     setDate("");
     setTitle("");
     setDescription("");
@@ -141,32 +87,8 @@ let alert;
   const handleUpdate = async (e) => {
     e.preventDefault();
     const enteredId = prompt("Enter the id of the education you want to update");
-    //setId(enteredId);
 const data = await dispatch(updateEducation({ educationId: enteredId, educationDate: date, educationTitle: title, educationDescription: description }))
 triggerAlert(data,"Education updated successefully")
-// .then((data) => {
-//   if(data.meta.requestStatus == "fulfilled"){
-//     setAlert({appAlerts:
-//       alert = (
-//       <AlertWindow message="Education updated successefully" alertType="success"/>
-//     )})
-//   } 
-//   else {
-//     //return response.text().then(text => { throw new Error(text) })
-//     //return data.json().then(text => { throw new Error(text.Message) })
-//     throw new Error(data.payload)
-//   }
-//   })
-//   .catch(error => {
-  
-//   // console.log('caught it!',error.message);
-//   setAlert({appAlerts:
-//     alert = (
-//     // showAlertWindow("error",error.message,true)
-//     <AlertWindow message={error.message} alertType="error" />
-//   )})
-//   })
-//   dispatch({type:"WINDOW_ACTIVATED",payload:true});
 setDate("");
     setTitle("");
     setDescription("");
@@ -176,32 +98,8 @@ setDate("");
   const handleDelete = async (e) =>{
     e.preventDefault();
     const enteredId = prompt("Enter the id of the education you want to remove");
-    //setId(enteredId);
    const data = await dispatch(removeEducation({ educationId: enteredId }))
     triggerAlert(data,"Education removed successefully")
-    // .then((data) => {
-    //   if(data.meta.requestStatus == "fulfilled"){
-    //     setAlert({appAlerts:
-    //       alert = (
-    //       <AlertWindow message="Education removed successefully" alertType="success"/>
-    //     )})
-    //   } 
-    //   else {
-    //     //return response.text().then(text => { throw new Error(text) })
-    //     //return data.json().then(text => { throw new Error(text.Message) })
-    //     throw new Error(data.payload)
-    //   }
-    //   })
-    //   .catch(error => {
-      
-    //   // console.log('caught it!',error.message);
-    //   setAlert({appAlerts:
-    //     alert = (
-    //     // showAlertWindow("error",error.message,true)
-    //     <AlertWindow message={error.message} alertType="error" />
-    //   )})
-    //   })
-    //   dispatch({type:"WINDOW_ACTIVATED",payload:true});;
     setDate("");
     setTitle("");
     setDescription("");
@@ -321,7 +219,6 @@ setDate("");
                   <button
                     type="submit"
                     onClick={handleDelete}
-                   //disabled={!formik.dirty || !formik.isValid}
                     className="submitButtonEducation"
                   >
                     Remove

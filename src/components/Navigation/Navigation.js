@@ -2,11 +2,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import Button from "../Button/Button";
 
+const navigationButtonBar = {
+  buttonText: "navigationButtonBar",
+  iconClass: "buttonIcon",
+};
+
 const Navigation = () => {
-  const navigationButtonBar = {
-    buttonText: "navigationButtonBar",
-    iconClass: "buttonIcon",
-  };
   return (
     <>
       <ul>

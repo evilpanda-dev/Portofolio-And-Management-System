@@ -4,84 +4,39 @@ import * as Yup from "yup";
 import FormikControl from "../FormikControl/FormikControl.js";
 import "./RegistrationForm.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect,useContext } from "react";
-import { Navigate } from "react-router-dom";
-import LoginForm from "../LoginForm/LoginForm.js";
-
-import AlertWindow from "../AlertWindow/AlertWindow.js";
-import { AlertContext } from "../../providers/AlertProvider.js";
+import { useState, useEffect} from "react";
 import { registerUser } from "../../features/registrationFormThunk.js";
 import { useAlert } from "../../hooks/useAlert.js";
+
+const initialValues = {
+  userName: "",
+  registrationEmail: "",
+  registrationPassword: "",
+};
+
+const validationSchema = Yup.object({
+  userName: Yup.string().required("Required").min(6, "Too Short!"),
+  registrationEmail: Yup.string().email("Invalid email format").required("Required"),
+  registrationPassword: Yup.string()
+    .required("Required")
+    .min(8, "Password must be at least 8 characters long"),
+});
 
 const RegistrationForm = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-//const [open,setOpen] = useState(true)
   const isVisible = useSelector((state) => state.registerPopupState.popup);
   const dispatch = useDispatch();
-const {setAlert} = useContext(AlertContext)
 const triggerAlert = useAlert()
 
-  const initialValues = {
-    userName: "",
-    registrationEmail: "",
-    registrationPassword: "",
-  };
-
-  const validationSchema = Yup.object({
-    userName: Yup.string().required("Required").min(6, "Too Short!"),
-    registrationEmail: Yup.string().email("Invalid email format").required("Required"),
-    registrationPassword: Yup.string()
-      .required("Required")
-      .min(8, "Password must be at least 8 characters long"),
-  });
-//let alert;
   const onSubmit = async () => {
-    // const response = await fetch("https://localhost:5000/api/register", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     UserName,
-    //     Email,
-    //     Password,
-    //   }),
-    // })
     const data = await dispatch(registerUser({userName : userName,email : email,password : password}))
   triggerAlert(data,"Account created successfully")
-    // .then((data) => {
     if(data.meta.requestStatus == "fulfilled"){
         setRedirect(true);
     }
-    //     setAlert({appAlerts:
-    //       alert = (
-    //       <AlertWindow message="Account created successfully" alertType="success"/>
-    //     )})
-    //   } 
-    //   else {
-    //     throw new Error(data.payload)
-    //   }
-    //   })
-    //   .catch(error => {
-      
-    //   // console.log('caught it!',error.message);
-    //   setAlert({appAlerts:
-    //     alert = (
-    //     // showAlertWindow("error",error.message,true)
-    //     <AlertWindow message={error.message} alertType="error" />
-    //   )})
-    //   })
-    //   dispatch({type:"WINDOW_ACTIVATED",payload:true})
-//     setTimeout(() => {
-//     setOpen(false)
-// },1000)
-    // if (response.status === 201) {
-    //   setRedirect(true);
-    // } else {
-    //  // alert(response)
-    //  //console.log(response)
-    // }
   };
 
   const activateLogin = () => {

@@ -19,19 +19,18 @@ import NewsLetter from "../../components/NewsLetter/NewsLetter";
 import { checkIfEmailIsSubscribed } from "../../features/newsletterThunks";
 import ProjectData from '../../utils/data.js'
 
+const boxStyle = {
+  titleClass: "aboutMeTitle",
+  contentClass: "aboutMeDescription",
+};
+
 const Inner = (props) => {
   const { imageSrc, setImage } = props;
 
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("");
-  // const [image,setImage] = useState('')
-  const {user,setUser} = useContext(UserContext)
+  const {setUser} = useContext(UserContext)
  const{alert} = useContext(AlertContext)
-  const boxStyle = {
-    titleClass: "aboutMeTitle",
-    contentClass: "aboutMeDescription",
-  };
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -61,24 +60,10 @@ const Inner = (props) => {
         setUser({userName: "", role: ""})
       }
     })();
-    // (
-    //   async () => {
-    //      await fetch('https://localhost:5000/api/userProfile',{
-    //       headers: {'Content-Type': 'application/json'},
-    //       credentials:'include',
-    //   })
-    //   .then(response => response.json())
-    //   .then(data=>{
-    //       //console.log(data)
-    //         setImage(data.imgByte)
-    //   })
-    //   }
-    // )();
   },[userName,role]);
 
   return (
     <>
-    {/* {showNewsletter && <NewsLetter />} */}
     <NewsLetter/>
       <BackToTopButton address="#aboutMe" />
     {alert.appAlerts}
@@ -133,30 +118,6 @@ const Inner = (props) => {
         <Portofolio data={ProjectData} />
         <Address />
         <Feedback imageSrc={imageSrc}/>
-        {/* <Feedback
-          data={[
-            {
-              feedback:
-                " Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor",
-              reporter: {
-                photoUrl:
-                  "https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg",
-                name: "John Doee",
-                citeUrl: "https://www.citeexample.com",
-              },
-            },
-            {
-              feedback:
-                " Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor",
-              reporter: {
-                photoUrl:
-                  "https://www.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg",
-                name: "John Doe",
-                citeUrl: "https://www.citeexample.com",
-              },
-            },
-          ]}
-        /> */}
       </div>
     </>
   );

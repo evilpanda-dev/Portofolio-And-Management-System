@@ -9,7 +9,6 @@ import Button from "../Button/Button";
 import { updateUserProfile } from "../../features/profileFormThunks";
 import { useDispatch } from "react-redux";
 import { AlertContext } from "../../providers/AlertProvider";
-import AlertWindow from "../AlertWindow/AlertWindow";
 import { uploadProfileAvatar } from "../../features/profileFormThunks";
 import { useAlert } from "../../hooks/useAlert";
 
@@ -48,6 +47,13 @@ const initialValues = {
       .max(100, "About Me must be less than 50 characters"),
   });
 
+  let uploadButton;
+  let formData = new FormData();
+
+const buttonDesign = {
+  buttonClass: "profileFormData"
+}
+
 const ProfileForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -61,53 +67,13 @@ const ProfileForm = () => {
   const [avatarPreview, setAvatarPreview] = useState("");
   const { user } = useContext(UserContext)
   const dispatch = useDispatch();
-  const {setAlert} = useContext(AlertContext)
   const triggerAlert = useAlert()
 
-let uploadButton;
-  let formData = new FormData();
-    // data.append("firstName",firstName);
-    // data.append("lastName",lastName);
-    // data.append("birthDate",birthDate);
-    // data.append("address",address);
-    // data.append("city",city);
-    // data.append("country",country);
-    // data.append("phoneNumber",phoneNumber);
-    // data.append("aboutMe",aboutMe);
     formData.append("files", avatar);
 
     const userId = user?.userId;
 
-let alert
   const onSubmit = async () => {
-    // let data = new FormData();
-    // data.append("firstName",firstName);
-    // data.append("lastName",lastName);
-    // data.append("birthDate",birthDate);
-    // data.append("address",address);
-    // data.append("city",city);
-    // data.append("country",country);
-    // data.append("phoneNumber",phoneNumber);
-    // data.append("aboutMe",aboutMe);
-    // data.append("Files", avatar);
-    // return fetch(`https://localhost:5000/api/updateProfile/${userId}`, {
-    //   method:"PATCH",
-    //   body:JSON.stringify({
-    //   firstName : firstName,
-    //   lastName : lastName,
-    //   birthDate : birthDate,
-    //   address : address,
-    //   city : city,
-    //   country : country,
-    //   phoneNumber : phoneNumber,
-    //   aboutMe : aboutMe}),
-      
-    //   headers: new Headers({
-    //     "Content-Type": "application/json",
-    //   }),
-      
-    //     })
-        //.then((response) => response.json())
        const data = await dispatch(updateUserProfile({
           userId : userId,
           firstName : firstName,
@@ -128,109 +94,24 @@ let alert
         setCountry("")
         setPhoneNumber("")
         setAboutMe("")
-        // .then((data) => {
-        //   if(data.meta.requestStatus == "fulfilled"){
-        //     // setRedirect(true);
-        //     // // setUser({userName : data.payload.userName,role : data.payload.role})
-        //     // console.log(data)
-        //     // const userName = data.meta.arg.email;
-        //     // const role =data.meta.arg.role;
-        //     // setUserName(userName)
-        //     // setRole(role)
-        //     // setUser({userName : userName,role : role})
-        //     setAlert({appAlerts:
-        //       alert = (
-        //       <AlertWindow message="Profile was successefull updated!" alertType="success"/>
-        //     )})
-        //   } 
-        //   else {
-        //     throw new Error(data.payload)
-        //   }
-        //   })
-        //   .then(setFirstName(""),
-        //   setLastName(""),
-        // setBirthDate(""),
-        // setAddress(""),
-        // setCity(""),
-        // setCountry(""),
-        // setPhoneNumber(""),
-        // setAboutMe(""))
-        //   .catch(error => {
-          
-        //   // console.log('caught it!',error.message);
-        //   setAlert({appAlerts:
-        //     alert = (
-        //     // showAlertWindow("error",error.message,true)
-        //     <AlertWindow message={error.message} alertType="error" />
-        //   )})
-        //   })
-        //   dispatch({type:"WINDOW_ACTIVATED",payload:true})
-
-        
   };
 
 const uploadAvatar = async () => {
-  // return fetch("https://localhost:5000/api/saveAvatar", {
-  //     method: "POST",
-  //     body: data,
-  //     headers: new Headers({
-  //       Accept: "application/json",
-  //     }),
-  //     credentials: "include",
-  //   })
   const data = await dispatch(uploadProfileAvatar({avatar : formData}))
   triggerAlert(data,"Avatar uploaded successefully!")
-  // .then((data) => {
-  //   if(data.meta.requestStatus == "fulfilled"){
-  //     // setRedirect(true);
-  //     // // setUser({userName : data.payload.userName,role : data.payload.role})
-  //     // console.log(data)
-  //     // const userName = data.meta.arg.email;
-  //     // const role =data.meta.arg.role;
-  //     // setUserName(userName)
-  //     // setRole(role)
-  //     // setUser({userName : userName,role : role})
-  //     setAlert({appAlerts:
-  //       alert = (
-  //       <AlertWindow message="Avatar uploaded successefully!" alertType="success"/>
-  //     )})
-  //   } 
-  //   else {
-  //     throw new Error(data.payload)
-  //   }
-  //   })
-  //     //.then((response) => response.json())
-  //     .then(setAvatarPreview(""))
-  //     .catch(error => {
-          
-  //       // console.log('caught it!',error.message);
-  //       setAlert({appAlerts:
-  //         alert = (
-  //         // showAlertWindow("error",error.message,true)
-  //         <AlertWindow message={error.message} alertType="error" />
-  //       )})
-  //       })
-  //       dispatch({type:"WINDOW_ACTIVATED",payload:true})
         setAvatarPreview("")
-      // .then((data) => console.log(data))
-      // .catch((error) => console.log(error));
 }
 
 if(avatarPreview != ""){
   uploadButton = (<div className="profileFormField">
               <button
                 type="submit"
-               // disabled={!formik.isValid}
                 onClick={uploadAvatar}
                 className="uploadButton"
               >
                 Upload
               </button>
             </div>)
-}
-
-const buttonDesign = {
-  buttonClass: "profileFormData"
 }
 
   return (

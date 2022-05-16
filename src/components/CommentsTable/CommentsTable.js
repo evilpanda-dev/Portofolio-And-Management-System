@@ -10,9 +10,6 @@ import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import { TablePagination } from "@material-ui/core";
 import { getCommentsData } from "../../api/userDataApi";
-import { useDispatch } from "react-redux";
-import { deleteProfile } from "../../features/profileFormThunks";
-import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import { deleteComment } from "../../api/commentApi";
 import { CommentCountContext } from "../../providers/CommentCountProvider";
 
@@ -57,15 +54,6 @@ const CommentsTable = () => {
         setTableCurrentPage(0);
     }
 
-    // let terminateWindow ;
-    
-    // const terminateAccount = values => {
-    // //   console.log("The Values that you wish to edit ", values);
-    // terminateWindow = (
-    //     <ConfirmDialog anotherUserId={values.id}/>
-    // )
-    // };
-
     const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, totalItems - tableCurrentPage * rowsPerPage);
     
@@ -94,8 +82,6 @@ const CommentsTable = () => {
         </TableHead>
         <TableBody>
         {dataFromDb.length > 0 ? dataFromDb.map((row) => (
-              // .slice(tableCurrentPage * rowsPerPage, tableCurrentPage * rowsPerPage + rowsPerPage)
-              // .map((row) => (
                 <TableRow key={row.id}>
                   <TableCell align="center">{row.id}</TableCell>
                   <TableCell align="center">{row.userName}</TableCell>
@@ -103,7 +89,6 @@ const CommentsTable = () => {
                   <TableCell align="center">{row.parentId ? "Yes" : "No"}</TableCell>
                   <TableCell align="center">{row.createdAt}</TableCell>
                   <TableCell align="center">
-                {/* <ConfirmDialog anotherUserId={row.id}/> */}
                 <Button variant="contained" color="default" onClick={() => {
                         deleteComment(row.id)
                         setDeleting(true)

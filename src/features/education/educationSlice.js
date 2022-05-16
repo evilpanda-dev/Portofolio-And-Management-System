@@ -21,7 +21,7 @@ export const fetchEducations = createAsyncThunk(
 
 export const addNewEducation = createAsyncThunk(
   "educations/addNewEducation",
-  async (educationData, { rejectWithValue,dispatch}) => {
+  async (educationData, { rejectWithValue}) => {
     const { educationDate, educationTitle,educationDescription } = educationData;
     try {
       const education = {
@@ -40,8 +40,6 @@ export const addNewEducation = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Can't add new education. Something went wrong!");
       }
-      const data = await response.json();
-      //dispatch(setEducation(data));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -53,11 +51,6 @@ export const updateEducation = createAsyncThunk(
   async (educationData, { rejectWithValue,dispatch }) => {
     const { educationId,educationDate, educationTitle,educationDescription } = educationData;
     try {
-      // const education = {
-      //   date: educationDate,
-      //   title: educationTitle,
-      //   text : educationDescription
-      // };
       const response = await fetch(`https://localhost:5000/api/updateEducation/${educationId}`, {
           method:"PATCH",
           body:JSON.stringify({
@@ -86,13 +79,8 @@ export const updateEducation = createAsyncThunk(
 export const removeEducation = createAsyncThunk(
   "educations/removeEducation",
   async (educationData, { rejectWithValue,dispatch}) => {
-    const {educationId, educationDate, educationTitle,educationDescription } = educationData;
+    const {educationId} = educationData;
     try {
-      // const education = {
-      //   date: educationDate,
-      //   title: educationTitle,
-      //   text : educationDescription
-      // };
      
 const response =  await fetch(`https://localhost:5000/api/deleteEducation/${educationId}`, {
         method: 'DELETE'
@@ -101,7 +89,6 @@ const response =  await fetch(`https://localhost:5000/api/deleteEducation/${educ
       if (!response.ok) {
         throw new Error("Can't remove the education. Something went wrong!");
       }
-     // .then(response => response.json());
      dispatch(deleteEducation(educationId));
     } catch (error) {
       return rejectWithValue(error.message);
@@ -134,7 +121,6 @@ export const educationSlice = createSlice({
       }
     },
     updateEducationState:(state,action) =>{
-     // console.log(action.payload)
       state.educationList.map((education)=>{
         if(education.id === action.payload.id){
           education.date = action.payload.date;
@@ -156,5 +142,5 @@ export const educationSlice = createSlice({
     [fetchEducations.rejected]: setError,
   },
 });
-const { setEducation,updateEducationState,deleteEducation } = educationSlice.actions;
+const {updateEducationState,deleteEducation } = educationSlice.actions;
 export default educationSlice.reducer;

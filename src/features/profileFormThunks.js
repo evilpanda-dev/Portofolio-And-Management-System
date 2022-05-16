@@ -25,8 +25,7 @@ export const updateUserProfile = createAsyncThunk(
       }),
       
         })
-  
-   // const data = await response.json();
+
         if (!response.ok) {
           throw new Error(response.Message);
         }
@@ -52,7 +51,6 @@ export const updateUserProfile = createAsyncThunk(
           credentials: "include",
         })
   
-   // const data = await response.json();
         if (!response.ok) {
           throw new Error(response.Message);
         }
@@ -73,7 +71,6 @@ export const updateUserProfile = createAsyncThunk(
     method: 'DELETE'
   })
   
-   // const data = await response.json();
         if (!response.ok) {
           throw new Error(response.Message);
         }
@@ -86,7 +83,7 @@ export const updateUserProfile = createAsyncThunk(
 
   export const getPersonalProfile = createAsyncThunk(
     "profile/getProfile",
-    async (profileData, { rejectWithValue,dispatch}) => {
+    async (profileData, { rejectWithValue}) => {
       const {userName} = profileData;
       try {
      const response = await fetch(`https://localhost:5000/api/profile/${userName}`, {
@@ -96,8 +93,6 @@ export const updateUserProfile = createAsyncThunk(
             return response
         })
         
-  
-   // const data = await response.json();
         if (!response.ok) {
           throw new Error(response.Message);
         }

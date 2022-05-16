@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-
-
 import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -15,7 +13,7 @@ const PieChart = props => {
     } = props
 
   const [chart, setChart] = useState({})
-  var baseUrl = `https://localhost:5000/api/transactionsPerCategory/${transactionType}/${month}`;
+  let baseUrl = `https://localhost:5000/api/transactionsPerCategory/${transactionType}/${month}`;
 
   useEffect(() => {
     const fetchCoins = async () => {

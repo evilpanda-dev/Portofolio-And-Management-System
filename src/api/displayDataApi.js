@@ -8,11 +8,9 @@ export const generateAndDownloadExcel = (url,method) => {
       let options = { 
         url,
         method,
-        // responseType: 'blob' 
       };  
       return instance.request(options)
         .then(response => { 
-        //   console.log(response.data) 
         ExcelFromBase64("Transactions.xlsx",response.data) 
       });
 }
@@ -37,7 +35,6 @@ document.body.removeChild(link);
   }
 
   export const getDatabaseData = async(params) =>{
-// const dispatch = useDispatch()
 var url = new URL ("https://localhost:5000/api/getTransactions")
 if (params != null) Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -50,25 +47,3 @@ return (
       })
 )
   }
-
-//   export const searchForData = async (searchTransactions) => {
-// return (
-//   fetch(`https://localhost:5000/api/searchTransactions/${searchTransactions}`, {
-//         method: "GET",
-//       }) 
-//       .then((response) => {
-//         return response.json()
-//       })
-// )
-//   }
-
-//   export const sortData = async(sortBy,sortOrder) => {
-//     return (
-//       fetch(`https://localhost:5000/api/transactionsDescending/${sortBy}/${sortOrder}`, {
-//         method: "GET",
-//       }) 
-//       .then((response) => {
-//         return response.json()
-//       })
-//     )
-//   }

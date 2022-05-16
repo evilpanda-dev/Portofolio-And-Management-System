@@ -1,65 +1,33 @@
-import { useState,useEffect,useContext } from "react";
+import { useState,useContext } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import styled from "styled-components";
-import { checkIfEmailIsSubscribed, subscribeToNewsletter } from "../../features/newsletterThunks";
+import {subscribeToNewsletter } from "../../features/newsletterThunks";
 import { useAlert } from "../../hooks/useAlert";
 import { UserContext } from "../../providers/UserProvider";
 
 const NewsLetter = () => {
   const [input, setInput] = useState("");
-  const [message, setMessage] = useState("");
   const {user} = useContext(UserContext)
   const dispatch = useDispatch()
   const userId = user?.userId;
   const isVisible = useSelector((state) => state.newsLetterState.isNewsletter);
   const triggerAlert = useAlert()
-//   const [showNewsletter,setNewsLetter] = useState(false)
-//  const [formSubmitted,setFormSubmitted] = useState(false)
 
-//   useEffect(()=>{
-//     // const interval = setInterval(()=>{
-//     //   setNewsLetter(true)
-//     // },10000)
-//     // setTimeout(()=>{
-//     //     clearInterval(interval)
-//     // },10000)
-//      setTimeout(()=>{
-//         setNewsLetter(true)
-//     },1000)
-
-//   },[showNewsletter])
 const closeNewsletter = () => {
-  // setNewsLetter(false)
   dispatch({ type: "HIDE_NEWSLETTER", payload: false });
 }
-
-// useEffect(()=>{
-//     const isSubscribed = dispatch(checkIfEmailIsSubscribed({userId : userId}))
-//     if(userId === isSubscribed.arg.userId){
-//         closeNewsletter()
-//     } else {
-//         dispatch({ type: "SHOW_NEWSLETTER", payload: true });
-//     }
-// },[user])
-
 
   const inputHandler = (e) => {
     setInput(e.target.value);
   };
+
   const submitHandler = async (e) => {
     e.preventDefault()
     if (input) {
    const data = await dispatch(subscribeToNewsletter({userId : userId,email : input}))
    triggerAlert(data,"You successefully subscribed to our newsletter")
-      // add to firebase
-    //   db.collection("emails").add({
-    //     email: input,
-    //     time: firebase.firestore.FieldValue.serverTimestamp(),
-    //   });
       setInput("");
-    //   setTimeout(() => {
  closeNewsletter();
-    //   }, 3000);
     }
   };
 
@@ -75,17 +43,16 @@ const closeNewsletter = () => {
               >
                 <span aria-hidden="true">&times;</span>
               </CloseButton>
-        {/* <UiComponents /> */}
         <Form onSubmit={submitHandler}>
           <H2>Subscribe to our Newsletter</H2>
           <Input type="email" onChange={inputHandler} value={input} placeholder = "Your email here"/>
           <Button type="submit">Submit</Button>
         </Form>
-        {/* {message && <Alert>{message}</Alert>} */}
       </Container>}
     </Div>
   );
 }
+
 const Div = styled.div`
 position:fixed;
 top: 50%;
@@ -150,19 +117,7 @@ const Button = styled.button`
     background-position: right center;
   }
 `;
-const Alert = styled.p`
-  position: relative;
-  padding: 0.4rem;
-  margin: 0.5rem;
-  color: black;
-  text-align: center;
-  font-size: 1.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  background: rgba(0, 255, 0, 0.1);
-  backdrop-filter: blur(10px);
-  z-index: 3;
-`;
+
 const CloseButton = styled.button`
 color: #fff;
   background-color: #999;

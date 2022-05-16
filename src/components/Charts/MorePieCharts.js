@@ -2,22 +2,22 @@ import { useState } from "react";
 import FilterButton from "../Button/FilterButton";
 import PieChart from "./PieChart";
 
+let months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+]
+
 const MorePieCharts = () => {
-    let months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ]
-    
       const allCategories = ["All", ...new Set(months.map((item) => item))];
     
       const [menuItems, setMenuItems] = useState(months);
@@ -46,9 +46,6 @@ const MorePieCharts = () => {
             )
           })}
           <h1 className="transactionsTitle">Income pie chart with categories</h1>
-          {/* <div >
-          <FilterButton categories={categories} filterItem={filterItem} />
-        </div> */}
           {menuItems.map((month,index)=>{
             return(
               <div className="pieChart" key={index}>

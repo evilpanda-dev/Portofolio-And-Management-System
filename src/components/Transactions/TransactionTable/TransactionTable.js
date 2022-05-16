@@ -10,14 +10,19 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import SearchBar from "material-ui-search-bar";
 import TableSortLabel  from "@material-ui/core/TableSortLabel";
-import { getDatabaseData, searchForData, sortData } from "../../../api/displayDataApi";
+import { getDatabaseData} from "../../../api/displayDataApi";
 import { TextField } from "@material-ui/core";
 import { Button } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650
+  }
+});
 
 const TransactionTable = () => {
     const [dataFromDb, setDataFromDb] = useState([]);
     const [tableCurrentPage, setTableCurrentPage] = useState(0);
-    // const [totalPages, setTotalPages] = useState(0);
     const [totalItems,setTotalItems] = useState(0);
     const [rowsPerPage,setRowsPerPage] = useState(5);
     const [searched,setSearched] = useState("")
@@ -43,7 +48,6 @@ const TransactionTable = () => {
     useEffect(()=>{
       getDatabaseData(queryParams).then(data => {
         setDataFromDb(data.transactions);
-        // setTotalPages(data.pages);
         setTotalItems(data.totalItems);
       })
       if(dataFromDb.length === 0){
@@ -51,11 +55,6 @@ const TransactionTable = () => {
       }
     },[tableCurrentPage,rowsPerPage,isFiltering,orderBy])
 
-    const useStyles = makeStyles({
-        table: {
-          minWidth: 650
-        }
-      });
     const classes= useStyles();
 
     const handleChangePage = (event, newPage) => {
@@ -82,8 +81,6 @@ const TransactionTable = () => {
           setOrder(isAsc);
           setOrderBy(element);
           setIsFiltering(true)
-        // setOrder(isAsc);
-        // setOrderBy(element);
     }
 
     const handleFormChange = (event) => {
@@ -148,8 +145,6 @@ const TransactionTable = () => {
           </TableHead>
           <TableBody>
             {dataFromDb.length > 0 ? dataFromDb.map((row) => (
-              // .slice(tableCurrentPage * rowsPerPage, tableCurrentPage * rowsPerPage + rowsPerPage)
-              // .map((row) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     {row.transactionDate}

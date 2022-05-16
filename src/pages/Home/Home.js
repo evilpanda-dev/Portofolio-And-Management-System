@@ -1,23 +1,21 @@
 import PhotoBox from "../../components/PhotoBox/PhotoBox";
 import Button from "../../components/Button/Button";
-
 import "../Home/Home.css";
 
+const homePhotoBox = {
+  imageClass: "avatar",
+  nameClass: "name",
+  titleClass: "title",
+  descriptionClass: "description",
+  wrapper: "photoBoxWrapper",
+};
+
+const homeButton = {
+  buttonClass: "homeButton",
+};
+
 const Home = () => {
-  const homePhotoBox = {
-    imageClass: "avatar",
-    nameClass: "name",
-    titleClass: "title",
-    descriptionClass: "description",
-    wrapper: "photoBoxWrapper",
-  };
-
-  const homeButton = {
-    buttonClass: "homeButton",
-  };
-
   return (
-    <>
       <div className="mainPage">
         <div className="photoBoxWrapper">
           <div>
@@ -32,7 +30,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </>
   );
 };
 

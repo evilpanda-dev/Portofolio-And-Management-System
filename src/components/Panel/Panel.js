@@ -7,13 +7,13 @@ import "../Panel/Panel.css";
 import ToggleButton from "../ToggleButton/ToggleButton";
 import { useDispatch, useSelector } from "react-redux";
 
-const Panel = () => {
-  const goBackTheme = {
-    buttonText: "goBackButton",
-    iconClass: "goBackButtonIcon",
-    buttonClass: "angle-left",
-  };
+const goBackTheme = {
+  buttonText: "goBackButton",
+  iconClass: "goBackButtonIcon",
+  buttonClass: "angle-left",
+};
 
+const Panel = () => {
   const dispatch = useDispatch();
   const isVisible = useSelector((state) => state.visibilityState.visibility);
 

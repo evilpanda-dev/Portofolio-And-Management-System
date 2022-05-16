@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { excelDateToJson } from "../../helpers/excelDateToJson";
-import { getDate } from "../../helpers/getDate";
 import "../Transactions/DisplayData.css";
 
 const DisplayData = props => {
@@ -9,12 +8,11 @@ const DisplayData = props => {
         setData
     } = props
 
-    let dataForDb = [];
     useEffect(()=>{
       if(dataForDb.length > 1 ){
         setData(dataForDb)
       }
-      },[excelData])
+      },[excelData,setData])
 
   if (!excelData.length) {
     return <div className="noFileContainer">No File Uploaded</div>;
@@ -25,6 +23,8 @@ const DisplayData = props => {
   const keys = Object.keys(tableHead);
 
 
+  let dataForDb = [];
+  
  tableBody.forEach(row => {
     dataForDb.push({
       transactionDate: excelDateToJson(row.A),
@@ -39,7 +39,6 @@ const DisplayData = props => {
 
 tableBody.forEach(row => {
   if(typeof row.A === "number"){
-    // let date = Date(excelDateToJson(row.A))
     row.A = excelDateToJson(row.A).toLocaleDateString("ro-RO");
   }
 });

@@ -10,11 +10,12 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState,useContext } from "react";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import Layout from "./components/Layout/Layout";
-import { UserContext } from "./providers/UserProvider";
 import { UserProfileContext } from "./providers/UserProfileProvider";
 import UserProfileData from "./pages/UserProfileData/UserProfileData";
 import { getDate } from "./helpers/getDate";
 import DynamicUserProfile from "./pages/DynamicUserProfile/DynamicUserProfile";
+import NoPermission from "./pages/NoPermission/NoPermission";
+import NotFound from "./pages/NotFound/NotFound";
 
 const App = () => {
   const { pathname, hash, key } = useLocation();
@@ -48,11 +49,9 @@ const {setUserProfile} = useContext(UserProfileContext)
       })
         .then((response) => response.json())
         .then((data) => {
-          //console.log(data)
           setImage(data.imgByte);
           setUserProfile({firstName: data.firstName,
             lastName: data.lastName,
-          // birthDate: (data.birthDate).toString().slice(0,10),
           birthDate : getDate(data.birthDate),
         address: data.address,
       city: data.city,
@@ -70,7 +69,6 @@ id: data.id})
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {/* <UserProvider> */}
         <Routes>
           {/* public routes */}
           <Route path="/" element={<Layout />}>
@@ -90,8 +88,8 @@ id: data.id})
           </Route>
 
           {/* catch all */}
-          {/* <Route path='/noPermission' element={<NoPermission/>}/> */}
-          {/* <Route path="*" element={<NotFound/>} /> */}
+          <Route path='/noPermission' element={<NoPermission/>}/>
+          <Route path="*" element={<NotFound/>} />
           </Route>
         </Routes>
       </PersistGate>

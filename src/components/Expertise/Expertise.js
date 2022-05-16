@@ -1,7 +1,6 @@
 const Expertise = (props) => {
   const { data } = props;
   return (
-    <>
       <section id="experience">
         <h1 className="experienceSection">Experience</h1>
         {data.map((info) => (
@@ -17,7 +16,6 @@ const Expertise = (props) => {
           </div>
         ))}
       </section>
-    </>
   );
 };
 

@@ -5,21 +5,21 @@ import '../UserProfileData/UserProfileData.css';
 import { Typography } from "@mui/material";
 import '@fontsource/roboto/400.css';
 import Button from "../../components/Button/Button";
-import { UserContext } from "../../providers/UserProvider";
-import { useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
+import { useLocation} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getPersonalProfile } from "../../features/profileFormThunks";
 
+const buttonDesign = {
+  buttonClass: "previousButton"
+}
+
 const DynamicUserProfile = props => {
-    const { setImage, setUserName, setRole, imageSrc } = props;
+    const {imageSrc } = props;
+
      const dispatch = useDispatch()
      let location = useLocation();
      const userName =  location.pathname.split("/profile/")[1]
-    const buttonDesign = {
-        buttonClass: "previousButton"
-      }
+
 
       const getData = async (userName) => {
          const data =  await dispatch(getPersonalProfile({userName : userName}))
@@ -29,10 +29,6 @@ const DynamicUserProfile = props => {
          return await data;
       }
       const data = getData(userName);
-
-    //   const gigel = (async () =>{
-    //       console.log(await data)
-    //   })()
       
     return(
         <>

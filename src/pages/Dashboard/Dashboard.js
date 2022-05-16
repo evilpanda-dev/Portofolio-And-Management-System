@@ -1,6 +1,5 @@
 import Header from "../../components/Header/Header";
 import Panel from "../../components/Panel/Panel";
-import Portofolio from "../../components/Portofolio/Portofolio";
 import './Dashboard.css';
 import WakatimeData from '../../utils/wakaTimeData.js'
 import Charts from "../../components/Charts/Charts";
@@ -16,9 +15,11 @@ const Dashboard = props =>{
     const {
         imageSrc
      } = props
+
      const {alert} = useContext(AlertContext)
      const {userCount} = useContext(UserCountContext)
      const {commentsCount} = useContext(CommentCountContext)
+
     return(
         <>
         <Panel/>

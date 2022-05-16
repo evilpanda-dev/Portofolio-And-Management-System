@@ -1,14 +1,16 @@
 import excelToJson from "../../helpers/excelToJson";
 import '../Transactions/UploadFile.css'
 
+const reader = new FileReader();
+
 const UploadFile = props => {
     const{
         onUploadExcelFile
     } = props
 
     const convertExcelToObject = (file) => {
-      const reader = new FileReader();
-      reader.onload = function (event) {
+
+      reader.onload = (event) => {
         const data = new Uint8Array(event.target.result);
         let result = excelToJson({ source: data });
        onUploadExcelFile(result.Transactions);
@@ -24,8 +26,6 @@ const UploadFile = props => {
       }else{
         console.log("No file selected");
       }
-    //   const file = event.target.files[0];
-    //   convertExcelToObject(file);
     };
   
     const uploadFileHandler = (event) => {

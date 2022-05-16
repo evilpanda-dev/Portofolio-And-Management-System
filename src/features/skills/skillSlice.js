@@ -2,24 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchSkills = createAsyncThunk(
   "skills/fetchSkills",
-  async (_, { rejectWithValue,dispatch }) => {
+  async (_, { rejectWithValue}) => {
     try {
       const response = await fetch("https://localhost:5000/api/skills", {
         method: "GET",
       }) 
-      // .then(res =>{
-      //   const skills = res.data
-      //   console.log(response)
-      //   dispatch(setSkill(skills));
-      // })
 
       if (!response.ok) {
         throw new Error("Server Error!");
       }
 
       const data = await response.json();
-      // dispatch(setSkill(data));
-      // console.log(data)
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -98,7 +91,6 @@ export const removeSkill = createAsyncThunk(
  const response = await fetch(`https://localhost:5000/api/deleteSkill/${skillName}`, {
         method: 'DELETE'
       })
-     // .then(response => response.json());
      if (!response.ok) {
       throw new Error("Can't remove skill. Something went wrong!");
     }
@@ -131,7 +123,6 @@ export const skillSlice = createSlice({
       }
     },
     updateSkill:(state,action) =>{
-     // console.log(action.payload)
       state.skills.map((skill)=>{
         if(skill.name === action.payload.name){
           skill.range = action.payload.range;
@@ -140,7 +131,7 @@ export const skillSlice = createSlice({
   }
 },
   extraReducers: {
-    [fetchSkills.pending]: (state, action) => {
+    [fetchSkills.pending]: (state) => {
       state.status = "loading";
       state.error = null;
     },
