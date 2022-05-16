@@ -1,6 +1,7 @@
 ﻿using CVapp.Infrastructure.Abstractions;
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Query;
+using CVapp.Infrastructure.Repository.CommentRepository;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Repository.UserRepository;
 using System;
@@ -15,10 +16,12 @@ namespace CVapp.Infrastructure.Services
     {
         private readonly UserRepository _userRepository;
         private readonly UserProfileRepository _userProfileRepository;
-        public DataService(UserRepository userRepository, UserProfileRepository userProfileRepository)
+        private readonly CommentRepository _commentRepository;
+        public DataService(UserRepository userRepository, UserProfileRepository userProfileRepository, CommentRepository commentRepository)
         {
             _userRepository = userRepository;
             _userProfileRepository = userProfileRepository;
+            _commentRepository = commentRepository;
         }
 
         public UserDataResponse GetAllUsersAndTheirProfiles(QueryParameters queryParameters)
@@ -61,10 +64,38 @@ namespace CVapp.Infrastructure.Services
             {
                 return new UserDataResponse { Success = false, Message = ex.Message };
             }
-           
-            //Add users and userProfiles data to a userData list
-            /*var userData = new List<UserDataDto>();*/
+        }
 
+        public CommentResponse GetAllComments(QueryParameters queryParameters)
+        {
+            try
+            {
+                var result = (from a in _commentRepository.Filter().ToList()
+                              join b in _userRepository.Filter().ToList() on a.UserId equals b.Id
+                              select new CommentDto
+                              {
+                                  Id = a.Id,
+                                  Text = a.Text,
+                                  UserName = b.UserName,
+                                  ParentId = a.ParentId,
+                                  CreatedAt = a.CreatedAt
+                              }).ToList();
+                var queryableResult = result.AsQueryable();
+                queryableResult = queryableResult
+                    .Skip(queryParameters.PageSize * (queryParameters.PageNumber - 1))
+                    .Take(queryParameters.PageSize);
+                var commentResponse = new CommentResponse
+                {
+                    Comments = queryableResult.ToList(),
+                    CurrentPage = queryParameters.PageNumber,
+                    TotalItems = result.Count(),
+                    Success = true
+                };
+                return commentResponse;
+            } catch (Exception e)
+            {
+                return new CommentResponse { Success = false, Message = e.Message };
+            }
         }
     }
 }
