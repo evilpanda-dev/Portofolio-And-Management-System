@@ -6,6 +6,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import UserProvider from "./providers/UserProvider";
 import UserProfileProvider from "./providers/UserProfileProvider";
 import AlertProvider from "./providers/AlertProvider";
+import UserCountProvider from "./providers/UserCountProvider";
+import CommentCountProvider from "./providers/CommentCountProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,7 +15,11 @@ root.render(
     <UserProvider>
       <UserProfileProvider>
         <AlertProvider>
+          <UserCountProvider>
+            <CommentCountProvider>
     <App />
+    </CommentCountProvider>
+    </UserCountProvider>
     </AlertProvider>
     </UserProfileProvider>
     </UserProvider>
