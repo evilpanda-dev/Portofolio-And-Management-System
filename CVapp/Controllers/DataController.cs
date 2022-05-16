@@ -27,6 +27,19 @@ namespace CVapp.API.Controllers
             var result = _dataService.GetAllComments(queryParameters);
             return Ok(result);
         }
-        
+
+        [HttpGet("transactionsPerMonth/{transactionType}")]
+        public IActionResult GetIncomeTransactionsPerYear(string transactionType)
+        {
+            var result = _dataService.GetTransactionsPerMonth(transactionType);
+            return Ok(result);
+        }
+
+        [HttpGet("transactionsPerCategory/{transactionType}/{month}")]
+        public IActionResult GetTransactionsPerCategory(string transactionType,string month)
+        {
+            var result = _dataService.GetTransactionsPerCategory(transactionType,month);
+            return Ok(result);
+        }
     }
 }
