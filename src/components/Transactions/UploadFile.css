@@ -2,7 +2,7 @@
   font-size: 1.4em; }
 
 .uploadFile > div {
-  background-color: #00d394;
+  background-color: #222935;
   height: 11em;
   margin-top: 1em; }
 
@@ -27,6 +27,9 @@
   text-align: center;
   margin-top: 0.6em;
   margin-bottom: 7px; }
+
+.secondTextUploadFile {
+  color: #ebebeb; }
 
 .uploadFile input::file-selector-button {
   width: 13.2em;

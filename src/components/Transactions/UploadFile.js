@@ -49,7 +49,7 @@ const UploadFile = props => {
                 type="file"
                 accept=".xlsx, .xls, .csv"
               />
-              <div>or drop excel files here</div>
+              <div className="secondTextUploadFile">or drop excel files here</div>
             </div>
           </label>
         </div>
