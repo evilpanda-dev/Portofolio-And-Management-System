@@ -117,7 +117,7 @@ const TransactionTable = () => {
     const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, totalItems - tableCurrentPage * rowsPerPage);
     
-    if(dataFromDb.length > 0 ){
+    if(dataFromDb !== undefined && dataFromDb.length > 0){
       dataFromDb.forEach(row => {
         if(row.transactionDate){
           row.transactionDate = row.transactionDate.split('T')[0];
@@ -126,6 +126,8 @@ const TransactionTable = () => {
     }
 
     return (
+      <>
+      {dataFromDb !== null && dataFromDb !== undefined ? (
         <TableContainer component={Paper} style={{"maxHeight" : "600px"}}>
           <SearchBar
           value={searched}
@@ -261,6 +263,10 @@ const TransactionTable = () => {
         }}
         >Reset</Button>
       </TableContainer>
+      ) : (
+        <div style={{"textAlign" : "center"}}> No data in database</div>
+      )}
+      </>
     );
 }
 
