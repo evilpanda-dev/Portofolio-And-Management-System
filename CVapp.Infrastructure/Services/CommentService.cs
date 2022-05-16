@@ -43,12 +43,15 @@ namespace CVapp.Infrastructure.Services
                 {
                     Comments = commentsResultList,
                     CurrentPage = page,
-                    Pages = pageCount
+                    Pages = pageCount,
+                    Success = true,
+                    Message = "Success"
                 };
                 return response;
             }
             catch
             {
+                
                 throw new Exception("Error in getting comments");
             }
         }
