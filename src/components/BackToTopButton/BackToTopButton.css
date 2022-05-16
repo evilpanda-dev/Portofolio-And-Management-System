@@ -7,11 +7,8 @@
   font-size: 35px;
   z-index: 1;
   cursor: pointer;
-  color: white;
-}
+  color: white; }
 
 @media screen and (max-width: 600px) {
   .backToTop {
-    left: 70%;
-  }
-}
+    left: 70%; } }

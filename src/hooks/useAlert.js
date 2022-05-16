@@ -6,8 +6,7 @@ import AlertWindow from "../components/AlertWindow/AlertWindow";
 export const useAlert = () => {
     const { setAlert } = useContext(AlertContext);
     const dispatch = useDispatch();
-    let alert;
-    return useCallback((data,message) => {
+    return useCallback((data, message) => {
         try {
             if (data.meta.requestStatus == "fulfilled") {
                 setAlert({
@@ -31,5 +30,5 @@ export const useAlert = () => {
         finally {
             dispatch({ type: "WINDOW_ACTIVATED", payload: true });
         }
-    },[dispatch,setAlert])
+    }, [dispatch, setAlert])
 }

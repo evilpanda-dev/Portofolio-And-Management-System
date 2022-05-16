@@ -1,4 +1,4 @@
-import { useState, useEffect,useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 import {
@@ -10,42 +10,42 @@ import {
 import '././Comments.css';
 import { UserContext } from "../../providers/UserProvider";
 
-let commentForm 
+let commentForm
 
-const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
+const Comments = ({ currentUserId, currentUserName, currentAvatar }) => {
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
-  const [currentPage,setCurrentPage] = useState(1)
-  const [fetching,setFetching] = useState(true)
-  const [totalCount,setTotalCount] = useState()
-  const {user} = useContext(UserContext)
-  
-  const scrollHandler = (e) =>{
-    if(window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight){
-        setFetching(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [fetching, setFetching] = useState(true)
+  const [totalCount, setTotalCount] = useState()
+  const { user } = useContext(UserContext)
+
+  const scrollHandler = (e) => {
+    if (window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight) {
+      setFetching(true)
     }
-}
-
-  useEffect(()=>{
- document.addEventListener('scroll', scrollHandler)
-
- return ()=>{
-    document.removeEventListener('scroll', scrollHandler)
- }
-  },[])
+  }
 
   useEffect(() => {
-    if(fetching){
-        getCommentsApi(currentPage).then((data) => {
-          setBackendComments([...backendComments, ...data.comments]);
-          setCurrentPage(prevState => prevState + 1)
-          setTotalCount(data.pages)
-        })
-        .finally(()=>{
+    document.addEventListener('scroll', scrollHandler)
+
+    return () => {
+      document.removeEventListener('scroll', scrollHandler)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (fetching) {
+      getCommentsApi(currentPage).then((data) => {
+        setBackendComments([...backendComments, ...data.comments]);
+        setCurrentPage(prevState => prevState + 1)
+        setTotalCount(data.pages)
+      })
+        .finally(() => {
           setFetching(false)
         });
     }
-}, [fetching]);
+  }, [fetching]);
 
   const getReplies = (commentId) =>
     backendComments
@@ -55,15 +55,15 @@ const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
 
-  const addComment = (text,parentId) => {
-    createCommentApi(text,currentUserName,currentUserId,parentId,currentAvatar).then((comment) => {
+  const addComment = (text, parentId) => {
+    createCommentApi(text, currentUserName, currentUserId, parentId, currentAvatar).then((comment) => {
       setBackendComments([comment, ...backendComments]);
       setActiveComment(null);
     });
   };
 
   const updateComment = (text, commentId) => {
-    updateCommentApi(text,commentId,currentUserName).then(() => {
+    updateCommentApi(text, commentId, currentUserName).then(() => {
       const updatedBackendComments = backendComments.map((backendComment) => {
         if (backendComment.id === commentId) {
           return { ...backendComment, body: text };
@@ -90,7 +90,7 @@ const Comments = ({currentUserId,currentUserName,currentAvatar }) => {
     (backendComment) => backendComment.parentId === null
   );
 
-  if(user.role ==="Admin" || user.role ==="User"){
+  if (user.role === "Admin" || user.role === "User") {
     <div className="comment-form-title">Leave a message : </div>
     commentForm = <CommentForm submitLabel="Write" handleSubmit={addComment} />
   }

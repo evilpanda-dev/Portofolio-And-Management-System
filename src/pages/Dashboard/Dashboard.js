@@ -11,37 +11,37 @@ import CommentsTable from "../../components/CommentsTable/CommentsTable";
 import { UserCountContext } from "../../providers/UserCountProvider";
 import { CommentCountContext } from "../../providers/CommentCountProvider";
 
-const Dashboard = props =>{
+const Dashboard = props => {
     const {
         imageSrc
-     } = props
+    } = props
 
-     const {alert} = useContext(AlertContext)
-     const {userCount} = useContext(UserCountContext)
-     const {commentsCount} = useContext(CommentCountContext)
+    const { alert } = useContext(AlertContext)
+    const { userCount } = useContext(UserCountContext)
+    const { commentsCount } = useContext(CommentCountContext)
 
-    return(
+    return (
         <>
-        <Panel/>
-        <Header imageSrc={imageSrc}/>
-        <section className="dashboardPage">
-            {alert.appAlerts}
+            <Panel />
+            <Header imageSrc={imageSrc} />
+            <section className="dashboardPage">
+                {alert.appAlerts}
                 <h1 className="transactionsTitle">Welcome to your dashboard</h1>
-            <div className="cardBox">
-                <div className="card">
-                <h2 className="numbers">{userCount.totalUsers}</h2>
-                <h4 className="cardName"> Total users</h4>
+                <div className="cardBox">
+                    <div className="card">
+                        <h2 className="numbers">{userCount.totalUsers}</h2>
+                        <h4 className="cardName"> Total users</h4>
+                    </div>
+                    <div className="card">
+                        <h2 className="numbers">{commentsCount.totalComments}</h2>
+                        <h4 className="cardName"> Total comments</h4>
+                    </div>
                 </div>
-                <div className="card">
-                <h2 className="numbers">{commentsCount.totalComments}</h2>
-                <h4 className="cardName"> Total comments</h4>
-                </div>
-            </div>
-       <UserDataTable/>
-<CommentsTable/>
-            <Transactions/>
-       <Charts data={WakatimeData}/>
-        </section>
+                <UserDataTable />
+                <CommentsTable />
+                <Transactions />
+                <Charts data={WakatimeData} />
+            </section>
         </>
     )
 }

@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   editEducationState: editEducationReducer,
   popupState: loginButtonReducer,
   registerPopupState: registerButtonReducer,
-  alertWindowState : alertWindowReducer,
+  alertWindowState: alertWindowReducer,
   newsLetterState: newsLetterReducer,
 });
 

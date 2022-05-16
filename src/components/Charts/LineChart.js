@@ -24,9 +24,9 @@ ChartJS.register(
 
 
 const LineChart = props => {
-    const{
-        transactionType,
-    } = props
+  const {
+    transactionType,
+  } = props
   const [chart, setChart] = useState({})
   var baseUrl = `https://localhost:5000/api/transactionsPerMonth/${transactionType}`;
 
@@ -46,7 +46,7 @@ const LineChart = props => {
             });
           }
         }).catch((error) => {
-            console.log(error);
+          console.log(error);
         });
     };
     fetchTransactions()

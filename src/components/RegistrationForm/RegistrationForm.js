@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import FormikControl from "../FormikControl/FormikControl.js";
 import "./RegistrationForm.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { registerUser } from "../../features/registrationFormThunk.js";
 import { useAlert } from "../../hooks/useAlert.js";
 
@@ -29,18 +29,18 @@ const RegistrationForm = () => {
   const [redirect, setRedirect] = useState(false);
   const isVisible = useSelector((state) => state.registerPopupState.popup);
   const dispatch = useDispatch();
-const triggerAlert = useAlert()
+  const triggerAlert = useAlert()
 
   const onSubmit = async () => {
-    const data = await dispatch(registerUser({userName : userName,email : email,password : password}))
-  triggerAlert(data,"Account created successfully")
-    if(data.meta.requestStatus == "fulfilled"){
-        setRedirect(true);
+    const data = await dispatch(registerUser({ userName: userName, email: email, password: password }))
+    triggerAlert(data, "Account created successfully")
+    if (data.meta.requestStatus == "fulfilled") {
+      setRedirect(true);
     }
   };
 
   const activateLogin = () => {
-      dispatch({ type: "LOGIN_CLICKED", payload: true });
+    dispatch({ type: "LOGIN_CLICKED", payload: true });
   };
 
   const activateSectionVisibility = () => {

@@ -1,21 +1,21 @@
-import { useState,useContext } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useState, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import {subscribeToNewsletter } from "../../features/newsletterThunks";
+import { subscribeToNewsletter } from "../../features/newsletterThunks";
 import { useAlert } from "../../hooks/useAlert";
 import { UserContext } from "../../providers/UserProvider";
 
 const NewsLetter = () => {
   const [input, setInput] = useState("");
-  const {user} = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const dispatch = useDispatch()
   const userId = user?.userId;
   const isVisible = useSelector((state) => state.newsLetterState.isNewsletter);
   const triggerAlert = useAlert()
 
-const closeNewsletter = () => {
-  dispatch({ type: "HIDE_NEWSLETTER", payload: false });
-}
+  const closeNewsletter = () => {
+    dispatch({ type: "HIDE_NEWSLETTER", payload: false });
+  }
 
   const inputHandler = (e) => {
     setInput(e.target.value);
@@ -24,31 +24,31 @@ const closeNewsletter = () => {
   const submitHandler = async (e) => {
     e.preventDefault()
     if (input) {
-   const data = await dispatch(subscribeToNewsletter({userId : userId,email : input}))
-   triggerAlert(data,"You successefully subscribed to our newsletter")
+      const data = await dispatch(subscribeToNewsletter({ userId: userId, email: input }))
+      triggerAlert(data, "You successefully subscribed to our newsletter")
       setInput("");
- closeNewsletter();
+      closeNewsletter();
     }
   };
 
   return (
-      <Div>
-        {isVisible &&
-      <Container>
-        <CloseButton
-                type="button"
-                className="close"
-                aria-label="Close"
-                onClick={closeNewsletter}
-              >
-                <span aria-hidden="true">&times;</span>
-              </CloseButton>
-        <Form onSubmit={submitHandler}>
-          <H2>Subscribe to our Newsletter</H2>
-          <Input type="email" onChange={inputHandler} value={input} placeholder = "Your email here"/>
-          <Button type="submit">Submit</Button>
-        </Form>
-      </Container>}
+    <Div>
+      {isVisible &&
+        <Container>
+          <CloseButton
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={closeNewsletter}
+          >
+            <span aria-hidden="true">&times;</span>
+          </CloseButton>
+          <Form onSubmit={submitHandler}>
+            <H2>Subscribe to our Newsletter</H2>
+            <Input type="email" onChange={inputHandler} value={input} placeholder="Your email here" />
+            <Button type="submit">Submit</Button>
+          </Form>
+        </Container>}
     </Div>
   );
 }

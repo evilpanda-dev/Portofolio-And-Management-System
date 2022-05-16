@@ -1,8 +1,8 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useFormik, getIn } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewSkill, fetchSkills,removeSkill,updateSkillRange } from "../../features/skills/skillSlice";
+import { addNewSkill, fetchSkills, removeSkill, updateSkillRange } from "../../features/skills/skillSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import scale from "../../assets/images/scale.png";
@@ -21,7 +21,7 @@ const validationSchema = Yup.object({
     .required("Skill range is a required field"),
 });
 
-let editButton ;
+let editButton;
 
 const Skills = () => {
   const dispatch = useDispatch();
@@ -32,13 +32,13 @@ const Skills = () => {
   const { status, error } = useSelector((state) => state.skills);
   const [type, setType] = useState("");
   const [range, setRange] = useState("");
-const {user} = useContext(UserContext);
-const triggerAlert = useAlert();
+  const { user } = useContext(UserContext);
+  const triggerAlert = useAlert();
 
   const handleAction = async (e) => {
     e.preventDefault();
     const data = await dispatch(addNewSkill({ skillName: type, skillRange: range }))
-triggerAlert(data,"Skill added successefully")
+    triggerAlert(data, "Skill added successefully")
     setType("");
     setRange("");
     deactivateEdit();
@@ -78,8 +78,8 @@ triggerAlert(data,"Skill added successefully")
 
   const deleteSkill = async (e) => {
     e.preventDefault();
-    const data = await dispatch(removeSkill({skillName: type}))
-    triggerAlert(data,"Skill removed successefully")
+    const data = await dispatch(removeSkill({ skillName: type }))
+    triggerAlert(data, "Skill removed successefully")
     setType("");
     setRange("");
     deactivateEdit();
@@ -87,32 +87,32 @@ triggerAlert(data,"Skill added successefully")
 
   const updateSkill = async (e) => {
     e.preventDefault();
-   const data= await dispatch(updateSkillRange({skillName: type, skillRange: range}))
-   triggerAlert(data,"Skill updated successefully")
+    const data = await dispatch(updateSkillRange({ skillName: type, skillRange: range }))
+    triggerAlert(data, "Skill updated successefully")
     setRange("")
-            setType("")
-            deactivateEdit();
+    setType("")
+    deactivateEdit();
   }
 
-  if(user.role === "Admin"){
-editButton = (
-  <div className="openEditButton">
-          <button className="openEdit" onClick={changeButtonState}>
-            <i className="openEditIcon">
-              <FontAwesomeIcon icon={solid("pen-to-square")} />
-            </i>
-            <span>Open edit</span>
-          </button>
-        </div>
-)
-  } 
+  if (user.role === "Admin") {
+    editButton = (
+      <div className="openEditButton">
+        <button className="openEdit" onClick={changeButtonState}>
+          <i className="openEditIcon">
+            <FontAwesomeIcon icon={solid("pen-to-square")} />
+          </i>
+          <span>Open edit</span>
+        </button>
+      </div>
+    )
+  }
 
-  
-  useEffect(()=>{
-    if(user.userId == undefined){
+
+  useEffect(() => {
+    if (user.userId == undefined) {
       deactivateEdit()
     }
-      },[isEditing])
+  }, [isEditing])
 
   return (
     <>

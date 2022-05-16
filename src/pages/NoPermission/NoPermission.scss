@@ -1,44 +1,44 @@
 .noPermissionTextWrapper {
-    height: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .noPermissionTitle {
-    font-size: 5em;
-    font-weight: 700;
-    color: #EE4B5E;
+  font-size: 5em;
+  font-weight: 700;
+  color: #ee4b5e;
 }
 
 .noPermissionSubtitle {
-    font-size: 40px;
-    font-weight: 700;
-    color: #1FA9D6;
+  font-size: 40px;
+  font-weight: 700;
+  color: #1fa9d6;
 }
 .isi {
-    font-size: 18px;
-    text-align: center;
-    margin:30px;
-    padding:20px;
-    color: white;
+  font-size: 18px;
+  text-align: center;
+  margin: 30px;
+  padding: 20px;
+  color: white;
 }
 .noPermissionButtons {
-    margin: 30px;
-        font-weight: 700;
-        border: 2px solid #EE4B5E;
-        text-decoration: none;
-        padding: 15px;
-        text-transform: uppercase;
-        color: #EE4B5E;
-        border-radius: 26px;
-        transition: all 0.2s ease-in-out;
-        display: inline-block;
-        
-        .noPermissionButton:hover {
-            background-color: #EE4B5E;
-            color: white;
-            transition: all 0.2s ease-in-out;
-        }
+  margin: 30px;
+  font-weight: 700;
+  border: 2px solid #ee4b5e;
+  text-decoration: none;
+  padding: 15px;
+  text-transform: uppercase;
+  color: #ee4b5e;
+  border-radius: 26px;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+
+  .noPermissionButton:hover {
+    background-color: #ee4b5e;
+    color: white;
+    transition: all 0.2s ease-in-out;
   }
+}

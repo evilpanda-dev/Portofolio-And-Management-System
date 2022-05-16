@@ -7,10 +7,10 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 const PieChart = props => {
-    const {
-        transactionType,
-        month
-    } = props
+  const {
+    transactionType,
+    month
+  } = props
 
   const [chart, setChart] = useState({})
   let baseUrl = `https://localhost:5000/api/transactionsPerCategory/${transactionType}/${month}`;
@@ -73,13 +73,13 @@ const PieChart = props => {
 
   return (
     <div>
-        {chart?.transactions?.length > 0 &&
-      <Pie
-        data={data}
-        height={400}
-        options={options}
-      />
-        }
+      {chart?.transactions?.length > 0 &&
+        <Pie
+          data={data}
+          height={400}
+          options={options}
+        />
+      }
     </div>
   )
 }

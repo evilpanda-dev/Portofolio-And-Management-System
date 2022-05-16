@@ -10,31 +10,31 @@ import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 const buttonDesign = {
-    buttonClass: "previousButton"
-  }
+  buttonClass: "previousButton"
+}
 
 const UserProfileData = props => {
-    const {imageSrc } = props;
+  const { imageSrc } = props;
 
-    const {userProfile} = useContext(UserProfileContext);
-    return(
-        <>
-        <Panel/>
-        <Header imageSrc={imageSrc}/>
-        <section className="userProfileData">
+  const { userProfile } = useContext(UserProfileContext);
+  return (
+    <>
+      <Panel />
+      <Header imageSrc={imageSrc} />
+      <section className="userProfileData">
         <Typography variant="h4" component="h2" align="center" marginTop={'40px'}>
-  Your profile data: 
-</Typography>
-<DataTable profileData={userProfile}/>
-<div className="previousPageButtonContainer">
-<Button text="Previous page" address="/profile" theme={buttonDesign} />
-</div>
-<div className="terminateAccountButtonContainer">
-<ConfirmDialog/>
-</div>
-            </section>
-        </>
-    )
+          Your profile data:
+        </Typography>
+        <DataTable profileData={userProfile} />
+        <div className="previousPageButtonContainer">
+          <Button text="Previous page" address="/profile" theme={buttonDesign} />
+        </div>
+        <div className="terminateAccountButtonContainer">
+          <ConfirmDialog />
+        </div>
+      </section>
+    </>
+  )
 }
 
 export default UserProfileData;

@@ -1,8 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 @font-face {
   font-family: "Open Sans", sans-serif;
-  src: url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
-}
+  src: url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap); }
 
 .mainPage {
   background-image: url("../../assets/images/homeBackground.png");
@@ -11,8 +10,7 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  background-position: center;
-}
+  background-position: center; }
 
 .photoBoxWrapper {
   display: flex;
@@ -20,36 +18,31 @@
   justify-content: center;
   height: 100vh;
   color: #ffffff;
-  background-color: rgba(0, 6, 20, 0.7);
-}
+  background-color: rgba(0, 6, 20, 0.7); }
 
 .photoBoxWrapper div {
   width: 500px;
-  text-align: center;
-}
+  text-align: center; }
 
 .avatar {
   border-radius: 50%;
   width: 163px;
   height: 163px;
-  border: 1px solid #ffffff;
-}
+  border: 1px solid #ffffff; }
 
 .name {
   font-family: Open Sans;
   font-style: normal;
   font-weight: bold;
   font-size: 45px;
-  line-height: 120%;
-}
+  line-height: 120%; }
 
 .title {
   font-family: Open Sans;
   font-style: normal;
   font-weight: 600;
   font-size: 25px;
-  line-height: 120%;
-}
+  line-height: 120%; }
 
 .description {
   font-family: Open Sans;
@@ -57,8 +50,7 @@
   font-weight: normal;
   font-size: 14px;
   line-height: 150%;
-  padding-bottom: 10px;
-}
+  padding-bottom: 10px; }
 
 .homeButton {
   padding: 10px 20px;
@@ -75,9 +67,7 @@
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-  line-height: 120%;
-}
+  line-height: 120%; }
 
 .homeButton:hover {
-  background-color: #26c17e;
-}
+  background-color: #26c17e; }

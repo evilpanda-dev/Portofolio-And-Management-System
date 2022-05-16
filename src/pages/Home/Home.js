@@ -16,20 +16,20 @@ const homeButton = {
 
 const Home = () => {
   return (
-      <div className="mainPage">
-        <div className="photoBoxWrapper">
-          <div>
-            <PhotoBox
-              name="John Doe"
-              title="Programmer. Creative. Innovator"
-              description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque"
-              avatar="http://avatars0.githubusercontent.com/u/246180?v=4"
-              theme={homePhotoBox}
-            />
-            <Button address="/Inner" text="Know more" theme={homeButton} />
-          </div>
+    <div className="mainPage">
+      <div className="photoBoxWrapper">
+        <div>
+          <PhotoBox
+            name="John Doe"
+            title="Programmer. Creative. Innovator"
+            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque"
+            avatar="http://avatars0.githubusercontent.com/u/246180?v=4"
+            theme={homePhotoBox}
+          />
+          <Button address="/Inner" text="Know more" theme={homeButton} />
         </div>
       </div>
+    </div>
   );
 };
 

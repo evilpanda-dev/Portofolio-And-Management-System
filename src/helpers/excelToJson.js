@@ -88,8 +88,8 @@ const excelToJson = (function () {
         columnToKey && (columnToKey[column] || columnToKey["*"])
           ? columnToKey[column] || columnToKey["*"]
           : headerRowToKeys
-          ? `{{${column}${headerRowToKeys}}}`
-          : column;
+            ? `{{${column}${headerRowToKeys}}}`
+            : column;
 
       let dataVariables = columnData.match(/{{([^}}]+)}}/g);
       if (dataVariables) {
@@ -143,25 +143,25 @@ const excelToJson = (function () {
     }
 
     let workbook = XLSX.read(_config.source, {
-      type: "array", 
+      type: "array",
     });
 
     let sheetsToGet =
       _config.sheets && _config.sheets.constructor === Array
         ? _config.sheets
         : Object.keys(workbook.Sheets).slice(
-            0,
-            (_config && _config.sheets && _config.sheets.numberOfSheetsToGet) ||
-              undefined
-          );
+          0,
+          (_config && _config.sheets && _config.sheets.numberOfSheetsToGet) ||
+          undefined
+        );
 
     let parsedData = {};
     sheetsToGet.forEach((sheet) => {
       sheet =
         sheet.constructor === String
           ? {
-              name: sheet,
-            }
+            name: sheet,
+          }
           : sheet;
 
       parsedData[sheet.name] = parseSheet(sheet, workbook);

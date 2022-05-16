@@ -21,13 +21,13 @@ export const fetchEducations = createAsyncThunk(
 
 export const addNewEducation = createAsyncThunk(
   "educations/addNewEducation",
-  async (educationData, { rejectWithValue}) => {
-    const { educationDate, educationTitle,educationDescription } = educationData;
+  async (educationData, { rejectWithValue }) => {
+    const { educationDate, educationTitle, educationDescription } = educationData;
     try {
       const education = {
         date: educationDate,
         title: educationTitle,
-        text : educationDescription
+        text: educationDescription
       };
       const response = await fetch("https://localhost:5000/api/addEducation", {
         method: "POST",
@@ -48,28 +48,28 @@ export const addNewEducation = createAsyncThunk(
 
 export const updateEducation = createAsyncThunk(
   "educations/updateEducation",
-  async (educationData, { rejectWithValue,dispatch }) => {
-    const { educationId,educationDate, educationTitle,educationDescription } = educationData;
+  async (educationData, { rejectWithValue, dispatch }) => {
+    const { educationId, educationDate, educationTitle, educationDescription } = educationData;
     try {
       const response = await fetch(`https://localhost:5000/api/updateEducation/${educationId}`, {
-          method:"PATCH",
-          body:JSON.stringify({
-            date: educationDate,
-        title: educationTitle,
-        text : educationDescription,
-         }),
-          
-          headers: new Headers({
-            "Content-Type": "application/json",
-          }),
-          
-            })
+        method: "PATCH",
+        body: JSON.stringify({
+          date: educationDate,
+          title: educationTitle,
+          text: educationDescription,
+        }),
 
-            if (!response.ok) {
-              throw new Error("Can't update the education. Something went wrong!");
-            }
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
 
-            dispatch(updateEducationState({date:educationDate,title:educationTitle,text:educationDescription}));
+      })
+
+      if (!response.ok) {
+        throw new Error("Can't update the education. Something went wrong!");
+      }
+
+      dispatch(updateEducationState({ date: educationDate, title: educationTitle, text: educationDescription }));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -78,18 +78,18 @@ export const updateEducation = createAsyncThunk(
 
 export const removeEducation = createAsyncThunk(
   "educations/removeEducation",
-  async (educationData, { rejectWithValue,dispatch}) => {
-    const {educationId} = educationData;
+  async (educationData, { rejectWithValue, dispatch }) => {
+    const { educationId } = educationData;
     try {
-     
-const response =  await fetch(`https://localhost:5000/api/deleteEducation/${educationId}`, {
+
+      const response = await fetch(`https://localhost:5000/api/deleteEducation/${educationId}`, {
         method: 'DELETE'
       })
 
       if (!response.ok) {
         throw new Error("Can't remove the education. Something went wrong!");
       }
-     dispatch(deleteEducation(educationId));
+      dispatch(deleteEducation(educationId));
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -112,24 +112,24 @@ export const educationSlice = createSlice({
     setEducation: (state, action) => {
       state.educationList.push(action.payload);
     },
-    deleteEducation:(state,action) =>{
+    deleteEducation: (state, action) => {
       //find index of the value for being deleted
       const index = state.educationList.findIndex(education => education.id === action.payload);
       //remove the value from the array
-      if(index !== -1){
-        state.educationList.splice(index,1);
+      if (index !== -1) {
+        state.educationList.splice(index, 1);
       }
     },
-    updateEducationState:(state,action) =>{
-      state.educationList.map((education)=>{
-        if(education.id === action.payload.id){
+    updateEducationState: (state, action) => {
+      state.educationList.map((education) => {
+        if (education.id === action.payload.id) {
           education.date = action.payload.date;
           education.title = action.payload.title;
           education.text = action.payload.text;
         }
       })
-  }
-},
+    }
+  },
   extraReducers: {
     [fetchEducations.pending]: (state, action) => {
       state.status = "loading";
@@ -142,5 +142,5 @@ export const educationSlice = createSlice({
     [fetchEducations.rejected]: setError,
   },
 });
-const {updateEducationState,deleteEducation } = educationSlice.actions;
+const { updateEducationState, deleteEducation } = educationSlice.actions;
 export default educationSlice.reducer;

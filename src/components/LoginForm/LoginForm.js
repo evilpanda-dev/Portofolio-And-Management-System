@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserProvider.js";
-import { AlertContext } from "../../providers/AlertProvider.js";
 import { loginUser } from "../../features/loginFormThunk.js";
 import { useAlert } from "../../hooks/useAlert.js";
 
@@ -30,22 +29,22 @@ const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-let navigate = useNavigate();
-const dispatch = useDispatch();
-const {setUser} = useContext(UserContext)
-const triggerAlert = useAlert()
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { setUser } = useContext(UserContext)
+  const triggerAlert = useAlert()
 
   const onSubmit = async () => {
-   const data = await dispatch(loginUser({email : email,password : password}))
-   triggerAlert(data,"You successefully logged in")
-      if(data.meta.requestStatus == "fulfilled"){
-        setRedirect(true);
-        const userName = data.meta.arg.email;
-        const role =data.meta.arg.role;
-        setUserName(userName)
-        setRole(role)
-        setUser({userName : userName,role : role})
-      }
+    const data = await dispatch(loginUser({ email: email, password: password }))
+    triggerAlert(data, "You successefully logged in")
+    if (data.meta.requestStatus == "fulfilled") {
+      setRedirect(true);
+      const userName = data.meta.arg.email;
+      const role = data.meta.arg.role;
+      setUserName(userName)
+      setRole(role)
+      setUser({ userName: userName, role: role })
+    }
   };
 
   const isVisible = useSelector((state) => state.popupState.popup);

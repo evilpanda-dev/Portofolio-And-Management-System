@@ -8,7 +8,7 @@ import Feedback from "../../components/Feedback/Feedback";
 import "../Inner/Inner.css";
 import BackToTopButton from "../../components/BackToTopButton/BackToTopButton";
 import { useDispatch } from "react-redux";
-import { useEffect,useContext } from "react";
+import { useEffect, useContext } from "react";
 import { fetchEducations } from "../../features/education/educationSlice";
 import Skills from "../../components/Skills/Skill";
 import Header from "../../components/Header/Header";
@@ -29,8 +29,8 @@ const Inner = (props) => {
 
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("");
-  const {setUser} = useContext(UserContext)
- const{alert} = useContext(AlertContext)
+  const { setUser } = useContext(UserContext)
+  const { alert } = useContext(AlertContext)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,26 +47,26 @@ const Inner = (props) => {
       if (response.status === 200 && content.title !== "Unauthorized") {
         setUserName(content.userName);
         setRole(content.role);
-        setUser({userName: userName, role: role, userId: content.id})
-        const isSubscribed = await dispatch(checkIfEmailIsSubscribed({userId : content.id}))
-      if(isSubscribed.payload){
-        dispatch({ type: "HIDE_NEWSLETTER", payload: false });
-    } else {
-        dispatch({ type: "SHOW_NEWSLETTER", payload: true });
-    }
+        setUser({ userName: userName, role: role, userId: content.id })
+        const isSubscribed = await dispatch(checkIfEmailIsSubscribed({ userId: content.id }))
+        if (isSubscribed.payload) {
+          dispatch({ type: "HIDE_NEWSLETTER", payload: false });
+        } else {
+          dispatch({ type: "SHOW_NEWSLETTER", payload: true });
+        }
       } else {
         setUserName("");
         setRole("");
-        setUser({userName: "", role: ""})
+        setUser({ userName: "", role: "" })
       }
     })();
-  },[userName,role]);
+  }, [userName, role]);
 
   return (
     <>
-    <NewsLetter/>
+      <NewsLetter />
       <BackToTopButton address="#aboutMe" />
-    {alert.appAlerts}
+      {alert.appAlerts}
       <Panel />
       <Header
         userName={userName}
@@ -117,7 +117,7 @@ const Inner = (props) => {
         <Skills />
         <Portofolio data={ProjectData} />
         <Address />
-        <Feedback imageSrc={imageSrc}/>
+        <Feedback imageSrc={imageSrc} />
       </div>
     </>
   );

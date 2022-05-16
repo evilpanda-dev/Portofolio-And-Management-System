@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { UserContext } from "../../providers/UserProvider"
-import { Outlet,Navigate,useLocation } from "react-router-dom"
+import { Outlet, Navigate, useLocation } from "react-router-dom"
 
 const RequireAuth = ({ allowedRoles }) => {
     const { user } = useContext(UserContext)

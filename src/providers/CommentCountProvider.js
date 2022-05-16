@@ -1,11 +1,11 @@
-import { createContext,useState } from "react";
+import { createContext, useState } from "react";
 
 export const CommentCountContext = createContext({})
 
-const CommentCountProvider=({children}) =>{
-const [commentsCount,setCommentsCount]=useState({})
+const CommentCountProvider = ({ children }) => {
+    const [commentsCount, setCommentsCount] = useState({})
 
-return <CommentCountContext.Provider value={{commentsCount,setCommentsCount}}>{children}</CommentCountContext.Provider>
+    return <CommentCountContext.Provider value={{ commentsCount, setCommentsCount }}>{children}</CommentCountContext.Provider>
 }
 
 export default CommentCountProvider

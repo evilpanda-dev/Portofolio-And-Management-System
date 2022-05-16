@@ -6,12 +6,12 @@ import { useContext } from "react";
 import { AlertContext } from "../../providers/AlertProvider";
 
 const UserProfile = (props) => {
-  const {setUserName, setRole, imageSrc } = props;
-const {alert} = useContext(AlertContext)
+  const { setUserName, setRole, imageSrc } = props;
+  const { alert } = useContext(AlertContext)
 
   return (
     <>
-    {alert.appAlerts}
+      {alert.appAlerts}
       <Panel />
       <Header imageSrc={imageSrc} setUserName={setUserName} setRole={setRole} />
       <section className="profilePage">

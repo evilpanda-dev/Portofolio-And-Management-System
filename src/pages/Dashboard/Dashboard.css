@@ -8,7 +8,8 @@
 .sideBarMenu.active ~ .dashboardPage {
   margin-left: 7.5rem; }
 
-.statsTitle, .transactionsTitle {
+.statsTitle,
+.transactionsTitle {
   font-family: Open Sans;
   font-style: normal;
   font-weight: bold;
@@ -33,7 +34,8 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 30px; }
 
-.cardBox, .card {
+.cardBox,
+.card {
   position: relative;
   background: white;
   border-radius: 20px;

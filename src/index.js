@@ -17,11 +17,11 @@ root.render(
         <AlertProvider>
           <UserCountProvider>
             <CommentCountProvider>
-    <App />
-    </CommentCountProvider>
-    </UserCountProvider>
-    </AlertProvider>
-    </UserProfileProvider>
+              <App />
+            </CommentCountProvider>
+          </UserCountProvider>
+        </AlertProvider>
+      </UserProfileProvider>
     </UserProvider>
   </Router>
 );

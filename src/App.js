@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import Layout from "./components/Layout/Layout";
 import { UserProfileContext } from "./providers/UserProfileProvider";
@@ -23,7 +23,7 @@ const App = () => {
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("");
   const navigate = useNavigate();
-const {setUserProfile} = useContext(UserProfileContext)
+  const { setUserProfile } = useContext(UserProfileContext)
 
   useEffect(() => {
     // if not a hash link, scroll to top
@@ -50,15 +50,17 @@ const {setUserProfile} = useContext(UserProfileContext)
         .then((response) => response.json())
         .then((data) => {
           setImage(data.imgByte);
-          setUserProfile({firstName: data.firstName,
+          setUserProfile({
+            firstName: data.firstName,
             lastName: data.lastName,
-          birthDate : getDate(data.birthDate),
-        address: data.address,
-      city: data.city,
-    country: data.country,
-  phoneNumber: data.phoneNumber,
-  aboutMe: data.aboutMe,
-id: data.id})
+            birthDate: getDate(data.birthDate),
+            address: data.address,
+            city: data.city,
+            country: data.country,
+            phoneNumber: data.phoneNumber,
+            aboutMe: data.aboutMe,
+            id: data.id
+          })
         });
     })();
   }, [pathname, hash, key]); // do this on route change
@@ -72,24 +74,24 @@ id: data.id})
         <Routes>
           {/* public routes */}
           <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/Inner"
-            element={<Inner setImage={setImage} imageSrc={image} />}
-          />
-          {/* protected routes */}
-      <Route element={<RequireAuth allowedRoles={["Admin"]}/>}>
-         <Route path="/dashboard" element={<Dashboard imageSrc={image}/>} />
-         </Route>
-         <Route element={<RequireAuth allowedRoles={["Admin","User"]}/>}>
-          <Route path="/profile" element={<UserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>} />
-          <Route path="/profileData" element={<UserProfileData setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>} />
-          <Route path="/profile/:userName" element={<DynamicUserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole}/>}/>
-          </Route>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/Inner"
+              element={<Inner setImage={setImage} imageSrc={image} />}
+            />
+            {/* protected routes */}
+            <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+              <Route path="/dashboard" element={<Dashboard imageSrc={image} />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={["Admin", "User"]} />}>
+              <Route path="/profile" element={<UserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole} />} />
+              <Route path="/profileData" element={<UserProfileData setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole} />} />
+              <Route path="/profile/:userName" element={<DynamicUserProfile setImage={setImage} imageSrc={image} setUserName={setUserName} setRole={setRole} />} />
+            </Route>
 
-          {/* catch all */}
-          <Route path='/noPermission' element={<NoPermission/>}/>
-          <Route path="*" element={<NotFound/>} />
+            {/* catch all */}
+            <Route path='/noPermission' element={<NoPermission />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </PersistGate>

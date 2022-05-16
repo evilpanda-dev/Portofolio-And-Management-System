@@ -1,73 +1,73 @@
 .profileForm {
-    width: 80%;
-    max-width: 1200px;
-    margin: 30px auto;
+  width: 80%;
+  max-width: 1200px;
+  margin: 30px auto;
 }
 
-.profileForm *{
-    box-sizing: border-box;
+.profileForm * {
+  box-sizing: border-box;
 }
 
-.profileFormContent{
-    padding: 0;
-    max-width: 800px;
-    margin: 0 auto;
+.profileFormContent {
+  padding: 0;
+  max-width: 800px;
+  margin: 0 auto;
 }
-.profileFormContent .profileFormField{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;  
-}
-
-.profileFormContent > .profileFormField:not(:last-child){
-margin-bottom: 20px;   
+.profileFormContent .profileFormField {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.profileFormContent .profileFormField .profileFormLabel{
-    padding: 8px;
+.profileFormContent > .profileFormField:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.profileFormContent .profileFormField .profileFormLabel {
+  padding: 8px;
   font-weight: 300;
-  letter-spacing: .09em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
-.profileFormContent > .profileFormField > .profileFormLabel{
-    flex: 1 0 120px;
+.profileFormContent > .profileFormField > .profileFormLabel {
+  flex: 1 0 120px;
   max-width: 220px;
 }
 
-.profileFormContent > .profileFormLabel +*{
-    flex: 1 0 220px;
+.profileFormContent > .profileFormLabel + * {
+  flex: 1 0 220px;
 }
 
-.profileFormContent .profileFormField .profileFormInput:not([type="checkbox"]){
-    padding: 15px;
-    border: none;
+.profileFormContent .profileFormField .profileFormInput:not([type="checkbox"]) {
+  padding: 15px;
+  border: none;
 }
 
 .profileFormContent .profileFormField button {
-    margin-left: auto;
+  margin-left: auto;
   padding: 8px 16px;
   border: none;
   background: #333;
   color: #f2f2f2;
   text-transform: uppercase;
-  letter-spacing: .09em;
+  letter-spacing: 0.09em;
   border-radius: 2px;
 }
 
-.profileFormData{
-    margin-left: auto;
-    padding: 8px 16px;
-    border: none;
-    background: #333;
-    color: #f2f2f2;
-    text-transform: uppercase;
-    letter-spacing: .09em;
-    border-radius: 2px;
-    text-decoration: none;
+.profileFormData {
+  margin-left: auto;
+  padding: 8px 16px;
+  border: none;
+  background: #333;
+  color: #f2f2f2;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  border-radius: 2px;
+  text-decoration: none;
 }
 
-.avatarPreview{
-    width: 150px;
-    max-height: 50%;
+.avatarPreview {
+  width: 150px;
+  max-height: 50%;
 }

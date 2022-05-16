@@ -2,11 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchSkills = createAsyncThunk(
   "skills/fetchSkills",
-  async (_, { rejectWithValue}) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await fetch("https://localhost:5000/api/skills", {
         method: "GET",
-      }) 
+      })
 
       if (!response.ok) {
         throw new Error("Server Error!");
@@ -61,21 +61,21 @@ export const updateSkillRange = createAsyncThunk(
     const { skillName, skillRange } = skillData;
     try {
       const response = await fetch(`https://localhost:5000/api/updateSkill/${skillName}`, {
-          method:"PATCH",
-          body:JSON.stringify({
-            name:skillName,
-          range : skillRange,
-         }),
-          
-          headers: new Headers({
-            "Content-Type": "application/json",
-          }),
-          
-            })
-                if (!response.ok) {
-                  throw new Error("Can't update the skill. Something went wrong!");
-                }
-                dispatch(updateSkill({name:skillName,range:skillRange}))   
+        method: "PATCH",
+        body: JSON.stringify({
+          name: skillName,
+          range: skillRange,
+        }),
+
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+
+      })
+      if (!response.ok) {
+        throw new Error("Can't update the skill. Something went wrong!");
+      }
+      dispatch(updateSkill({ name: skillName, range: skillRange }))
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -87,13 +87,13 @@ export const removeSkill = createAsyncThunk(
   async (skillData, { rejectWithValue, dispatch }) => {
     const { skillName, skillRange } = skillData;
     try {
-     
- const response = await fetch(`https://localhost:5000/api/deleteSkill/${skillName}`, {
+
+      const response = await fetch(`https://localhost:5000/api/deleteSkill/${skillName}`, {
         method: 'DELETE'
       })
-     if (!response.ok) {
-      throw new Error("Can't remove skill. Something went wrong!");
-    }
+      if (!response.ok) {
+        throw new Error("Can't remove skill. Something went wrong!");
+      }
 
       dispatch(deleteSkill(skillName));
     } catch (error) {
@@ -114,22 +114,22 @@ export const skillSlice = createSlice({
     setSkill: (state, action) => {
       state.skills.push(action.payload);
     },
-    deleteSkill:(state,action) =>{
+    deleteSkill: (state, action) => {
       //find index of the value for being deleted
       const index = state.skills.findIndex(skill => skill.name === action.payload);
       //remove the value from the array
-      if(index !== -1){
-        state.skills.splice(index,1);
+      if (index !== -1) {
+        state.skills.splice(index, 1);
       }
     },
-    updateSkill:(state,action) =>{
-      state.skills.map((skill)=>{
-        if(skill.name === action.payload.name){
+    updateSkill: (state, action) => {
+      state.skills.map((skill) => {
+        if (skill.name === action.payload.name) {
           skill.range = action.payload.range;
         }
       })
-  }
-},
+    }
+  },
   extraReducers: {
     [fetchSkills.pending]: (state) => {
       state.status = "loading";
@@ -143,7 +143,7 @@ export const skillSlice = createSlice({
   },
 });
 
-const { setSkill,deleteSkill,updateSkill } = skillSlice.actions;
+const { setSkill, deleteSkill, updateSkill } = skillSlice.actions;
 
 
 export const selectSkill = (state) => state?.skill;
