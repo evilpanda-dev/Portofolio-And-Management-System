@@ -12,14 +12,26 @@ import {AlertContext} from '../../providers/AlertProvider';
 import AlertWindow from '../AlertWindow/AlertWindow';
 import { useAlert } from '../../hooks/useAlert';
 import {deleteProfile} from '../../features/profileFormThunks'
-const ConfirmDialog = () => {
+const ConfirmDialog = (props) => {
+  const{
+    anotherUserId
+  } = props
+  
     const [open, setOpen] = useState(false);
     const { user } = useContext(UserContext);
     const {setAlert} = useContext(AlertContext);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const triggerAlert = useAlert()
-    const userId = user?.userId;
+    let userId 
+
+    if(anotherUserId === null || anotherUserId === undefined) 
+    {
+      userId = user.userId
+    } else { 
+      userId = anotherUserId
+    }
+    
 
     const handleClickToOpen = () => {
       setOpen(!open);
@@ -59,7 +71,9 @@ const ConfirmDialog = () => {
   //         )})
   //       })
     dispatch({type:"WINDOW_ACTIVATED",payload:true});
-  navigate('/Inner')
+    if(anotherUserId === null || anotherUserId === undefined){
+      navigate('/Inner')
+    }
 }
     
     return (
