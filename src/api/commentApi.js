@@ -60,7 +60,7 @@ export const getComments = async (currentPage) => {
   
   export const deleteComment = async (commentId) => {
     return (
-        await fetch(`https://localhost:5000/api/deleteEducation/${commentId}`, {
+        await fetch(`https://localhost:5000/api/deleteComment/${commentId}`, {
         method: 'DELETE'
       })
     );
