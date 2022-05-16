@@ -2,10 +2,12 @@
 using CVapp.Infrastructure.DTOs;
 using CVapp.Infrastructure.Query;
 using CVapp.Infrastructure.Repository.CommentRepository;
+using CVapp.Infrastructure.Repository.MoneyRepository;
 using CVapp.Infrastructure.Repository.UserProfileRepository;
 using CVapp.Infrastructure.Repository.UserRepository;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +19,13 @@ namespace CVapp.Infrastructure.Services
         private readonly UserRepository _userRepository;
         private readonly UserProfileRepository _userProfileRepository;
         private readonly CommentRepository _commentRepository;
-        public DataService(UserRepository userRepository, UserProfileRepository userProfileRepository, CommentRepository commentRepository)
+        private readonly MoneyRepository _moneyRepository;
+        public DataService(UserRepository userRepository, UserProfileRepository userProfileRepository, CommentRepository commentRepository,MoneyRepository moneyRepository)
         {
             _userRepository = userRepository;
             _userProfileRepository = userProfileRepository;
             _commentRepository = commentRepository;
+            _moneyRepository = moneyRepository;
         }
 
         public UserDataResponse GetAllUsersAndTheirProfiles(QueryParameters queryParameters)
@@ -95,6 +99,67 @@ namespace CVapp.Infrastructure.Services
             } catch (Exception e)
             {
                 return new CommentResponse { Success = false, Message = e.Message };
+            }
+        }
+
+        public object GetTransactionsPerMonth(string transactionType)
+        {
+            try
+            {
+                DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
+                
+                var minDate = new DateTime(2022, 1, 1);
+
+                var query = from transaction in _moneyRepository.GetTransactions()
+                            where transaction.TransactionDate >= minDate
+                            group transaction by new { transaction.TransactionDate.Month, transaction.TransactionType } into g
+                            where g.Key.TransactionType == transactionType
+                            select new
+                            {
+                                Month = dtfi.GetMonthName(g.Key.Month).ToString(),
+                                TransactionType = g.Key.TransactionType,
+                                Sum = g.Sum(x => x.Sum)
+                            };
+                var response = new
+                {
+                    Transactions = query.ToList(),
+                    Success = true
+                };
+                return response;
+            }
+            catch(Exception ex)
+            {
+                return new { Success = false, Message = ex.Message };
+            }
+        }
+
+        public object GetTransactionsPerCategory(string transactionType,string month)
+        {
+            try
+            {
+                DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
+                var minDate = new DateTime(2022, 1, 1);
+                
+                var query = from transaction in _moneyRepository.GetTransactions()
+                            where transaction.TransactionDate >= minDate && dtfi.GetMonthName(transaction.TransactionDate.Month) == month
+                            group transaction by new { transaction.Category,transaction.TransactionDate.Month,transaction.TransactionType } into g
+                            where g.Key.TransactionType == transactionType
+                            select new
+                            {
+                                Month = dtfi.GetMonthName(g.Key.Month).ToString(),
+                                Category = g.Key.Category,
+                                Sum = g.Sum(x => x.Sum)
+                            };
+                var response = new
+                {
+                    Transactions = query.ToList(),
+                    Success = true
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new { Success = false, Message = ex.Message };
             }
         }
     }
