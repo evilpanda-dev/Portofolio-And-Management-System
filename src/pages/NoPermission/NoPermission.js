@@ -1,4 +1,5 @@
 import './NoPermission.css'
+import { Link } from 'react-router-dom'
 
 const NoPermission = () => {
     return(
@@ -15,7 +16,7 @@ const NoPermission = () => {
          </div>
 
     <div className="noPermissionButtons">
-        <a className="noPermissionButton" href="/">Go to homepage</a>
+        <Link className="noPermissionButton" to="/">Go Home</Link>
     </div>
 </div>
     )
