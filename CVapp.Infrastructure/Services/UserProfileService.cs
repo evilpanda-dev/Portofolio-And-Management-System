@@ -26,8 +26,12 @@ namespace CVapp.Infrastructure.Services
         private readonly JwtService _jwtService;
         private readonly HttpContext _httpContext;
         private readonly IMapper _mapper;
-        //private readonly IPropertyMapper<UserProfileDto,UserProfile> _propertyMapper;
-        public UserProfileService(UserProfileRepository userProfileRepository, JwtService jwtService, IHttpContextAccessor httpContextAccessor, IMapper mapper,UserRepository userRepository)
+
+        public UserProfileService(UserProfileRepository userProfileRepository,
+            JwtService jwtService,
+            IHttpContextAccessor httpContextAccessor,
+            IMapper mapper,
+            UserRepository userRepository)
         {
             _userProfileRepository = userProfileRepository;
             _userRepository = userRepository;
@@ -86,7 +90,6 @@ namespace CVapp.Infrastructure.Services
             }
 
             return userProfileDto;
-            // return Ok(userProfileDto);
         }
 
         public UserProfileDto SaveAvatar(string path, UserProfileDto userProfileDto)
@@ -122,7 +125,6 @@ namespace CVapp.Infrastructure.Services
                 return userProfileDto;
             }
             return userProfileDto;
-            // throw new BadRequestException("File is missing!");  
         }
 
         public UserProfileDto UpdateUserProfileData(int id,UserProfileDto userProfileDto)
@@ -147,11 +149,6 @@ namespace CVapp.Infrastructure.Services
             {
                 throw new BadRequestException("User profile not found!");
             }
-            //  var mappedUserProfile = _mapper.Map<UserProfileDto,UserProfile>(userProfileDto,userProfileFromDb);
-            // profileToPatch.ApplyTo(userProfileFromDb);
-
-            // var mappedUserProfile = _mapper.Map(userProfileFromDb, userProfileDto);
-
             return userProfileDto;
         }
 

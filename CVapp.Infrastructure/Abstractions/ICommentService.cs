@@ -12,7 +12,6 @@ namespace CVapp.Infrastructure.Abstractions
         public CommentResponse GetAllComments( int page);
         public CommentDto AddNewComment(CommentDto commentDto);
         public CommentDto UpdateComment(int id, CommentDto commentDto);
-/*        public CommentDto ReplyToTheComment(CommentDto commentDto);*/
         public void DeleteComment(int id);
     }
 }

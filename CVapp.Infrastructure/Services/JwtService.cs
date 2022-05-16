@@ -9,7 +9,6 @@ namespace CVapp.Infrastructure.Services
 {
     public class JwtService
     {
-        //private string secureKey = "this is my super secure key";
         private readonly IConfiguration _config;
         public JwtService()
         {

@@ -14,7 +14,6 @@ namespace CVapp.Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly ILoggerManager _logger;
-       // private readonly IRepository<User> _repository;
         private readonly UserRepository _userRepository;
         private readonly UserProfileRepository _userProfileRepository;
 
@@ -111,18 +110,7 @@ namespace CVapp.Infrastructure.Services
                 dto.Role = "Admin";
             }
 
-            /*var jwt = _jwtService.Generate(dto, user.Id);
-
-            Response.Cookies.Append("jwt", jwt, new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.Now.AddMinutes(300),
-                IsEssential = true,
-                SameSite = SameSiteMode.None,
-                Secure = true
-            });*/
             _logger.LogInfo("Login succesful");
-            //return Ok(new { message = "Succesfully logged in" });
             return new UserDto
             {
                 Id = user.Id,

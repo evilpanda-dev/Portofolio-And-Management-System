@@ -32,7 +32,6 @@ namespace CVapp.Infrastructure.Data.Configurations
                 .HasColumnName("Description")
                 .HasColumnType("nvarchar")
                 .HasMaxLength(1000);
-
         }
     }
 }

@@ -15,8 +15,5 @@ namespace CVapp.Infrastructure.Abstractions
         public Task<List<MoneyDto>> SaveTransactions(List<MoneyDto> transactionsDto);
         public string GenerateAndDownloadExcel();
         public MoneyResponse GetTransactions(MoneyQueryParameters queryParameters);
-        /*public List<MoneyDto> SortTransactions(string property,string order);
-        public List<MoneyDto> SearchTransaction(string text);
-        public MoneyResponse GetPaginatedTransactions(int pageNumber,int pageSize);*/
     }
 }

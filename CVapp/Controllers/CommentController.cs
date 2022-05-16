@@ -42,13 +42,6 @@ namespace CVapp.API.Controllers
             _commentService.DeleteComment(id);
             return Ok();
         }
-/*
-        [HttpPost("replyComment")]
-        public IActionResult ReplyComment(CommentDto commentDto)
-        {
-            var data = _commentService.ReplyToTheComment(commentDto);
-            return Ok(data);
-        }*/
     }
 
 }

@@ -29,7 +29,6 @@ namespace CVapp.Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasColumnName("SkillRange")
                 .HasColumnType("int");
-
         }
     }
 }

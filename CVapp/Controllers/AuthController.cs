@@ -20,7 +20,10 @@ namespace CVapp.API.Controllers
         private readonly IUserService _userService;
         private readonly IRepository<User> _repository;
 
-        public AuthController(JwtService jwtService, ILoggerManager logger, IUserService userService,IRepository<User> repository)
+        public AuthController(JwtService jwtService,
+            ILoggerManager logger,
+            IUserService userService,
+            IRepository<User> repository)
         {
             _jwtService = jwtService;
             _logger = logger;

@@ -32,39 +32,6 @@ namespace CVapp.Infrastructure.Data.Configurations
             builder.Property(u => u.CreatedAt)
                 .HasColumnName("CreatedAt")
                 .HasColumnType("datetime");
-            
-            /*builder.Property(u => u.FirstName)
-                .HasColumnName("FirstName")
-                .HasMaxLength(50)
-                .HasColumnType("nvarchar");
-            builder.Property(u => u.Text)
-            .HasColumnName("LastName")
-            .HasMaxLength(50)
-            .HasColumnType("nvarchar");
-            builder.Property(u => u.BirthDate)
-            .HasColumnName("BirthDate")
-            .HasColumnType("DateTime");
-            builder.Property(u => u.Address)
-            .HasColumnName("Address")
-            .HasMaxLength(50)
-            .HasColumnType("nvarchar");
-            builder.Property(u => u.City)
-            .HasColumnName("City")
-            .HasMaxLength(50)
-            .HasColumnType("nvarchar");
-            builder.Property(u => u.Country)
-            .HasColumnName("Country")
-            .HasMaxLength(50)
-            .HasColumnType("nvarchar");
-            builder.Property(u => u.PhoneNumber)
-            .HasColumnName("PhoneNumber")
-            .HasMaxLength(20)
-            .HasColumnType("int");
-            builder.Property(u => u.AboutMe)
-            .HasColumnName("AboutMe")
-            .HasMaxLength(100)
-            .HasColumnType("nvarchar");*/
-
         }
         }
     }

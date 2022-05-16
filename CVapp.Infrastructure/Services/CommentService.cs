@@ -115,40 +115,6 @@ namespace CVapp.Infrastructure.Services
             return commentDto;
         }
         
-        /*public CommentDto ReplyToTheComment(CommentDto commentDto)
-        {
-            var comment = new Comment
-            {
-                Text = commentDto.Text,
-                UserName = commentDto.UserName,
-                UserId = commentDto.UserId,
-                ParentId = commentDto.ParentId,
-                CreatedAt = commentDto.CreatedAt
-            };
-            var commentFromDb = _commentRepository.GetById(commentDto.Id);
-            if (commentFromDb != null)
-            {
-                throw new DuplicateException("Comment already exists");
-            }
-
-            try
-            {
-                _commentRepository.Create(comment);
-            }
-            catch
-            {
-                throw new Exception("Error in adding new comment");
-            }
-            return new CommentDto
-            {
-                Text = commentFromDb.Text,
-                UserName = commentFromDb.UserName,
-                UserId = commentFromDb.UserId,
-                ParentId = commentDto.ParentId,
-                CreatedAt = commentFromDb.CreatedAt
-            };
-        }*/
-        
         public void DeleteComment(int id)
         {
             var comment = _commentRepository.GetById(id);

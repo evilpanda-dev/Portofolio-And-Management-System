@@ -56,8 +56,5 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, I
     {
         return _dbSet.FirstOrDefault(e => e.Id == id);
     }
-
-    //public TEntity GetByEmail(string Email) => _dbSet.FirstOrDefault(e => e.Email == Email);
-
     public void SaveChanges() => _context.SaveChanges();
 }

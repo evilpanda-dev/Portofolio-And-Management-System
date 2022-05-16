@@ -23,7 +23,6 @@ namespace CVapp.API.Middlewares
             catch (BadRequestException ex)
             {
                 await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest);
-                // _logger.LogError($"User {user.UserName} is already registered");
             }
             catch (UnauthorizedException ex)
             {

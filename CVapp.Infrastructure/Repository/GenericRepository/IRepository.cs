@@ -11,7 +11,6 @@ namespace CVapp.Infrastructure.Repository.GenericRepository
 
         //read data
         TEntity GetById(int id);
-        //public TEntity GetByEmail(string email);
         IEnumerable<TEntity> Filter();
         IEnumerable<TEntity> Filter(Func<TEntity, bool> predicate);
 
