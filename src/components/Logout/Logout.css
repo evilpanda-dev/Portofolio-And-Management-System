@@ -4,11 +4,8 @@
   border: none;
   outline: none;
   cursor: pointer;
-  text-decoration: none;
-}
+  text-decoration: none; }
 
 @media screen and (max-width: 500px) {
   .logoutButton {
-    margin-left: -6px;
-  }
-}
+    margin-left: -6px; } }
