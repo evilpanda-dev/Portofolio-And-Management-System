@@ -135,13 +135,13 @@ const TransactionTable = () => {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell><TableSortLabel align="right" onClick={()=>{requestSort("TransactionDate")}} direction={order}>Transaction Date</TableSortLabel></TableCell>
-              <TableCell><TableSortLabel align="right" onClick={()=>{requestSort("TransactionAccount")}} direction={order}>Transaction Account</TableSortLabel></TableCell>
-              <TableCell><TableSortLabel align="right" onClick={()=>{requestSort("Category")}} direction={order}>Category</TableSortLabel></TableCell>
-              <TableCell><TableSortLabel align="right" onClick={()=>{requestSort("Item")}} direction={order}>Item</TableSortLabel></TableCell>
-              <TableCell><TableSortLabel align="right" onClick={()=>{requestSort("Sum")}} direction={order}>Sum</TableSortLabel></TableCell>
-              <TableCell><TableSortLabel align="right" onClick={()=>{requestSort("TransactionType")}} direction={order}>Transaction Type</TableSortLabel></TableCell>
-              <TableCell><TableSortLabel align="right" onClick={()=>{requestSort("Currency")}} direction={order}>Currency</TableSortLabel></TableCell>
+              <TableCell><TableSortLabel align="center" onClick={()=>{requestSort("TransactionDate")}} direction={order}>Transaction Date</TableSortLabel></TableCell>
+              <TableCell><TableSortLabel align="center" onClick={()=>{requestSort("TransactionAccount")}} direction={order}>Transaction Account</TableSortLabel></TableCell>
+              <TableCell><TableSortLabel align="center" onClick={()=>{requestSort("Category")}} direction={order}>Category</TableSortLabel></TableCell>
+              <TableCell><TableSortLabel align="center" onClick={()=>{requestSort("Item")}} direction={order}>Item</TableSortLabel></TableCell>
+              <TableCell><TableSortLabel align="center" onClick={()=>{requestSort("Sum")}} direction={order}>Sum</TableSortLabel></TableCell>
+              <TableCell><TableSortLabel align="center" onClick={()=>{requestSort("TransactionType")}} direction={order}>Transaction Type</TableSortLabel></TableCell>
+              <TableCell><TableSortLabel align="center" onClick={()=>{requestSort("Currency")}} direction={order}>Currency</TableSortLabel></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -152,12 +152,12 @@ const TransactionTable = () => {
                   <TableCell component="th" scope="row">
                     {row.transactionDate}
                   </TableCell>
-                  <TableCell align="right">{row.transactionAccount}</TableCell>
-                  <TableCell align="right">{row.category}</TableCell>
-                  <TableCell align="right">{row.item}</TableCell>
-                  <TableCell align="right">{row.sum}</TableCell>
-                  <TableCell align="right">{row.transactionType}</TableCell>
-                  <TableCell align="right">{row.currency}</TableCell>
+                  <TableCell align="center">{row.transactionAccount}</TableCell>
+                  <TableCell align="center">{row.category}</TableCell>
+                  <TableCell align="center">{row.item}</TableCell>
+                  <TableCell align="center">{row.sum}</TableCell>
+                  <TableCell align="center">{row.transactionType}</TableCell>
+                  <TableCell align="center">{row.currency}</TableCell>
                 </TableRow>
               )) : (
                 <TableRow>
