@@ -5,6 +5,7 @@ import './Dashboard.css';
 import WakatimeData from '../../utils/wakaTimeData.js'
 import Charts from "../../components/Charts/Charts";
 import Transactions from "../../components/Transactions/Transactions";
+import UserDataTable from "../../components/UserDataTable/UserDataTable";
 
 const Dashboard = props =>{
     const {
@@ -16,6 +17,7 @@ const Dashboard = props =>{
         <Header imageSrc={imageSrc}/>
         <section className="dashboardPage">
             <Transactions/>
+       <UserDataTable/>
        <Charts data={WakatimeData}/>
         </section>
         </>
