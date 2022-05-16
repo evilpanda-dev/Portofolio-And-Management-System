@@ -8,6 +8,7 @@ import Transactions from "../../components/Transactions/Transactions";
 import UserDataTable from "../../components/UserDataTable/UserDataTable";
 import { useContext } from "react";
 import { AlertContext } from "../../providers/AlertProvider";
+import CommentsTable from "../../components/CommentsTable/CommentsTable";
 
 const Dashboard = props =>{
     const {
@@ -16,13 +17,13 @@ const Dashboard = props =>{
      const {alert} = useContext(AlertContext)
     return(
         <>
-        
         <Panel/>
         <Header imageSrc={imageSrc}/>
         <section className="dashboardPage">
             {alert.appAlerts}
-            <Transactions/>
        <UserDataTable/>
+<CommentsTable/>
+            <Transactions/>
        <Charts data={WakatimeData}/>
         </section>
         </>
