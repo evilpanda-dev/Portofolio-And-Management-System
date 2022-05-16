@@ -28,18 +28,15 @@ const PieChart = props => {
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
-              console.log(data);
               setChart(data)
             });
           }
         }).catch((error) => {
-          console.log(error);
         });
     };
     fetchCoins()
   }, [baseUrl])
 
-  console.log("chart", chart);
   var data = {
     labels: chart?.transactions?.map(x => x.category),
     datasets: [{
