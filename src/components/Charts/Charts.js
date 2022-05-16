@@ -20,7 +20,7 @@ const Charts = props =>{
   };
     return (
 <>
-        <h1 className="statsTitle">Developer stats</h1>
+        <h1 className="statsTitle">Personal developer stats</h1>
         <div >
           <FilterButton categories={categories} filterItem={filterItem} />
         </div>
