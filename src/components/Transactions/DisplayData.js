@@ -7,6 +7,8 @@ const DisplayData = props => {
         excelData,
         setData
     } = props
+    
+    let dataForDb = [];
 
     useEffect(()=>{
       if(dataForDb.length > 1 ){
@@ -21,9 +23,6 @@ const DisplayData = props => {
   const tableBody = table?.slice(1);
   const tableHead = table[0];
   const keys = Object.keys(tableHead);
-
-
-  let dataForDb = [];
   
  tableBody.forEach(row => {
     dataForDb.push({
