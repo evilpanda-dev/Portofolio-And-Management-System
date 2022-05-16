@@ -12,5 +12,7 @@ namespace CVapp.Infrastructure.Abstractions
     {
         public UserDataResponse GetAllUsersAndTheirProfiles(QueryParameters queryParameters);
         public CommentResponse GetAllComments(QueryParameters queryParameters);
+        public object GetTransactionsPerMonth(string transactionType);
+        public object GetTransactionsPerCategory(string transactionType,string month);
     }
 }
