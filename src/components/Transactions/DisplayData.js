@@ -29,9 +29,9 @@ const DisplayData = props => {
     dataForDb.push({
       transactionDate: excelDateToJson(row.A),
       transactionAccount: row.B,
-      Category: row.C,
-      Item: row.D,
-      Amount: row.E,
+      category: row.C,
+      item: row.D,
+      sum: row.E,
       transactionType: row.F,
       currency: row.G
     });
