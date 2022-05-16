@@ -25,6 +25,45 @@
   overflow-y: scroll;
   max-height: 50%; }
 
+.cardBox {
+  position: relative;
+  width: 95%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 30px; }
+
+.cardBox, .card {
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08); }
+
+.cardBox .card .numbers {
+  position: relative;
+  font-weight: 500;
+  font-size: 2.5em;
+  color: #222935;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.cardBox .card .cardName {
+  color: #222935;
+  font-size: 1.1em;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.cardBox .card:hover {
+  background: #222935; }
+
+.cardBox .card:hover .numbers,
+.cardBox .card:hover .cardName {
+  color: white; }
+
 @media screen and (max-width: 600px) {
   .sideBarMenu ~ .dashboardPage {
     margin-left: 7.5rem; }
