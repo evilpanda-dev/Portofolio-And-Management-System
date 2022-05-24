@@ -84,51 +84,51 @@ namespace CV.Bll.Services
             return commentResponse;
         }
 
-    public object GetTransactionsPerMonth(string transactionType)
-    {
-        DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-
-        var minDate = new DateTime(2022, 1, 1);
-
-        var query = from transaction in _moneyRepository.GetTransactions()
-                    where transaction.TransactionDate >= minDate
-                    group transaction by new { transaction.TransactionDate.Month, transaction.TransactionType } into g
-                    where g.Key.TransactionType == transactionType
-                    select new
-                    {
-                        Month = dtfi.GetMonthName(g.Key.Month).ToString(),
-                        g.Key.TransactionType,
-                        Sum = g.Sum(x => x.Sum)
-                    };
-        var response = new
+        public object GetTransactionsPerMonth(string transactionType)
         {
-            Transactions = query.ToList(),
-            Success = true
-        };
-        return response;
-    }
+            DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
 
-    public object GetTransactionsPerCategory(string transactionType, string month)
-    {
-        DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-        var minDate = new DateTime(2022, 1, 1);
+            var minDate = new DateTime(2022, 1, 1);
 
-        var query = from transaction in _moneyRepository.GetTransactions()
-                    where transaction.TransactionDate >= minDate && dtfi.GetMonthName(transaction.TransactionDate.Month) == month
-                    group transaction by new { transaction.Category, transaction.TransactionDate.Month, transaction.TransactionType } into g
-                    where g.Key.TransactionType == transactionType
-                    select new
-                    {
-                        Month = dtfi.GetMonthName(g.Key.Month).ToString(),
-                        g.Key.Category,
-                        Sum = g.Sum(x => x.Sum)
-                    };
-        var response = new
+            var query = from transaction in _moneyRepository.GetTransactions()
+                        where transaction.TransactionDate >= minDate
+                        group transaction by new { transaction.TransactionDate.Month, transaction.TransactionType } into g
+                        where g.Key.TransactionType == transactionType
+                        select new
+                        {
+                            Month = dtfi.GetMonthName(g.Key.Month).ToString(),
+                            g.Key.TransactionType,
+                            Sum = g.Sum(x => x.Sum)
+                        };
+            var response = new
+            {
+                Transactions = query.ToList(),
+                Success = true
+            };
+            return response;
+        }
+
+        public object GetTransactionsPerCategory(string transactionType, string month)
         {
-            Transactions = query.ToList(),
-            Success = true
-        };
-        return response;
+            DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
+            var minDate = new DateTime(2022, 1, 1);
+
+            var query = from transaction in _moneyRepository.GetTransactions()
+                        where transaction.TransactionDate >= minDate && dtfi.GetMonthName(transaction.TransactionDate.Month) == month
+                        group transaction by new { transaction.Category, transaction.TransactionDate.Month, transaction.TransactionType } into g
+                        where g.Key.TransactionType == transactionType
+                        select new
+                        {
+                            Month = dtfi.GetMonthName(g.Key.Month).ToString(),
+                            g.Key.Category,
+                            Sum = g.Sum(x => x.Sum)
+                        };
+            var response = new
+            {
+                Transactions = query.ToList(),
+                Success = true
+            };
+            return response;
+        }
     }
-}
 }
