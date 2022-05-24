@@ -1,8 +1,8 @@
-﻿using CVapp.Infrastructure.Abstractions;
-using CVapp.Infrastructure.DTOs;
+﻿using CV.Bll.Abstractions;
+using CV.Common.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CVapp.API.Controllers
+namespace CV.API.Controllers
 {
     [ApiController]
     [Route("api")]

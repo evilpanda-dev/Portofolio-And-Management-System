@@ -1,6 +1,6 @@
-﻿using CVapp.Domain.Models.Authentification;
+﻿using CV.Domain.Models.Auth;
 
-namespace CVapp.Domain.Models.Content
+namespace CV.Domain.Models.Content
 {
     public class Newsletter : IEntityBase
     {

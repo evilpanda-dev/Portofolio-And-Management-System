@@ -1,4 +1,4 @@
-﻿namespace CVapp.Domain.Models.Content
+﻿namespace CV.Domain.Models.Content
 {
     public class Skill : IEntityBase
     {

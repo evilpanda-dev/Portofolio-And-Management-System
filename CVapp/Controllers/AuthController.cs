@@ -1,13 +1,12 @@
-﻿using CVapp.Domain.Models.Authentification;
-using CVapp.Infrastructure.Abstractions;
-using CVapp.Infrastructure.DTOs;
-using CVapp.Infrastructure.Exceptions;
-using CVapp.Infrastructure.Repository.GenericRepository;
-using CVapp.Infrastructure.Services;
-using LoggerService;
+﻿using CV.Bll.Abstractions;
+using CV.Bll.Services;
+using CV.Common.DTOs;
+using CV.Common.Exceptions;
+using CV.Dal.Interfaces;
+using CV.Domain.Models.Auth;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CVapp.API.Controllers
+namespace CV.API.Controllers
 {
     [ApiController]
     [Route("api")]

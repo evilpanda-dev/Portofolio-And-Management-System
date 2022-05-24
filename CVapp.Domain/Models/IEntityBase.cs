@@ -1,4 +1,4 @@
-﻿namespace CVapp.Domain.Models
+﻿namespace CV.Domain.Models
 {
     public interface IEntityBase
     {
