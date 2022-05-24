@@ -9,10 +9,10 @@
 .popup {
   position: fixed;
   top: -150%;
-  left: 100vh;
+  left: 50%;
   opacity: 0;
   transform: translate(-50%, -50%) scale(1.25);
-  width: 420px;
+  width: 25%;
   padding: 20px 30px;
   background: #fff;
   box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
@@ -52,6 +52,7 @@
   font-size: 14px;
   color: #222; }
 
+.popup .form .formElement input[type="text"],
 .popup .form .formElement input[type="email"],
 .popup .form .formElement input[type="password"] {
   margin-top: 5px;
@@ -75,4 +76,18 @@
 
 @media screen and (max-width: 500px) {
   .registerButton {
-    margin-left: -6px; } }
+    margin-left: -6px; }
+  .popup {
+    left: 50%;
+    width: 70%;
+    height: min-content; }
+  .form:focus {
+    margin-left: 85px; } }
+
+@media screen and (max-width: 1000px) {
+  .popup {
+    left: 50%;
+    width: 60%;
+    height: min-content; }
+  .form:focus {
+    margin-left: 85px; } }
