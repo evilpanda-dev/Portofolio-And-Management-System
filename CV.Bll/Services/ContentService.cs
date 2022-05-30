@@ -3,26 +3,26 @@ using CV.Bll.Abstractions;
 using CV.Common.DTOs;
 using CV.Common.Exceptions;
 using CV.Dal.Helpers;
-using CV.Dal.Repository;
+using CV.Dal.Interfaces;
 using CV.Domain.Models.Content;
 using MailChimp.Net;
 using MailChimp.Net.Interfaces;
 using MailChimp.Net.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace CV.Bll.Services
 {
     public class ContentService : IContentService
     {
-        private readonly EducationRepository _educationRepository;
-        private readonly SkillRepository _skillRepository;
-        private readonly NewsletterRepository _newsletterRepository;
+        private readonly IEducationRepository _educationRepository;
+        private readonly ISkillRepository _skillRepository;
+        private readonly INewsletterRepository _newsletterRepository;
         private readonly IMapper _mapper;
 
-        public ContentService(EducationRepository educationRepository,
+        public ContentService(
+            IEducationRepository educationRepository,
             IMapper mapper,
-            SkillRepository skillRepository,
-            NewsletterRepository newsletterRepository)
+            ISkillRepository skillRepository,
+            INewsletterRepository newsletterRepository)
         {
             _educationRepository = educationRepository;
             _mapper = mapper;
@@ -34,9 +34,8 @@ namespace CV.Bll.Services
         {
             var educations = _educationRepository.GetAllEducations();
             var educationResult = _mapper.Map<IEnumerable<EducationDto>>(educations);
-            var educationResultArray = educationResult.ToArray();
 
-            return educationResultArray;
+            return educationResult;
 
         }
 
@@ -44,25 +43,23 @@ namespace CV.Bll.Services
         {
             var skills = _skillRepository.GetAllSkills();
             var skillResult = _mapper.Map<IEnumerable<SkillDto>>(skills);
-            var skillResultArray = skillResult.ToArray();
 
-            return skillResultArray;
+            return skillResult;
 
         }
 
         public SkillDto AddNewSkill(SkillDto skillDto)
         {
-            var skill = new Skill
-            {
-                Name = skillDto.Name,
-                Range = skillDto.Range
-            };
             var skillFromDb = _skillRepository.GetSkillByName(skillDto.Name);
             if (skillFromDb != null)
             {
                 throw new DuplicateException("Skill already exists");
             }
-
+            var skill = new Skill
+            {
+                Name = skillDto.Name,
+                Range = skillDto.Range
+            };
             _skillRepository.Create(skill);
 
             return new SkillDto
@@ -99,18 +96,17 @@ namespace CV.Bll.Services
 
         public EducationDto AddNewEducation(EducationDto educationDto)
         {
+            var educationFromDb = _educationRepository.GetById(educationDto.Id);
+            if (educationFromDb != null)
+            {
+                throw new DuplicateException("Skill already exists");
+            }
             var education = new Education
             {
                 Date = educationDto.Date,
                 Title = educationDto.Title,
                 Text = educationDto.Text
             };
-            var educationFromDb = _educationRepository.GetById(educationDto.Id);
-            if (educationFromDb != null)
-            {
-                throw new DuplicateException("Skill already exists");
-            }
-
             _educationRepository.Create(education);
 
             return new EducationDto
@@ -151,17 +147,6 @@ namespace CV.Bll.Services
 
         public async Task<NewsletterDto> AddEmailToNewsletterAsync(int id, NewsletterDto newsletterDto)
         {
-            var mail = new EmailAddressAttribute().IsValid(newsletterDto.Email);
-            if (!mail)
-            {
-                throw new InvalidEmailException("Invalid email format");
-            }
-
-            var newsletterSubscriber = new Newsletter
-            {
-                Email = newsletterDto.Email,
-                UserId = id
-            };
             var newsletterSubscriberFromDb = _newsletterRepository.GetById(newsletterDto.Id);
             if (newsletterSubscriberFromDb != null)
             {
@@ -171,6 +156,11 @@ namespace CV.Bll.Services
             var listId = "fe8fa4d630";
             var apiKey = "39b7751589939b24bba532d4c8d8dde9-us17";
             IMailChimpManager mailChimpManager = new MailChimpManager(apiKey);
+            var newsletterSubscriber = new Newsletter
+            {
+                Email = newsletterDto.Email,
+                UserId = id
+            };
             var member = new Member()
             {
                 EmailAddress = newsletterSubscriber.Email,

@@ -1,7 +1,7 @@
 ﻿using CV.Bll.Abstractions;
 using CV.Common.DTOs;
 using CV.Common.Exceptions;
-using CV.Dal.Repository;
+using CV.Dal.Interfaces;
 using CV.Domain.Models.Auth;
 
 namespace CV.Bll.Services
@@ -9,12 +9,13 @@ namespace CV.Bll.Services
     public class UserService : IUserService
     {
         private readonly ILoggerManager _logger;
-        private readonly UserRepository _userRepository;
-        private readonly UserProfileRepository _userProfileRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public UserService(ILoggerManager logger,
-            UserRepository userRepository,
-            UserProfileRepository userProfileRepository)
+        public UserService(
+            ILoggerManager logger,
+            IUserRepository userRepository,
+            IUserProfileRepository userProfileRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
@@ -95,10 +96,6 @@ namespace CV.Bll.Services
                 _logger.LogError($"Login attempt failed for user: {dto.Email} because the password is not matching");
                 throw new BadRequestException("The password is not matching");
             }
-            if (dto.Email == "artiom.suruc@outlook.com")
-            {
-                dto.Role = "Admin";
-            }
 
             _logger.LogInfo("Login succesful");
             return new UserDto
@@ -112,14 +109,27 @@ namespace CV.Bll.Services
 
         public void DeleteUser(int id)
         {
-            try
+            var findUser = _userRepository.GetById(id);
+            if (findUser == null)
             {
-                _userRepository.Delete(id);
+                _logger.LogError($"User with id: {id} not found");
+                throw new EntityNotFoundException($"User with id: {id} not found");
             }
-            catch (Exception ex)
+
+            _userRepository.Delete(id);
+        }
+
+        public UserDto GetUser(int id)
+        {
+            var user = _userRepository.GetById(id);
+            var userDto = new UserDto
             {
-                throw new BadRequestException("User not found!");
-            }
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Role = user.Role
+            };
+            return userDto;
         }
 
     }

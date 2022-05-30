@@ -6,13 +6,8 @@ namespace CV.Dal.Repository
 {
     public class SkillRepository : Repository<Skill>, ISkillRepository
     {
-        private readonly DbContext _context;
-        private DbSet<Skill> _dbSet;
-
         public SkillRepository(DbContext context) : base(context)
         {
-            _context = context;
-            _dbSet = _context.Set<Skill>();
         }
 
         public IEnumerable<Skill> GetAllSkills()

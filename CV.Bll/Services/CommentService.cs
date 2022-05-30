@@ -3,49 +3,35 @@ using CV.Bll.Abstractions;
 using CV.Common.DTOs;
 using CV.Common.Exceptions;
 using CV.Dal.Helpers;
-using CV.Dal.Repository;
+using CV.Dal.Interfaces;
 using CV.Domain.Models.Content;
 
 namespace CV.Bll.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly CommentRepository _commentRepository;
-        private readonly IMapper _mapper;
+        private readonly ICommentRepository _commentRepository;
 
-        public CommentService(CommentRepository commentRepository, IMapper mapper)
+        public CommentService(
+            ICommentRepository commentRepository)
         {
             _commentRepository = commentRepository;
-            _mapper = mapper;
         }
 
         public CommentResponse GetAllComments(int page)
         {
-            var comments = _commentRepository.GetAllComments();
-            var commentsResult = _mapper.Map<IEnumerable<CommentDto>>(comments);
-
-            var pageResults = 3f;
-            var pageCount = (int)Math.Ceiling(commentsResult.Count() / pageResults);
-
-            var commentsResultList = commentsResult
-                .Skip((page - 1) * (int)pageResults)
-                .Take((int)pageResults)
-                .ToList();
-
-            var response = new CommentResponse
-            {
-                Comments = commentsResultList,
-                CurrentPage = page,
-                Pages = pageCount,
-                Success = true,
-                Message = "Success"
-            };
-            return response;
+            var comments = _commentRepository.GetAllCommentsPaginated(page);
+            return comments;
         }
 
 
         public CommentDto AddNewComment(CommentDto commentDto)
         {
+            var commentFromDb = _commentRepository.GetById(commentDto.Id);
+            if (commentFromDb != null)
+            {
+                throw new DuplicateException("Comment already exists");
+            }
             var comment = new Comment
             {
                 Image = commentDto.Image,
@@ -55,12 +41,6 @@ namespace CV.Bll.Services
                 ParentId = commentDto.ParentId,
                 CreatedAt = commentDto.CreatedAt
             };
-            var commentFromDb = _commentRepository.GetById(commentDto.Id);
-            if (commentFromDb != null)
-            {
-                throw new DuplicateException("Comment already exists");
-            }
-
             _commentRepository.Create(comment);
             return new CommentDto
             {

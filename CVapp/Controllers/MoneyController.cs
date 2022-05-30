@@ -16,24 +16,24 @@ namespace CV.API.Controllers
         }
 
         [HttpPost("saveExcel")]
-        public async Task<IActionResult> SaveTransactionsToExcel(List<MoneyDto> transactionsDto)
+        public async Task<List<MoneyDto>> SaveTransactionsToExcel(List<MoneyDto> transactionsDto)
         {
             var result = await _moneyService.SaveTransactions(transactionsDto);
-            return Ok(result);
+            return result;
         }
 
         [HttpGet("generateExcel")]
-        public IActionResult GenerateWorksheet()
+        public string GenerateWorksheet()
         {
             var result = _moneyService.GenerateAndDownloadExcel();
-            return Ok(result);
+            return result;
         }
 
         [HttpGet("getTransactions")]
-        public IActionResult GetTransactions([FromQuery] MoneyQueryParameters queryParameters)
+        public MoneyResponse GetTransactions([FromQuery] MoneyQueryParameters queryParameters)
         {
             var result = _moneyService.GetTransactions(queryParameters);
-            return Ok(result);
+            return result;
         }
     }
 }

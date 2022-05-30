@@ -7,5 +7,6 @@ namespace CV.Bll.Abstractions
         public UserDto Register(RegisterDto userDto, UserProfileDto userProfileDto);
         public UserDto Login(LoginDto loginDto);
         public void DeleteUser(int id);
+        public UserDto GetUser(int id);
     }
 }

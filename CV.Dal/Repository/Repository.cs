@@ -6,8 +6,8 @@ namespace CV.Dal.Repository;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntityBase
 {
-    private readonly DbContext _context;
-    private DbSet<TEntity> _dbSet;
+    protected readonly DbContext _context;
+    protected DbSet<TEntity> _dbSet;
 
     public Repository(DbContext context)
     {

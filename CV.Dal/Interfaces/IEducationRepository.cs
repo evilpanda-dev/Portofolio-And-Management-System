@@ -2,7 +2,7 @@
 
 namespace CV.Dal.Interfaces
 {
-    public interface IEducationRepository
+    public interface IEducationRepository : IRepository<Education>
     {
         public IEnumerable<Education> GetAllEducations();
     }

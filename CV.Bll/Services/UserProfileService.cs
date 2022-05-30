@@ -2,7 +2,7 @@
 using CV.Common.DTOs;
 using CV.Common.Exceptions;
 using CV.Dal.Helpers;
-using CV.Dal.Repository;
+using CV.Dal.Interfaces;
 using CV.Domain.Models.Auth;
 using Microsoft.AspNetCore.Http;
 
@@ -10,18 +10,16 @@ namespace CV.Bll.Services
 {
     public class UserProfileService : IUserProfileService
     {
-        private readonly UserProfileRepository _userProfileRepository;
-        private readonly UserRepository _userRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
         private readonly JwtService _jwtService;
         private readonly HttpContext _httpContext;
 
-        public UserProfileService(UserProfileRepository userProfileRepository,
+        public UserProfileService(
+            IUserProfileRepository userProfileRepository,
             JwtService jwtService,
-            IHttpContextAccessor httpContextAccessor,
-            UserRepository userRepository)
+            IHttpContextAccessor httpContextAccessor)
         {
             _userProfileRepository = userProfileRepository;
-            _userRepository = userRepository;
             _jwtService = jwtService;
             _httpContext = httpContextAccessor.HttpContext;
         }
@@ -129,8 +127,7 @@ namespace CV.Bll.Services
 
         public UserProfileDto GetPersonalUserProfileData(string name)
         {
-            var userName = _userRepository.Filter(x => x.UserName == name).FirstOrDefault();
-            var userProfile = _userProfileRepository.Filter(x => x.UserId == userName.Id).FirstOrDefault();
+            var userProfile = _userProfileRepository.GetUsersProfileData(name);
             return new UserProfileDto
             {
                 AboutMe = userProfile.AboutMe,

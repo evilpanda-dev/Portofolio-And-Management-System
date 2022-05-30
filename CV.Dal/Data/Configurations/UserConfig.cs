@@ -11,27 +11,22 @@ namespace CV.Dal.Data.Configurations
             builder.ToTable("Users");
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Id).ValueGeneratedOnAdd()
-                .HasColumnName("UserId")
-                .HasColumnType("int");
+                .HasColumnName("UserId");
             builder.Property(u => u.UserName)
                 .IsRequired()
-                .HasMaxLength(40)
-                .HasColumnType("nvarchar");
+                .HasMaxLength(40);
             builder.HasIndex(u => u.UserName)
                 .IsUnique();
             builder.Property(u => u.Email)
                 .IsRequired()
-                .HasMaxLength(40)
-                .HasColumnType("nvarchar");
+                .HasMaxLength(40);
             builder.HasIndex(u => u.Email)
                 .IsUnique();
             builder.Property(u => u.Password)
                 .IsRequired()
-                .HasMaxLength(100)
-                .HasColumnType("nvarchar");
+                .HasMaxLength(100);
             builder.Property(u => u.Role)
                 .HasMaxLength(20)
-                .HasColumnType("nvarchar")
                 .HasDefaultValue("User");
         }
     }

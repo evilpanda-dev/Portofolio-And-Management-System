@@ -1,21 +1,21 @@
 ﻿using CV.Bll.Abstractions;
 using CV.Common.DTOs;
+using CV.Dal.Interfaces;
 using CV.Dal.Query;
-using CV.Dal.Repository;
-using System.Globalization;
 
 namespace CV.Bll.Services
 {
     public class DataService : IDataService
     {
-        private readonly UserRepository _userRepository;
-        private readonly UserProfileRepository _userProfileRepository;
-        private readonly CommentRepository _commentRepository;
-        private readonly MoneyRepository _moneyRepository;
-        public DataService(UserRepository userRepository,
-            UserProfileRepository userProfileRepository,
-            CommentRepository commentRepository,
-            MoneyRepository moneyRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly ICommentRepository _commentRepository;
+        private readonly IMoneyRepository _moneyRepository;
+        public DataService(
+            IUserRepository userRepository,
+            IUserProfileRepository userProfileRepository,
+            ICommentRepository commentRepository,
+            IMoneyRepository moneyRepository)
         {
             _userRepository = userRepository;
             _userProfileRepository = userProfileRepository;
@@ -25,34 +25,13 @@ namespace CV.Bll.Services
 
         public UserDataResponse GetAllUsersAndTheirProfiles(QueryParameters queryParameters)
         {
-            var result = (from a in _userRepository.Filter().ToList()
-                          join b in _userProfileRepository.Filter().ToList() on a.Id equals b.UserId
-                          select new UserDataDto
-                          {
-                              Id = a.Id,
-                              UserName = a.UserName,
-                              Email = a.Email,
-                              Role = a.Role,
-                              FirstName = b.FirstName,
-                              LastName = b.LastName,
-                              BirthDate = b.BirthDate,
-                              Address = b.Address,
-                              City = b.City,
-                              Country = b.Country,
-                              PhoneNumber = b.PhoneNumber,
-                              AboutMe = b.AboutMe
-                          }).ToList();
-
-            var queryableResult = result.AsQueryable();
-            queryableResult = queryableResult
-                .Skip(queryParameters.PageSize * (queryParameters.PageNumber - 1))
-                .Take(queryParameters.PageSize);
-
+            var result = _userProfileRepository.GetUsersAndTheirProfiles(queryParameters);
+            var profileCount = _userProfileRepository.CountProfiles();
             var userDataResponse = new UserDataResponse
             {
-                UserData = queryableResult.ToList(),
+                UserData = result,
                 CurrentPage = queryParameters.PageNumber,
-                TotalItems = result.Count(),
+                TotalItems = profileCount,
                 Success = true
             };
             return userDataResponse;
@@ -60,25 +39,13 @@ namespace CV.Bll.Services
 
         public CommentResponse GetAllComments(QueryParameters queryParameters)
         {
-            var result = (from a in _commentRepository.Filter().ToList()
-                          join b in _userRepository.Filter().ToList() on a.UserId equals b.Id
-                          select new CommentDto
-                          {
-                              Id = a.Id,
-                              Text = a.Text,
-                              UserName = b.UserName,
-                              ParentId = a.ParentId,
-                              CreatedAt = a.CreatedAt
-                          }).ToList();
-            var queryableResult = result.AsQueryable();
-            queryableResult = queryableResult
-                .Skip(queryParameters.PageSize * (queryParameters.PageNumber - 1))
-                .Take(queryParameters.PageSize);
+            var result = _commentRepository.GetAllUsersComments(queryParameters);
+            var commentCount = _commentRepository.CountUserComments();
             var commentResponse = new CommentResponse
             {
-                Comments = queryableResult.ToList(),
+                Comments = result,
                 CurrentPage = queryParameters.PageNumber,
-                TotalItems = result.Count(),
+                TotalItems = commentCount,
                 Success = true
             };
             return commentResponse;
@@ -86,23 +53,10 @@ namespace CV.Bll.Services
 
         public object GetTransactionsPerMonth(string transactionType)
         {
-            DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-
-            var minDate = new DateTime(2022, 1, 1);
-
-            var query = from transaction in _moneyRepository.GetTransactions()
-                        where transaction.TransactionDate >= minDate
-                        group transaction by new { transaction.TransactionDate.Month, transaction.TransactionType } into g
-                        where g.Key.TransactionType == transactionType
-                        select new
-                        {
-                            Month = dtfi.GetMonthName(g.Key.Month).ToString(),
-                            g.Key.TransactionType,
-                            Sum = g.Sum(x => x.Sum)
-                        };
+            var query = _moneyRepository.GetTransactionsPerMonth(transactionType);
             var response = new
             {
-                Transactions = query.ToList(),
+                Transactions = query,
                 Success = true
             };
             return response;
@@ -110,22 +64,10 @@ namespace CV.Bll.Services
 
         public object GetTransactionsPerCategory(string transactionType, string month)
         {
-            DateTimeFormatInfo dtfi = new DateTimeFormatInfo();
-            var minDate = new DateTime(2022, 1, 1);
-
-            var query = from transaction in _moneyRepository.GetTransactions()
-                        where transaction.TransactionDate >= minDate && dtfi.GetMonthName(transaction.TransactionDate.Month) == month
-                        group transaction by new { transaction.Category, transaction.TransactionDate.Month, transaction.TransactionType } into g
-                        where g.Key.TransactionType == transactionType
-                        select new
-                        {
-                            Month = dtfi.GetMonthName(g.Key.Month).ToString(),
-                            g.Key.Category,
-                            Sum = g.Sum(x => x.Sum)
-                        };
+            var query = _moneyRepository.GetTransactionPerCategory(transactionType, month);
             var response = new
             {
-                Transactions = query.ToList(),
+                Transactions = query,
                 Success = true
             };
             return response;

@@ -2,7 +2,7 @@
 
 namespace CV.Dal.Interfaces
 {
-    public interface ISkillRepository
+    public interface ISkillRepository : IRepository<Skill>
     {
         public IEnumerable<Skill> GetAllSkills();
         public Skill GetSkillByName(string name);

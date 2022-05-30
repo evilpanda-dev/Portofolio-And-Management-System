@@ -4,21 +4,21 @@ using CV.Common.DTOs;
 using CV.Common.Exceptions;
 using CV.Dal.Helpers;
 using CV.Dal.Query;
-using CV.Dal.Repository;
 using CV.Domain.Models.Content;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using CV.Dal.ExtensionMethods;
 using LicenseContext = OfficeOpenXml.LicenseContext;
+using CV.Dal.Interfaces;
 
 namespace CV.Bll.Services
 {
-
     public class MoneyService : IMoneyService
     {
-        private readonly MoneyRepository _moneyRepository;
+        private readonly IMoneyRepository _moneyRepository;
         private readonly IMapper _mapper;
-        public MoneyService(MoneyRepository moneyRepository, IMapper mapper)
+        public MoneyService(
+            IMoneyRepository moneyRepository,
+            IMapper mapper)
         {
             _moneyRepository = moneyRepository;
             _mapper = mapper;
@@ -60,35 +60,38 @@ namespace CV.Bll.Services
 
         public MoneyResponse GetTransactions(MoneyQueryParameters queryParameters)
         {
-
-            var transactions = _moneyRepository.GetTransactions();
-            if (transactions.Count == 0)
+            var transactionCount = _moneyRepository.CountTransactions();
+            if (transactionCount == 0)
             {
                 throw new DataSetEmptyException("No transactions found");
             }
-            var transactionsDto = _mapper.Map<List<Money>, List<MoneyDto>>(transactions);
-            var quaryableTransactions = transactionsDto.AsQueryable();
-
+            //Pagination
+            var queryableTransaction = _moneyRepository.PaginateTransactions(queryParameters);
             //Filtering by price
             if (queryParameters.MinPrice != null && queryParameters.MaxPrice != null)
             {
-                quaryableTransactions = quaryableTransactions.Where(
-                    p => p.Sum >= queryParameters.MinPrice && p.Sum <= queryParameters.MaxPrice);
+                queryableTransaction = _moneyRepository.FilterTransactionsByPrice(queryParameters);
+                queryableTransaction = CommonMethods.Paginate(
+                    queryableTransaction,
+                    queryParameters);
             }
+
             //Filter by item
             if (!string.IsNullOrEmpty(queryParameters.Item))
             {
-                quaryableTransactions = quaryableTransactions.Where(p => p.Item == queryParameters.Item);
+                queryableTransaction = _moneyRepository.FilterTransactionByItem(queryParameters);
+                queryableTransaction = CommonMethods.Paginate(
+                    queryableTransaction,
+                    queryParameters);
             }
 
             //Search in every column
             if (!string.IsNullOrEmpty(queryParameters.Search))
             {
-                quaryableTransactions = quaryableTransactions.Where(p =>
-                    p.Item.ToLower().Contains(queryParameters.Search.ToLower()) ||
-                    p.TransactionAccount.ToLower().Contains(queryParameters.Search.ToLower()) ||
-                    p.Category.ToLower().Contains(queryParameters.Search.ToLower()) ||
-                    p.TransactionType.ToLower().Contains(queryParameters.Search.ToLower()));
+                queryableTransaction = _moneyRepository.SearchInEveryColumn(queryParameters);
+                queryableTransaction = CommonMethods.Paginate(
+                    queryableTransaction,
+                    queryParameters);
             }
 
             //Sort by all columns
@@ -97,27 +100,29 @@ namespace CV.Bll.Services
                 !string.IsNullOrEmpty(queryParameters.OrderByProperty) &&
                 !string.IsNullOrEmpty(queryParameters.OrderDirection))
             {
-                quaryableTransactions = quaryableTransactions.OrderBy(queryParameters.OrderByProperty, isDescending);
+                queryableTransaction = _moneyRepository.SortTransactions(queryParameters, isDescending);
+                queryableTransaction = CommonMethods.Paginate(
+                    queryableTransaction,
+                    queryParameters);
             }
             else if (queryParameters.OrderDirection == "desc" &&
                 !string.IsNullOrEmpty(queryParameters.OrderByProperty) &&
                 !string.IsNullOrEmpty(queryParameters.OrderDirection))
             {
                 isDescending = true;
-
-                quaryableTransactions = quaryableTransactions.OrderBy(queryParameters.OrderByProperty, isDescending);
+                queryableTransaction = _moneyRepository.SortTransactions(queryParameters, isDescending);
+                queryableTransaction = CommonMethods.Paginate(
+                    queryableTransaction,
+                    queryParameters);
             }
 
-            //Pagination
-            quaryableTransactions = quaryableTransactions
-                .Skip(queryParameters.PageSize * (queryParameters.PageNumber - 1))
-                .Take(queryParameters.PageSize);
+            var transactions = _mapper.Map<List<Money>, List<MoneyDto>>(queryableTransaction);
 
             var response = new MoneyResponse
             {
-                Transactions = quaryableTransactions.ToList(),
+                Transactions = transactions,
                 CurrentPage = queryParameters.PageNumber,
-                TotalItems = transactions.Count()
+                TotalItems = transactionCount
             };
             return response;
         }

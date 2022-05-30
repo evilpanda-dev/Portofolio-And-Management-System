@@ -2,7 +2,7 @@
 
 namespace CV.Dal.Interfaces
 {
-    public interface INewsletterRepository
+    public interface INewsletterRepository : IRepository<Newsletter>
     {
         public Newsletter GetByUserId(int userId);
     }

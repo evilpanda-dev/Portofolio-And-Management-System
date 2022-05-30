@@ -12,21 +12,15 @@ namespace CV.Dal.Data.Configurations
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Id)
                 .ValueGeneratedOnAdd()
-                .HasColumnName("EducationId")
-                .HasColumnType("int");
+                .HasColumnName("EducationId");
             builder.Property(u => u.Date)
-                .IsRequired()
-                .HasColumnName("Date")
-                .HasColumnType("int");
+                .IsRequired();
             builder.Property(u => u.Title)
                 .IsRequired()
-                .HasColumnName("Title")
-                .HasColumnType("nvarchar")
                 .HasMaxLength(100);
             builder.Property(u => u.Text)
                 .IsRequired()
                 .HasColumnName("Description")
-                .HasColumnType("nvarchar")
                 .HasMaxLength(1000);
         }
     }

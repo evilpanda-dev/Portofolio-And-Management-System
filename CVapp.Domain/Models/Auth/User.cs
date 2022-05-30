@@ -1,4 +1,6 @@
-﻿namespace CV.Domain.Models.Auth
+﻿using CV.Domain.Models.Content;
+
+namespace CV.Domain.Models.Auth
 {
     public class User : IEntityBase
     {

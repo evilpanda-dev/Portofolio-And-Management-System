@@ -9,35 +9,18 @@ namespace CV.Dal.Data.Configurations
         public void Configure(EntityTypeBuilder<Money> builder)
         {
             builder.ToTable("Money");
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnType("int")
-                .HasColumnName("Id");
-            builder.Property(u => u.TransactionDate)
-                .HasColumnType("datetime")
-                .HasColumnName("TransactionDate");
             builder.Property(u => u.TransactionAccount)
-                .HasColumnType("nvarchar(50)")
-                .HasColumnName("TransactionAccount");
+                .HasMaxLength(50);
             builder.Property(u => u.Category)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(50)
-                .HasColumnName("Category");
+                .HasMaxLength(50);
             builder.Property(u => u.Item)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(100)
-                .HasColumnName("Item");
+                .HasMaxLength(100);
             builder.Property(u => u.Sum)
-                .HasColumnType("float")
-                .HasColumnName("Sum");
+                .HasColumnType("float");
             builder.Property(u => u.TransactionType)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(100)
-                .HasColumnName("TransactionType");
+                .HasMaxLength(100);
             builder.Property(u => u.Currency)
-                .HasColumnType("nvarchar(10)")
-                .HasColumnName("Currency");
+                .HasMaxLength(10);
         }
     }
 }

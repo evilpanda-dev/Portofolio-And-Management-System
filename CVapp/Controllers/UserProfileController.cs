@@ -20,33 +20,33 @@ namespace CV.API.Controllers
         }
 
         [HttpPost("saveAvatar")]
-        public IActionResult SendProfileData([FromForm] UserProfileDto userProfileDto)
+        public IFormFile SendProfileData([FromForm] UserProfileDto userProfileDto)
         {
             string path = _hostEnvironment.WebRootPath + "\\usersAvatar\\";
             var userProfile = _userProfileService.SaveAvatar(path, userProfileDto);
-            return Ok(userProfile.Files);
+            return userProfile.Files;
         }
 
 
         [HttpGet("userProfile")]
-        public IActionResult GetUserProfileData()
+        public UserProfileDto GetUserProfileData()
         {
             var userProfile = _userProfileService.GetUserProfileData(_hostEnvironment.WebRootPath);
-            return Ok(userProfile);
+            return userProfile;
         }
 
         [HttpPatch("updateProfile/{id}")]
-        public IActionResult UpdateUserProfile(int id, UserProfileDto userProfileDto)
+        public StatusCodeResult UpdateUserProfile(int id, UserProfileDto userProfileDto)
         {
             var userProfile = _userProfileService.UpdateUserProfileData(id, userProfileDto);
             return StatusCode((int)HttpStatusCode.OK);
         }
 
         [HttpGet("profile/{name}")]
-        public IActionResult GetPersonalProfile(string name)
+        public UserProfileDto GetPersonalProfile(string name)
         {
             var userProfile = _userProfileService.GetPersonalUserProfileData(name);
-            return Ok(userProfile);
+            return userProfile;
         }
     }
 }

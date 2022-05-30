@@ -1,4 +1,5 @@
 ﻿using CV.Bll.Abstractions;
+using CV.Common.DTOs;
 using CV.Dal.Query;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,31 +16,31 @@ namespace CV.API.Controllers
         }
 
         [HttpGet("allUserData")]
-        public IActionResult GetAllUserData([FromQuery] QueryParameters queryParameters)
+        public UserDataResponse GetAllUserData([FromQuery] QueryParameters queryParameters)
         {
             var result = _dataService.GetAllUsersAndTheirProfiles(queryParameters);
-            return Ok(result);
+            return result;
         }
 
         [HttpGet("allUserComments")]
-        public IActionResult GetAllUserComments([FromQuery] QueryParameters queryParameters)
+        public CommentResponse GetAllUserComments([FromQuery] QueryParameters queryParameters)
         {
             var result = _dataService.GetAllComments(queryParameters);
-            return Ok(result);
+            return result;
         }
 
         [HttpGet("transactionsPerMonth/{transactionType}")]
-        public IActionResult GetIncomeTransactionsPerYear(string transactionType)
+        public object GetIncomeTransactionsPerYear(string transactionType)
         {
             var result = _dataService.GetTransactionsPerMonth(transactionType);
-            return Ok(result);
+            return result;
         }
 
         [HttpGet("transactionsPerCategory/{transactionType}/{month}")]
-        public IActionResult GetTransactionsPerCategory(string transactionType, string month)
+        public object GetTransactionsPerCategory(string transactionType, string month)
         {
             var result = _dataService.GetTransactionsPerCategory(transactionType, month);
-            return Ok(result);
+            return result;
         }
     }
 }

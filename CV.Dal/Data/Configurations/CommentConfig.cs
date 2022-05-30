@@ -15,19 +15,9 @@ namespace CV.Dal.Data.Configurations
                 .HasColumnType("int")
                 .HasColumnName("CommentId");
             builder.Property(u => u.Text)
-                .HasColumnName("Text")
-                .HasMaxLength(1000)
-                .HasColumnType("nvarchar");
+                .HasMaxLength(1000);
             builder.Property(u => u.UserName)
-                .HasColumnName("UserName")
-                .HasColumnType("nvarchar")
                 .HasMaxLength(30);
-            builder.Property(u => u.ParentId)
-               .HasColumnName("ParentId")
-               .HasColumnType("int");
-            builder.Property(u => u.CreatedAt)
-                .HasColumnName("CreatedAt")
-                .HasColumnType("datetime");
         }
     }
 }

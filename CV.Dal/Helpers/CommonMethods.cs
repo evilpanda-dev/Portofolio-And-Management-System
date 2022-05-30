@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using CV.Dal.Query;
+using System.ComponentModel;
 using System.Data;
 
 namespace CV.Dal.Helpers
@@ -24,6 +25,12 @@ namespace CV.Dal.Helpers
                 table.Rows.Add(values);
             }
             return table;
+        }
+        
+        public static List<T> Paginate<T>(List<T> dataSet,QueryParameters queryParameters)
+        {
+                return dataSet.Skip(queryParameters.PageSize * (queryParameters.PageNumber))
+                    .Take(queryParameters.PageSize).ToList();
         }
     }
 }

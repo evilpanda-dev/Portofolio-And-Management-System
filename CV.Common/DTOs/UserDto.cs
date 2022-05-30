@@ -1,4 +1,6 @@
-﻿namespace CV.Common.DTOs
+﻿using CV.Domain.Models.Content;
+
+namespace CV.Common.DTOs
 {
     public class UserDto
     {

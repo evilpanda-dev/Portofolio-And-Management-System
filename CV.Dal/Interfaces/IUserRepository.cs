@@ -2,7 +2,7 @@
 
 namespace CV.Dal.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
         public User GetByEmail(string email);
         public User GetByUserName(string userName);

@@ -12,19 +12,16 @@ namespace CV.Dal.Data.Configurations
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Id)
                 .ValueGeneratedOnAdd()
-                .HasColumnName("SkillId")
-                .HasColumnType("int");
+                .HasColumnName("SkillId");
             builder.Property(u => u.Name)
                 .IsRequired()
                 .HasColumnName("SkillName")
-                .HasColumnType("nvarchar")
                 .HasMaxLength(50);
             builder.HasIndex(u => u.Name)
                .IsUnique();
             builder.Property(u => u.Range)
                 .IsRequired()
-                .HasColumnName("SkillRange")
-                .HasColumnType("int");
+                .HasColumnName("SkillRange");
         }
     }
 }

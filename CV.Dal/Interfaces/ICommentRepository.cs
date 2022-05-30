@@ -1,10 +1,13 @@
-﻿using CV.Domain.Models.Content;
+﻿using CV.Common.DTOs;
+using CV.Dal.Query;
+using CV.Domain.Models.Content;
 
 namespace CV.Dal.Interfaces
 {
-    public interface ICommentRepository
+    public interface ICommentRepository : IRepository<Comment>
     {
-        public IEnumerable<Comment> GetAllComments();
-
+        public CommentResponse GetAllCommentsPaginated(int page);
+        public List<CommentDto> GetAllUsersComments(QueryParameters queryParameters);
+        public int CountUserComments();
     }
 }

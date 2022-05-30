@@ -6,13 +6,8 @@ namespace CV.Dal.Repository
 {
     public class NewsletterRepository : Repository<Newsletter>, INewsletterRepository
     {
-        private readonly DbContext _context;
-        private DbSet<Newsletter> _dbSet;
-
         public NewsletterRepository(DbContext context) : base(context)
         {
-            _context = context;
-            _dbSet = _context.Set<Newsletter>();
         }
 
         public Newsletter GetByUserId(int id)

@@ -1,6 +1,6 @@
 ﻿namespace CV.Common.Exceptions
 {
-    public class UnauthorizedException : ApplicationException
+    public class UnauthorizedException : Exception
     {
         public UnauthorizedException(string message) : base(message)
         {

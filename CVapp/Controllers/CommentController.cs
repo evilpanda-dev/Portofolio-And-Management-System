@@ -16,31 +16,30 @@ namespace CV.API.Controllers
         }
 
         [HttpGet("comments/{page}")]
-        public IActionResult GetComments(int page)
+        public CommentResponse GetComments(int page)
         {
             var data = _commentService.GetAllComments(page);
-            return Ok(data);
+            return data;
         }
 
         [HttpPost("addComment")]
-        public IActionResult AddComment(CommentDto commentDto)
+        public CommentDto AddComment(CommentDto commentDto)
         {
             var data = _commentService.AddNewComment(commentDto);
-            return Ok(data);
+            return data;
         }
 
         [HttpPatch("updateComment/{id}")]
-        public IActionResult UpdateComment(int id, CommentDto commentDto)
+        public CommentDto UpdateComment(int id, CommentDto commentDto)
         {
             var data = _commentService.UpdateComment(id, commentDto);
-            return Ok(data);
+            return data;
         }
 
         [HttpDelete("deleteComment/{id}")]
-        public IActionResult DeleteEducationContent(int id)
+        public void DeleteEducationContent(int id)
         {
             _commentService.DeleteComment(id);
-            return Ok();
         }
     }
 

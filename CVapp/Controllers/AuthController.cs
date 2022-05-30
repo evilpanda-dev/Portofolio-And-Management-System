@@ -2,8 +2,6 @@
 using CV.Bll.Services;
 using CV.Common.DTOs;
 using CV.Common.Exceptions;
-using CV.Dal.Interfaces;
-using CV.Domain.Models.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CV.API.Controllers
@@ -15,31 +13,28 @@ namespace CV.API.Controllers
         private readonly JwtService _jwtService;
         private readonly ILoggerManager _logger;
         private readonly IUserService _userService;
-        private readonly IRepository<User> _repository;
 
         public AuthController(JwtService jwtService,
             ILoggerManager logger,
-            IUserService userService,
-            IRepository<User> repository)
+            IUserService userService)
         {
             _jwtService = jwtService;
             _logger = logger;
             _userService = userService;
-            _repository = repository;
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterDto dto)
+        public UserDto Register(RegisterDto dto)
         {
             var userProfileDto = new UserProfileDto();
             var userDto = _userService.Register(dto, userProfileDto);
-            return CreatedAtAction(nameof(Register), userDto);
+            return userDto;
 
         }
 
 
         [HttpPost("login")]
-        public IActionResult Login(LoginDto dto)
+        public object Login(LoginDto dto)
         {
             var userDto = _userService.Login(dto);
             var jwt = _jwtService.Generate(dto, userDto.Id);
@@ -51,11 +46,11 @@ namespace CV.API.Controllers
                 SameSite = SameSiteMode.None,
                 Secure = true
             });
-            return Ok(new { message = "Succesfully logged in" });
+            return new { message = "Succesfully logged in" };
         }
 
         [HttpGet("user")]
-        public IActionResult User()
+        public UserDto User()
         {
             _logger.LogInfo("User info requested");
             try
@@ -66,7 +61,7 @@ namespace CV.API.Controllers
 
                 int userId = int.Parse(token.Issuer);
 
-                var user = _repository.GetById(userId);
+                var user = _userService.GetUser(userId);
 
                 var returnUser = new UserDto
                 {
@@ -75,7 +70,7 @@ namespace CV.API.Controllers
                     Email = user.Email,
                     Role = user.Role
                 };
-                return Ok(returnUser);
+                return returnUser;
             }
             catch (Exception e)
             {
@@ -85,7 +80,7 @@ namespace CV.API.Controllers
         }
 
         [HttpPost("logout")]
-        public IActionResult Logout()
+        public object Logout()
         {
             _logger.LogInfo("User attempt to log out");
 
@@ -100,14 +95,13 @@ namespace CV.API.Controllers
 
             _logger.LogInfo("Logout succesful");
 
-            return Ok(new { message = "Succesfully logged out" });
+            return new { message = "Succesfully logged out" };
         }
 
         [HttpDelete("deleteUser/{id}")]
-        public IActionResult DeleteUserProfile(int id)
+        public void DeleteUserProfile(int id)
         {
             _userService.DeleteUser(id);
-            return Ok();
         }
 
     }

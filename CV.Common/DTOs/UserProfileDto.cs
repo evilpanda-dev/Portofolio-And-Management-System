@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CV.Domain.Models.Auth;
+using Microsoft.AspNetCore.Http;
 
 namespace CV.Common.DTOs
 {
@@ -17,5 +18,6 @@ namespace CV.Common.DTOs
         public byte[]? ImgByte { get; set; }
         public string? Message { get; set; }
         public int UserId { get; set; }
+        public UserDto? User { get; set; }
     }
 }
