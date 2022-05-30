@@ -8,7 +8,6 @@ import '../ProfileForm/ProfileForm.css';
 import Button from "../Button/Button";
 import { updateUserProfile } from "../../features/profileFormThunks";
 import { useDispatch } from "react-redux";
-import { AlertContext } from "../../providers/AlertProvider";
 import { uploadProfileAvatar } from "../../features/profileFormThunks";
 import { useAlert } from "../../hooks/useAlert";
 
